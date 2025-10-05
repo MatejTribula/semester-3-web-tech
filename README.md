@@ -26,16 +26,8 @@ Needed by Laravel for session management and encryption
 
 ```php artisan key:generate```
 
-### Configure The Database
-```
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=laravel
-DB_USERNAME=root
-DB_PASSWORD=
-
-```
+### Run Database Migration
+```php artisan migrate``` 
 
 ### Run The Application
 ```php artisan serve```
