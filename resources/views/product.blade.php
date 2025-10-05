@@ -17,7 +17,7 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
-    <title>Home</title>
+    <title>Product</title>
 
     <link rel="stylesheet" href="{{ asset('css/index.css') }}"/>
   </head>
@@ -29,8 +29,8 @@
         <img class="logo" src="{{ asset('images/logo.svg') }}" alt="logo" />
 
         <nav>
-          <a href="#">Home</a>
-          <a href="#">Library</a>
+          <a href="{{ route('home') }}">Home</a>
+          <a href="{{ route('library') }}">Library</a>
         </nav>
         <img class="pfp" src="{{ asset('images/pfp.jpeg') }}" alt="profile-pic" />
         <i id="mobileMenuBarTrigger" class="fa-solid fa-bars"></i>

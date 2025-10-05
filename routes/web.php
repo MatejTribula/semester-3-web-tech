@@ -13,3 +13,7 @@ Route::get('/dashboard', function () {
 Route::get('/library', function () {
     return view('library');
 })->name('library');
+
+Route::get('/product', function () {
+    return view('product');
+})->name('product');

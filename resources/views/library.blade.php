@@ -72,9 +72,11 @@
         <div class="card-container">
           <!-- Card Component -->
           <div class="card">
-            <div class="card-img">
-              <!-- <img src="#" alt="card-image"> -->
-            </div>
+            <a href="{{ route('product') }}">
+                <div class="card-img">
+                <!-- <img src="#" alt="card-image"> -->
+                </div>
+            </a>
             <div class="card-info">
               <h3>Card Title</h3>
             </div>

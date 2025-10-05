@@ -29,7 +29,7 @@
         <img class="logo" src="{{ asset('images/logo.svg') }}" alt="logo" />
 
         <nav>
-          <a href="#">Home</a>
+          <a href="{{ route('home') }}">Home</a>
           <a href="{{ route('library') }}">Library</a>
         </nav>
         <img class="pfp" src="{{ asset('images/pfp.jpeg') }}" alt="profile-pic" />
@@ -83,9 +83,11 @@
         <div class="card-container">
           <!-- Card Component -->
           <div class="card">
-            <div class="card-img">
-              <!-- <img src="#" alt="card-image"> -->
-            </div>
+            <a href="{{ route('product') }}">
+                <div class="card-img">
+                <!-- <img src="#" alt="card-image"> -->
+                </div>
+            </a>
             <div class="card-info">
               <h3>Card Title</h3>
               <p>00.00 DKK</p>
