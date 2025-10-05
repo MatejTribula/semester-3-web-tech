@@ -30,7 +30,7 @@
 
         <nav>
           <a href="#">Home</a>
-          <a href="#">Library</a>
+          <a href="{{ route('library') }}">Library</a>
         </nav>
         <img class="pfp" src="{{ asset('images/pfp.jpeg') }}" alt="profile-pic" />
         <i id="mobileMenuBarTrigger" class="fa-solid fa-bars"></i>
@@ -42,7 +42,7 @@
         <div class="mobile-menu">
           <div class="mm-sites">
             <a href="#">Home</a>
-            <a href="#">Library</a>
+            <a href="{{ route('library') }}">Library</a>
           </div>
           <p><i class="fa-solid fa-right-from-bracket"></i> Logout</p>
         </div>
