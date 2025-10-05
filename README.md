@@ -1,3 +1,59 @@
+# Semester 3 - Web Tech
+A brief description of your project.
+
+## Setup Instructions
+
+### Clone Repo
+```git clone <repo>```
+
+### Change Directory
+```cd semester-3-web-tech```
+
+### Install Dependencies
+```composer install```
+or
+```npm install```
+
+### Set Up the .env File
+Environment-specific configuration for Laravel, such as database credentials and app settings, is stored in an environment file (.env). It is not usually included in the repository, but there is a file called.env.example.
+<br>
+
+```cp .env.example .env```
+
+### Generate an Application Key
+Needed by Laravel for session management and encryption
+<br>
+
+```php artisan key:generate```
+
+### Run The Application
+```php artisan serve```
+The application will be available at ```http://localhost:8000```
+
+
+# Edit `.env` to configure your environment variables
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=your_database_name
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+
+php artisan migrate
+php artisan db:seed
+php artisan serve
+
+# If using frontend assets
+npm run dev
+
+
+
+
+
+
+
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
