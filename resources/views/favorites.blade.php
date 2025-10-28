@@ -17,7 +17,7 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
-    <title>Library</title>
+    <title>Favorites</title>
 
     <link rel="stylesheet" href="{{ asset('css/index.css') }}"/>
   </head>
@@ -25,28 +25,8 @@
     <!-- General Container that adds padding/margin where needed -->
     <div class="container">
       <!-- Header Component -->
-      <header>
-        <img class="logo" src="{{ asset('images/logo.svg') }}" alt="logo" />
+      @include('partials.navbar')
 
-        <nav>
-          <a href="{{ route('home') }}">Home</a>
-          <a href="{{ route('library') }}">Library</a>
-        </nav>
-        <img class="pfp" src="{{ asset('images/pfp.jpeg') }}" alt="profile-pic" />
-        <i id="mobileMenuBarTrigger" class="fa-solid fa-bars"></i>
-
-        <div id="accountPopup" class="account-popup">
-          <p><i class="fa-solid fa-right-from-bracket"></i> Logout</p>
-        </div>
-
-        <div class="mobile-menu">
-          <div class="mm-sites">
-            <a href="{{ route('home') }}">Home</a>
-            <a href="{{ route('library') }}">Library</a>
-          </div>
-          <p><i class="fa-solid fa-right-from-bracket"></i> Logout</p>
-        </div>
-      </header>
 
       <section class="card-section">
         <div class="section-header">
