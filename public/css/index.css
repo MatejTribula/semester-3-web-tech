@@ -55,6 +55,10 @@ a{
     color: var(--clr-dark);
 }
 
+.text-active{
+    color: var(--clr-primary);
+}
+
 
 /* COMPONENTS */
 #mobileMenuBarTrigger{
