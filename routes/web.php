@@ -13,3 +13,7 @@ Route::get('/dashboard', function () {
 Route::get('/library', function () {
     return view('library');
 })->name('library');
+
+Route::get('/my-games', function () {
+    return view('my-games');
+})->name('my-games');

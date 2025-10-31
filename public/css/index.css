@@ -240,6 +240,13 @@ header nav a:hover{
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    cursor: pointer;
+}
+
+.card-info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .card-img{
@@ -248,6 +255,13 @@ header nav a:hover{
     border-radius: 3px;
     object-fit: cover;
     background-color: var(--clr-grey);
+}
+
+.add-game-card .card-img{
+    background-color: transparent;
+    display: grid;
+    place-content: center;
+    border: 1px dashed var(--clr-grey);
 }
 
 

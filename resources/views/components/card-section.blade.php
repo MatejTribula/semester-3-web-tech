@@ -14,4 +14,6 @@
             <p>No cards available.</p>
         @endforelse
     </div>
+
+    
 </section>
