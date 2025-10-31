@@ -10,8 +10,9 @@
         <div class="section-header">
           <h2>Explore</h2>
 
-          <!-- Fitler-Home Component -->
+          <!-- Fitler Component -->
           <x-filter name="homeFilter" :options="['A -> Z', 'Z -> A', 'Lowest Price', 'Highest Price']" />
+        </div>
 
         <div class="card-container">
           <!-- Card Component -->
@@ -19,6 +20,6 @@
           <x-game-card title="Puppet's Adventure 2" image="#"/>
           <x-game-card title="Puppet's Adventure 2" image="#"/>
         </div>
-        
       </section>
+        
 @endsection
