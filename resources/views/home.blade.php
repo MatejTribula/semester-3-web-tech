@@ -4,22 +4,13 @@
 
 @section('content')
       <!-- Carousel Component -->
-      <div class="carousel">
-        <div class="carousel-img">
-          <!-- <img src="#" alt="carousel-image"> -->
-        </div>
-        <div class="carousel-progress">
-          <div class="carousel-dot active"></div>
-          <div class="carousel-dot"></div>
-          <div class="carousel-dot"></div>
-        </div>
-      </div>
+      <x-carousel/>
 
       <section class="card-section">
         <div class="section-header">
           <h2>Explore</h2>
 
-          <!-- Filer-Home Component -->
+          <!-- Fitler-Home Component -->
           <div id="filterHome" class="filter">
             <input
               type="text"
