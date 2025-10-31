@@ -15,65 +15,11 @@
 
         <div class="card-container">
           <!-- Card Component -->
-          <div class="card">
-            <div class="card-img">
-              <!-- <img src="#" alt="card-image"> -->
-            </div>
-            <div class="card-info">
-              <h3>Card Title</h3>
-              <p>00.00 DKK</p>
-            </div>
-          </div>
+          <x-game-card 
+    title="Super Mario" 
+    image="#" 
+/>
 
-          <div class="card">
-            <div class="card-img">
-              <!-- <img src="#" alt="card-image"> -->
-            </div>
-            <div class="card-info">
-              <h3>Card Title</h3>
-              <p>00.00 DKK</p>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-img">
-              <!-- <img src="#" alt="card-image"> -->
-            </div>
-            <div class="card-info">
-              <h3>Card Title</h3>
-              <p>00.00 DKK</p>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-img">
-              <!-- <img src="#" alt="card-image"> -->
-            </div>
-            <div class="card-info">
-              <h3>Card Title</h3>
-              <p>00.00 DKK</p>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-img">
-              <!-- <img src="#" alt="card-image"> -->
-            </div>
-            <div class="card-info">
-              <h3>Card Title</h3>
-              <p>00.00 DKK</p>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-img">
-              <!-- <img src="#" alt="card-image"> -->
-            </div>
-            <div class="card-info">
-              <h3>Card Title</h3>
-              <p>00.00 DKK</p>
-            </div>
-          </div>
         </div>
       </section>
 @endsection
