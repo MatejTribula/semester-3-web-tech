@@ -7,7 +7,6 @@
             />
             <p class="filter-divider">|</p>
             @if(count($options))
-        <p class="filter-divider">|</p>
         @foreach($options as $option)
             <p class="{{ $loop->first ? 'filter-active' : '' }}">{{ $option }}</p>
         @endforeach

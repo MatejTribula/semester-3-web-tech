@@ -11,20 +11,7 @@
           <h2>Explore</h2>
 
           <!-- Fitler-Home Component -->
-          <div id="filterHome" class="filter">
-            <input
-              type="text"
-              name="homeFilter"
-              id="homeFilter"
-              placeholder="Search"
-            />
-            <p class="filter-divider">|</p>
-            <p class="filter-active">A -> Z</p>
-            <p>Z -> A</p>
-            <p>Lowest Price</p>
-            <p>Highest Price</p>
-          </div>
-        </div>
+          <x-filter name="homeFilter" :options="['A -> Z', 'Z -> A', 'Lowest Price', 'Highest Price']" />
 
         <div class="card-container">
           <!-- Card Component -->
