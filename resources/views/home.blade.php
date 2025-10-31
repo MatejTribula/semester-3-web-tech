@@ -15,11 +15,10 @@
 
         <div class="card-container">
           <!-- Card Component -->
-          <x-game-card 
-    title="Super Mario" 
-    image="#" 
-/>
-
+          <x-game-card title="Puppet's Adventure 2" image="#"/>
+          <x-game-card title="Puppet's Adventure 2" image="#"/>
+          <x-game-card title="Puppet's Adventure 2" image="#"/>
         </div>
+        
       </section>
 @endsection
