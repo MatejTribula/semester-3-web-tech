@@ -9,7 +9,7 @@
     title="Explore"
     filter-name="homeFilter"
     :filter-options='["A -> Z", "Z -> A"]'
-    :cards='[
+    :myCards='[
         ["title" => "Puppets Adventure 2", "image" => "#"],
         ["title" => "Puppets Adventure 2", "image" => "#"],
         ["title" => "Puppets Adventure 2", "image" => "#"]

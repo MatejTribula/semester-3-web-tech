@@ -1,9 +1,7 @@
-{{-- resources/views/components/card-section.blade.php --}}
 <section class="card-section">
     <div class="section-header">
         <h2>{{ $title }}</h2>
 
-        {{-- Optional filter slot --}}
         @isset($filterSlot)
             {{ $filterSlot }}
         @elseif(isset($filterOptions) && count($filterOptions))
@@ -16,10 +14,12 @@
         {{ $slot }}
     @endif
     
-    @forelse($cards ?? [] as $card)
-        <x-game-card :title="$card['title']" :image="$card['image']" />
-    @empty
-        <p>No cards available.</p>
-    @endforelse
+    @foreach($cards ?? [] as $card)
+    <x-game-card :title="$card['title']" :image="$card['image']" />
+@endforeach
+
+@foreach($myCards ?? [] as $card)
+    <x-my-game-card :title="$card['title']" :image="$card['image']" />
+@endforeach
     </div>
 </section>

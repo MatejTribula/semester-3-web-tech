@@ -16,12 +16,16 @@ class CardSection extends Component
 
     public $cards;
 
-    public function __construct($title, $filterName = null, $filterOptions = [], $cards = [])
+    public $myCards;
+
+    public function __construct($title, $filterName = null, $filterOptions = [], $cards = [], $myCards = [])
     {
         $this->title = $title;
         $this->filterName = $filterName;
         $this->filterOptions = $filterOptions;
         $this->cards = $cards;
+        $this->myCards = $myCards;
+
     }
 
     /**
