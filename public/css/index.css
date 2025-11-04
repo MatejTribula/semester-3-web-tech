@@ -16,6 +16,10 @@
     color: var(--clr-dark);
 }
 
+html{
+    background-color: var(--clr-primary);
+}
+
 /* Global Styles */
 body{
     min-height: 100vh;
@@ -31,7 +35,8 @@ body{
 
 .container{
     width: 100%;
-    max-width: 1280px; 
+    flex: 1;
+    max-width: 1280px;
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -43,7 +48,7 @@ body{
 
 /* Text */
 h2{
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 h3{
@@ -73,7 +78,7 @@ a{
 header{
     position: relative;
     display: flex;
-    flex: 1;
+    /* flex: 1; */
     /* flex-direction: column; */
     justify-content: space-between;
     align-items: center;
@@ -279,6 +284,38 @@ footer{
 
 footer p{
     color: var(--clr-light);
+}
+
+
+.profile-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.profile-pfp-name{
+    display: inline-flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.profile-pfp{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-name{
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.profile-info{
+    display: flex;
+    gap: 24px;
+    font-weight: bold;
+    align-items: center;
 }
 
 

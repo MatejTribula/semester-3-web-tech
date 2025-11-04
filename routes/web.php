@@ -17,3 +17,7 @@ Route::get('/library', function () {
 Route::get('/my-games', function () {
     return view('my-games');
 })->name('my-games');
+
+Route::get('/profile', function () {
+    return view('profile');
+})->name('profile');
