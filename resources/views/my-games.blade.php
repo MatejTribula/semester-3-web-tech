@@ -4,18 +4,18 @@
 
 @section('content')
 
-<div class="card add-game-card">
-    <div class="card-img">
-        <i class="fa-solid fa-plus"></i>
-    </div>
-    <div class="card-info">
-        <h3>Add New Game</h3>
-    </div>
-</div>
 
-<x-my-game-card title="test" image="#" />
-
-
+<x-card-section 
+    title="Explore"
+    filter-name="homeFilter"
+    :filter-options='["A -> Z", "Z -> A"]'
+    :cards='[
+        ["title" => "Puppets Adventure 2", "image" => "#"],
+        ["title" => "Puppets Adventure 2", "image" => "#"],
+        ["title" => "Puppets Adventure 2", "image" => "#"]
+    ]'>
+    <x-add-game-card/>
+</x-card-section>
 
 
         
