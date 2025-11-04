@@ -232,6 +232,11 @@ header nav a:hover{
     color: var(--clr-primary);
 }
 
+.filter-options{
+    display: flex;
+    gap: 24px;
+}
+
 /* Card Container */
 .card-container{
     display: grid;
@@ -267,6 +272,11 @@ header nav a:hover{
     display: grid;
     place-content: center;
     border: 1px dashed var(--clr-grey);
+}
+
+.card-actions{
+    display: flex;
+    gap: 1rem;
 }
 
 
@@ -354,8 +364,10 @@ footer p{
     }
 
     .filter{
-        display: grid;
-        grid-template-columns: repeat(4,1fr);
+        /* display: grid;
+        grid-template-columns: repeat(4,1fr); */
+        flex-direction: column;
+        align-items:start;
     }
 
     .filter-divider{
@@ -363,14 +375,27 @@ footer p{
     }
 
     .filter input[type="text"]{
-        grid-column: span 4;
-        width: 100%;
+       width: 100%;
     }
 
-
-
+    .filter-options{
+        gap: 18px;
+    }
 
     .card-container{
         grid-template-columns: repeat(1, 1fr);
     }
+
+
+    .profile-header{
+        flex-direction: column;
+        align-items: start;
+        gap: 24px;
+    }
+
+    .profile-pfp{
+        width: 50px;
+        height: 50px;
+    }
+
     }
