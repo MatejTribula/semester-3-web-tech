@@ -1,21 +1,21 @@
 @extends('layouts.app')
 
-@section('title', 'Home')
+@section('title', 'My Games')
 
 @section('content')
-      <!-- Carousel Component -->
-      <x-carousel/>
 
- <x-card-section 
+
+<x-card-section 
     title="Explore"
     filter-name="homeFilter"
-    :filter-options='["A -> Z", "Z -> A", "Lowest Price", "Highest Price"]'
-    :cards='[
+    :filter-options='["A -> Z", "Z -> A"]'
+    :myCards='[
         ["title" => "Puppets Adventure 2", "image" => "#"],
         ["title" => "Puppets Adventure 2", "image" => "#"],
         ["title" => "Puppets Adventure 2", "image" => "#"]
-    ]'
-/>
+    ]'>
+    <x-add-game-card/>
+</x-card-section>
 
 
         

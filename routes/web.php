@@ -14,6 +14,10 @@ Route::get('/library', function () {
     return view('library');
 })->name('library');
 
-Route::get('/product', function () {
-    return view('product');
-})->name('product');
+Route::get('/my-games', function () {
+    return view('my-games');
+})->name('my-games');
+
+Route::get('/profile', function () {
+    return view('profile');
+})->name('profile');
