@@ -10,9 +10,9 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-Route::get('/library', function () {
-    return view('library');
-})->name('library');
+Route::get('/favorites', function () {
+    return view('favorites');
+})->name('favorites');
 
 Route::get('/my-games', function () {
     return view('my-games');
@@ -21,3 +21,7 @@ Route::get('/my-games', function () {
 Route::get('/profile', function () {
     return view('profile');
 })->name('profile');
+
+Route::get('/product', function () {
+    return view('home');
+})->name('product');
