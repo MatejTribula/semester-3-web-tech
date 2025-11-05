@@ -72,14 +72,8 @@ a{
     color: var(--clr-dark);
 }
 
-<<<<<<< HEAD
-p.price{
-    font-size: 1.5rem;
-    font-weight: bold;
-=======
 .text-active{
     color: var(--clr-primary);
->>>>>>> 284d83d333dd65ebf522d94fd92be9d6025e8140
 }
 
 
