@@ -357,7 +357,6 @@ header nav a:hover{
 }
 
 .card-img{
-   
     height: 175px;
     border-radius: 3px;
     object-fit: cover;
@@ -369,9 +368,8 @@ header nav a:hover{
     display: grid;
     place-content: center;
     border: 1px dashed var(--clr-grey);
-    width: 8rem;
-    height: 8rem;
     aspect-ratio: 1;
+    width: 100%;
     margin-left:auto;
 }
 
