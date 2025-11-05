@@ -30,7 +30,7 @@
 
         <nav>
           <a href="{{ route('home') }}">Home</a>
-          <a href="{{ route('library') }}">Library</a>
+          <a href="{{ route('library') }}">ffffffffibrary</a>
         </nav>
         <img class="pfp" src="{{ asset('images/pfp.jpeg') }}" alt="profile-pic" />
         <i id="mobileMenuBarTrigger" class="fa-solid fa-bars"></i>

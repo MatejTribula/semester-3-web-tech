@@ -4,7 +4,7 @@
         <nav>
           <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-active' : '' }}">Home</a>
           <a href="{{ route('favorites') }}" class="{{ request()->routeIs('favorites') ? 'text-active' : '' }}">Favorites</a>
-          {{--<a href="{{ route('my-uploads') }} " class="{{ request()->routeIs('my-uploads') ? 'text-active' : '' }}">My Uploads</a> --}}
+          <a href="{{ route('my-uploads') }} " class="{{ request()->routeIs('my-uploads') ? 'text-active' : '' }}">My Uploads</a> 
         </nav>
         <img class="pfp" src="{{ asset('images/pfp.jpeg') }}" alt="profile-pic" />
         <i id="mobileMenuBarTrigger" class="fa-solid fa-bars"></i>
@@ -15,8 +15,9 @@
 
         <div class="mobile-menu">
           <div class="mm-sites">
-            <a href="#">Home</a>
+            <a href="{{ route('home') }}">Home</a>
             <a href="{{ route('favorites') }}">Favorites</a>
+            <a href="{{ route('my-uploads') }}">My Uploads</a>
           </div>
           <p><i class="fa-solid fa-right-from-bracket"></i> Logout</p>
         </div>
