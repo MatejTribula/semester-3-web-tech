@@ -9,7 +9,7 @@
  <x-card-section 
     title="Explore"
     filter-name="homeFilter"
-    :filter-options='["A -> Z", "Z -> A", "Lowest Price", "Highest Price"]'
+    :filter-options='["A -> Z", "Z -> A"]'
     :cards='[
         ["title" => "Puppets Adventure 2", "image" => "#"],
         ["title" => "Puppets Adventure 2", "image" => "#"],
