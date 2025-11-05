@@ -10,6 +10,7 @@
         <i id="mobileMenuBarTrigger" class="fa-solid fa-bars"></i>
 
         <div id="accountPopup" class="account-popup">
+          <a href = "{{ route('profile') }}" ><p><i class="fa fa-address-card"></i> Profile </p></a>
           <p><i class="fa-solid fa-right-from-bracket"></i> Logout</p>
         </div>
 
@@ -19,6 +20,7 @@
             <a href="{{ route('favorites') }}">Favorites</a>
             <a href="{{ route('my-uploads') }}">My Uploads</a>
           </div>
+          <p><a href = "{{ route('profile') }}" ><i class="fa fa-address-card"></i> Profile </a></p>
           <p><i class="fa-solid fa-right-from-bracket"></i> Logout</p>
         </div>
       </header>
