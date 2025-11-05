@@ -11,7 +11,7 @@
             <input type="text"/>
 
             <label>Description</label>
-            <input type="text"/>
+            <input style="height:10rem;" type="text"/>
 
             <label>Tags</label>
             <input type="text"/>
@@ -20,20 +20,23 @@
             <input type="text"/>
 
             <label>Game File</label>
-            <x-add-game-card/>
+            <x-add-file/>
         </div>
         <div class="container4">
             <label>Add logo</label>
-            <x-add-game-card/>
+            <x-add-file/>
 
             <label>Media</label>
             <div class="container4">
-                <x-add-game-card/>
+                <x-add-file/>
+                <x-add-file/>
+                <x-add-file/>
+                <x-add-file/>
             </div>
         </div>
     </div>
     
-    <button style="button" width="20" height="1rem">Publish Game</button>
+    <button2>Publish Game</button2>
 
         
 @endsection
