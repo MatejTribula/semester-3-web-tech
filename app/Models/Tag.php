@@ -8,10 +8,10 @@ class Tag extends Model
 {
     protected $table = 'tags';  
 
-    protected $fillable = ['Product_ID', 'Tag_Value'];
+    protected $fillable = ['product_id', 'tag_value'];
 
     public function product() 
     {
-        return $this->belongsTo(Product::class, 'Product_ID');
+        return $this->belongsTo(Product::class, 'product_id');
     }
 }

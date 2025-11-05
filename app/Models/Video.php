@@ -8,10 +8,10 @@ class Video extends Model
 {
     protected $table = 'videos';  
 
-    protected $fillable = ['Product_ID', 'Video_URL'];
+    protected $fillable = ['product_id', 'video_url'];
 
     public function product() 
     {
-        return $this->belongsTo(Product::class, 'Product_ID');
+        return $this->belongsTo(Product::class, 'product_id');
     }
 }

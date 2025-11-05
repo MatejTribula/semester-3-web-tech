@@ -8,10 +8,10 @@ class Image extends Model
 {
     protected $table = 'images';  
 
-    protected $fillable = ['Product_ID', 'Images_URL'];
+    protected $fillable = ['product_id', 'images_url'];
 
     public function product() 
     {
-        return $this->belongsTo(Product::class, 'Product_ID');
+        return $this->belongsTo(Product::class, 'product_id');
     }
 }

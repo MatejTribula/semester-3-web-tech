@@ -7,15 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Favorite extends Model
 {
     protected $table = 'favorites';  
-    protected $fillable = ['Product_ID', 'User_ID', 'Starred_Date'];
+    protected $fillable = ['product_id', 'user_id', 'starred_date'];
 
     public function product()
     {
-        return $this->belongsTo(Product::class, 'Product_ID');
+        return $this->belongsTo(Product::class, 'product_id');
     }
 
     public function user() 
     {
-        return $this->belongsTo(User::class, 'User_ID');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

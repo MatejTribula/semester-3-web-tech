@@ -21,10 +21,10 @@ class User extends Authenticatable
      */
     protected $fillable = 
     [
-        'Nickname',
-        'Mail',
+        'nickname',
+        'mail',
         'password',
-        'AvatarURL'
+        'avatar_url'
     ];
 
     /**
@@ -54,13 +54,13 @@ class User extends Authenticatable
 
     public function favoriteProducts()
     {
-        return $this->belongsToMany(Product::class, 'favorites', 'User_ID', 'Product_ID')
+        return $this->belongsToMany(Product::class, 'favorites', 'user_id', 'product_id')
                     ->withTimestamps()
-                    ->withPivot('Starred_Date');
+                    ->withPivot('starred_date');
     }
 
     public function collaborations()
     {
-        return $this->belongsToMany(Product::class, 'product_collaborators', 'User_ID', 'Product_ID');
+        return $this->belongsToMany(Product::class, 'product_collaborators', 'user_id', 'product_id');
     }
 }    

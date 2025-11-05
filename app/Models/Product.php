@@ -9,37 +9,37 @@ class Product extends Model
     protected $table = 'products';
 
     protected $fillable = [
-        'Title',
-        'Description',
-        'Upload_Date',
-        'Approval_Date',
-        'Visibility_Setting',
-        'File_Url',
+        'title',
+        'description',
+        'upload_date',
+        'dpproval_date',
+        'visibility_setting',
+        'file_url',
     ];
 
     public function images() 
     {
-        return $this->hasMany(Image::class, 'Product_ID');
+        return $this->hasMany(Image::class, 'product_id');
     }
 
     public function videos() 
     {
-        return $this->hasMany(Video::class, 'Product_ID');
+        return $this->hasMany(Video::class, 'product_id');
     }
 
     public function tags() 
     {
-        return $this->hasMany(Tag::class, 'Product_ID');
+        return $this->hasMany(Tag::class, 'product_id');
     }
 
     public function favorites() 
     {
-        return $this->belongsToMany(User::class, 'favorites', 'Product_ID', 'User_ID')->withTimestamps()->withPivot('Starred_Date');
+        return $this->belongsToMany(User::class, 'favorites', 'product_id', 'user_id')->withTimestamps()->withPivot('starred_date');
     }
 
     public function collaborators() 
     {
-        return $this->belongsToMany(User::class, 'product_collaborators', 'Product_ID', 'User_ID');
+        return $this->belongsToMany(User::class, 'product_collaborators', 'product_id', 'user_id');
     }
 
 }

@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('Title', 64);
-            $table->text('Description')->nullable();
-            $table->timestamp('Upload_Date')->nullable();
-            $table->timestamp('Approval_Date')->nullable();
-            $table->enum('Visibility_Setting', ['Public', 'Unlisted', 'Private'])->default('Private');
-            $table->text('File_Url')->nullable();
+            $table->string('title', 64);
+            $table->text('description')->nullable();
+            $table->timestamp('upload_date')->nullable();
+            $table->timestamp('approval_date')->nullable();
+            $table->enum('visibility_setting', ['Public', 'Unlisted', 'Private'])->default('Private');
+            $table->text('file_url')->nullable();
             $table->timestamps();
         });
     }
