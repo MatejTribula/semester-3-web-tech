@@ -23,8 +23,9 @@ Route::get('/profile', function () {
 })->name('profile');
 
 Route::get('/product', function () {
-    return view('home');
+    return view('product');
 })->name('product');
+
 Route::get('/library', function () {
     return view('library');
 })->name('library');
@@ -36,3 +37,7 @@ Route::get('/login', function () {
 Route::get('/register', function () {
     return view('register');
 })->name('register');
+
+Route::get('/publish-new-game', function () {
+    return view('publish-new-game');
+})->name('publish-new-game');
