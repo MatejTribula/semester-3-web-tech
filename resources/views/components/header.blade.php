@@ -4,7 +4,7 @@
         <nav>
           <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-active' : '' }}">Home</a>
           <a href="{{ route('favorites') }}" class="{{ request()->routeIs('favorites') ? 'text-active' : '' }}">Favorites</a>
-          {{--<a href="{{ route('my.games') }} " class="{{ request()->routeIs('my.games') ? 'text-active' : '' }}">My Games</a> --}}
+          {{--<a href="{{ route('my-uploads') }} " class="{{ request()->routeIs('my-uploads') ? 'text-active' : '' }}">My Uploads</a> --}}
         </nav>
         <img class="pfp" src="{{ asset('images/pfp.jpeg') }}" alt="profile-pic" />
         <i id="mobileMenuBarTrigger" class="fa-solid fa-bars"></i>

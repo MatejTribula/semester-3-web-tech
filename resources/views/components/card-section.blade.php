@@ -19,7 +19,7 @@
 @endforeach
 
 @foreach($myCards ?? [] as $card)
-    <x-my-game-card :title="$card['title']" :image="$card['image']" />
+    <x-uploaded-game-card :title="$card['title']" :image="$card['image']" />
 @endforeach
     </div>
 </section>

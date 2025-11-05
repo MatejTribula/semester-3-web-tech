@@ -14,9 +14,9 @@ Route::get('/favorites', function () {
     return view('favorites');
 })->name('favorites');
 
-Route::get('/my-games', function () {
-    return view('my-games');
-})->name('my-games');
+Route::get('/my-uploads', function () {
+    return view('my-uploads');
+})->name('my-uploads');
 
 Route::get('/profile', function () {
     return view('profile');
