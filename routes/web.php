@@ -23,7 +23,7 @@ Route::get('/profile', function () {
 })->name('profile');
 
 Route::get('/product', function () {
-    return view('home');
+    return view('product');
 })->name('product');
 
 Route::get('/library', function () {
