@@ -23,15 +23,22 @@
             <x-add-file/>
         </div>
         <div class="container4">
-            <label>Add logo</label>
-            <x-add-file/>
-
-            <label>Media</label>
-            <div class="container4">
-                <x-add-file/>
-                <x-add-file/>
-                <x-add-file/>
-                <x-add-file/>
+            <div class="right-column">
+                <div class="logo-section">
+                    <label>Logo</label>
+                    <x-add-file/>
+                </div>
+                
+                <div class="media-section">
+                    <label>Media</label>
+                    <div class="container5">
+                        <x-add-file/>
+                        <x-add-file/>
+                        <x-add-file/>
+                        <x-add-file/>
+                        <x-add-file/>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
