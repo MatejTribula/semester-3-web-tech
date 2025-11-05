@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+    protected $table = 'users';
+
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
@@ -17,10 +19,12 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    protected $fillable = [
-        'name',
-        'email',
+    protected $fillable = 
+    [
+        'Nickname',
+        'Mail',
         'password',
+        'AvatarURL'
     ];
 
     /**
@@ -28,21 +32,35 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    protected $hidden = [
+    protected $hidden = 
+    [
         'password',
         'remember_token',
     ];
-
-    /**
+        /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
      */
-    protected function casts(): array
+    protected $casts = 
+    [
+        'email_verified_at' => 'datetime',
+    ];
+
+    public function getAuthPassword()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->Password_Hash;
     }
-}
+
+    public function favoriteProducts()
+    {
+        return $this->belongsToMany(Product::class, 'favorites', 'User_ID', 'Product_ID')
+                    ->withTimestamps()
+                    ->withPivot('Starred_Date');
+    }
+
+    public function collaborations()
+    {
+        return $this->belongsToMany(Product::class, 'product_collaborators', 'User_ID', 'Product_ID');
+    }
+}    
