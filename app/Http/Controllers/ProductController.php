@@ -15,8 +15,8 @@ class ProductController extends Controller
     {
         $products = Product::with(['images', 'videos', 'tags', 'collaborators', 'favorites'])->get();
 
-        // return view('index', compact('products'));
-        return response()->json($products, 200); // json for now
+        return view('index', compact('products'));
+        // return response()->json($products, 200); // json for now
     }
 
     public function create()
