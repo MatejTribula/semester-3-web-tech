@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Image extends Model
 {
-    protected $table = 'images';  
+    protected $table = 'images';
 
-    protected $fillable = ['product_id', 'images_url'];
+    protected $fillable = ['product_id', 'image_url'];
 
-    public function product() 
+    public function product()
     {
         return $this->belongsTo(Product::class, 'product_id');
     }

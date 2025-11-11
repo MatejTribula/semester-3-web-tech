@@ -9,10 +9,15 @@ Route::get('/generate-csrf', function () {
     ]);
 });
 
-Route::get('/', [ProductController::class, 'index'])->name('home');
-Route::post('/products', [ProductController::class, 'store']);
+Route::get('/', function () {
+    return redirect('/products');
+});
 
+Route::get('/products', [ProductController::class, 'index'])->name('home');
+
+Route::post('/products', [ProductController::class, 'store'])->name('store');
 Route::get('/create', [ProductController::class, 'create'])->name('create');
+
 Route::delete('/products/{id}', [ProductController::class, 'destroy']);
 //
 //

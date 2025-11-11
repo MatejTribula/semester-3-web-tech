@@ -70,7 +70,7 @@ class ProductController extends Controller
                 foreach ($validated['images'] as $url) {
                     $image = new Image;
                     $image->product_id = $product->id;
-                    $image->images_url = $url;
+                    $image->image_url = $url;
                     $image->save();
                 }
             }
