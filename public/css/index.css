@@ -178,9 +178,8 @@ header{
 }
 
 header .logo{
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
+    aspect-ratio: 409 / 323;
+    height: 140px;
     object-fit: cover;
 }
 
