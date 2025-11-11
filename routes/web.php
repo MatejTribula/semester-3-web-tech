@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,16 @@ Route::get('products/{id}/edit', [ProductController::class, 'edit']);
 Route::put('/products/{id}', [ProductController::class, 'update'])->name('update');
 
 Route::delete('/products/{id}', [ProductController::class, 'destroy']);
+
+//
+//
+//
+//
+
+// Auth
+Route::get('/register', [AuthController::class, 'showRegister']);
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+
 //
 //
 //
@@ -56,9 +67,9 @@ Route::get('/login', function () {
     return view('login');
 })->name('login');
 
-Route::get('/register', function () {
-    return view('register');
-})->name('register');
+// Route::get('/register', function () {
+//     return view('register');
+// })->name('register');
 
 Route::get('/publish-new-game', function () {
     return view('publish-new-game');

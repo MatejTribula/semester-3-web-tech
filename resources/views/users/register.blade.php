@@ -20,6 +20,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/index.css') }}"/>
   </head>
+
   <body class="page--login">
      <!-- login and register-page container -->
      <main class="login-center">
@@ -27,18 +28,30 @@
 
             <h1>Register</h1>
             <!-- login and register form with fields -->
-            <form id="login-form">
+            <form action="{{ route('register') }}" method="POST" >
+              @csrf
+                {{-- <div class ="field">
+                <label for="Nickname"> <b>Nickname</b> </label>
+                <input id="nickname" name="nickname" type="text" placeholder="Enter Nick" required>
+                </div>
+
                 <div class ="field">
                 <label for="email"> <b>Email</b> </label>
-                <input id="email" name="email" type="email" placeholder="Enter E-mail" name="E-mail" required>
+                <input id="email" name="email" type="email" placeholder="Enter E-mail" required>
                 </div>
             
                 <div class ="field">
                 <label for="password"> <b>Password</b></label>
                 <input id="text" name="password" type="password" placeholder="Enter Password" name="Password" required>
-                </div>
+                </div> --}}
 
-                <button type="continue" class="continue-btn">Continue</button>
+                <input id="nickname" name="nickname" type="text" placeholder="Enter Nick" required>
+<input id="email" name="email" type="email" placeholder="Enter E-mail" required>
+<input id="password" name="password" type="password" placeholder="Enter Password" required>
+<input id="password_confirmation" name="password_confirmation" type="password" placeholder="Confirm Password" required>
+
+
+                <button type="submit" class="continue-btn">Continue</button>
             </form>
             <!-- Navigation text to login-page -->
             <p class="register-text">Already have an account? <a href="{{ route('login') }}" class="small-register">Log in here</a></p>
