@@ -11,7 +11,7 @@
             <input type="text"/>
 
             <label>Description</label>
-            <input style="height:10rem;" type="text"/>
+            <textarea/></textarea>
 
             <label>Tags</label>
             <input type="text"/>
