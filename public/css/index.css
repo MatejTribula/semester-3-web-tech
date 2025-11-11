@@ -98,6 +98,12 @@ body{
     grid-column: 2;
 }
 
+textarea{
+    vertical-align: top;
+    height: 10rem;
+    resize: none;
+}
+
 
 
 /* Text */
