@@ -19,6 +19,20 @@ class ProductController extends Controller
         // return response()->json($products, 200); // json for now
     }
 
+    public function show($id)
+    {
+        $product = Product::with([
+            'images',
+            'videos',
+            'tags',
+            'collaborators',
+            'favorites',
+        ])->findOrFail($id); // automatically throws 404 if not found
+
+        // Return a view called 'show' and pass the product data
+        return view('show', compact('product'));
+    }
+
     public function create()
     {
         return view('create');
