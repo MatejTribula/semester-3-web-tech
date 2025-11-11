@@ -4,15 +4,29 @@ services:
   mysql:
     image: mysql:8.1
     container_name: webtech-mysql
-    ports:
-      - "3306:3306"
+    restart: unless-stopped
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-      MYSQL_DATABASE: laravel
+      MYSQL_DATABASE: webtech
+    ports:
+      - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     command: --default-authentication-plugin=mysql_native_password
+
+  phpmyadmin:
+    image: arm64v8/phpmyadmin:latest  # ARM-compatible image for Apple Silicon
+    container_name: webtech-phpmyadmin
     restart: unless-stopped
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: ""
+    ports:
+      - "8888:80"  # phpMyAdmin accessible at http://localhost:8888
+    depends_on:
+      - mysql
 
 volumes:
   mysql_data:
