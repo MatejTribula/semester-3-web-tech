@@ -13,7 +13,7 @@ Route::get('/', [ProductController::class, 'index'])->name('home');
 Route::post('/products', [ProductController::class, 'store']);
 
 Route::get('/create', [ProductController::class, 'create'])->name('create');
-
+Route::delete('/products/{id}', [ProductController::class, 'destroy']);
 //
 //
 //

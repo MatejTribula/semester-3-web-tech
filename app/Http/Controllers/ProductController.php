@@ -274,24 +274,19 @@ class ProductController extends Controller
     //     return response()->json(['message' => 'Product and related data updated successfully'], 200);
     // }
 
-    // public function destroy($id)
-    // {
-    //     DB::transaction(function () use ($id) {
-    //         $product = Product::with(['images', 'videos', 'tags', 'collaborators'])->findOrFail($id);
+    public function destroy($id)
+    {
+        $product = Product::findOrFail($id);
 
-    //         // 1️⃣ Delete related models
-    //         $product->images()->delete();
-    //         $product->videos()->delete();
-    //         $product->tags()->delete();
+        // Detach pivot table relations
+        $product->favorites()->detach();
+        $product->collaborators()->detach();
 
-    //         // 2️⃣ Detach many-to-many relationships
-    //         $product->collaborators()->detach();
-    //         $product->favorites()->detach();
+        // Delete the product (tags, images, videos will cascade automatically)
+        $product->delete();
 
-    //         // 3️⃣ Finally, delete the product
-    //         $product->delete();
-    //     });
-
-    //     return response()->json(['message' => 'Product and related data deleted successfully'], 200);
-    // }
+        return response()->json([
+            'message' => 'Product and all related data deleted successfully.',
+        ]);
+    }
 }
