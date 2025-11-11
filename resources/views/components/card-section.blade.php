@@ -10,16 +10,6 @@
     </div>
 
     <div class="card-container">
-    @if(!$slot->isEmpty())
         {{ $slot }}
-    @endif
-    
-    @foreach($cards ?? [] as $card)
-    <x-game-card :title="$card['title']" :image="$card['image']" />
-@endforeach
-
-@foreach($myCards ?? [] as $card)
-    <x-uploaded-game-card :title="$card['title']" :image="$card['image']" />
-@endforeach
     </div>
 </section>

@@ -7,7 +7,7 @@
   <!-- Product Page Content -->
   <section class="card-section">
     <div class="section-header">
-      <h2>GameTitle</h2>
+      <h2>{{ $product->title }}</h2>
     </div>
     
     <div class="container2">
@@ -26,13 +26,10 @@
       <div style="flex: 1">
         <h4>Example genre</h4>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec 
-          dapibus faucibus feugiat. Sed augue ex, cursus ut feugiat augue, 
-          condimentum ut nulla. Cras rutrum turpis et mauris scelerisque, 
-          a accumsan lorem rhoncus.
+          {{ $product->description }}
         </p>
-        <p class="price">21 DKK</p>
-        <button style="button">Purchase</button>
+
+        <button style="button">Get</button>
       </div>
     </div>
   </section>

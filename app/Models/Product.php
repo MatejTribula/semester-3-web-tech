@@ -12,34 +12,33 @@ class Product extends Model
         'title',
         'description',
         'upload_date',
-        'dpproval_date',
+        'approval_date',
         'visibility_setting',
         'file_url',
     ];
 
-    public function images() 
+    public function images()
     {
         return $this->hasMany(Image::class, 'product_id');
     }
 
-    public function videos() 
+    public function videos()
     {
         return $this->hasMany(Video::class, 'product_id');
     }
 
-    public function tags() 
+    public function tags()
     {
         return $this->hasMany(Tag::class, 'product_id');
     }
 
-    public function favorites() 
+    public function favorites()
     {
         return $this->belongsToMany(User::class, 'favorites', 'product_id', 'user_id')->withTimestamps()->withPivot('starred_date');
     }
 
-    public function collaborators() 
+    public function collaborators()
     {
         return $this->belongsToMany(User::class, 'product_collaborators', 'product_id', 'user_id');
     }
-
 }
