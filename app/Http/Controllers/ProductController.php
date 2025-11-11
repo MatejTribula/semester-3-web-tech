@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Image;
 use App\Models\Product;
+use App\Models\Tag;
+use App\Models\Video;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -21,10 +26,97 @@ class ProductController extends Controller
     //     return view('product', compact('game'));
     // }
 
-    // public function create()
-    // {
-    //     return view('publish-new-game');
-    // }
+    public function create()
+    {
+        return view('create');
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:64',
+            'description' => 'nullable|string',
+            'upload_date' => 'nullable|date',
+            'approval_date' => 'nullable|date',
+            'visibility_setting' => 'required|in:Public,Unlisted,Private',
+            'file_url' => 'nullable|url',
+
+            'images' => 'nullable|array',
+            'images.*' => 'required|url',
+            'videos' => 'nullable|array',
+            'videos.*' => 'required|url',
+            'tags' => 'nullable|array',
+            'tags.*' => 'required|string|max:32',
+            'collaborators' => 'nullable|array',
+            'collaborators.*' => 'required|integer|exists:users,id',
+        ]);
+
+        DB::beginTransaction();
+        try {
+            // 1. Create the product
+            $product = new Product;
+            $product->title = $validated['title'];
+            $product->description = $validated['description'] ?? null;
+            $product->upload_date = $validated['upload_date'] ?? null;
+            $product->approval_date = $validated['approval_date'] ?? null;
+            $product->visibility_setting = $validated['visibility_setting'];
+            $product->file_url = $validated['file_url'] ?? null;
+            $product->save();
+
+            \Log::info('Product saved ID: '.$product->id);
+
+            // 2. Create related images (explicitly set product_id)
+            if (! empty($validated['images'])) {
+                foreach ($validated['images'] as $url) {
+                    $image = new Image;
+                    $image->product_id = $product->id;
+                    $image->images_url = $url;
+                    $image->save();
+                }
+            }
+
+            // 3. Create related videos
+            if (! empty($validated['videos'])) {
+                foreach ($validated['videos'] as $url) {
+                    $video = new Video;
+                    $video->product_id = $product->id;
+                    $video->video_url = $url; // make sure Video has video_url field
+                    $video->save();
+                }
+            }
+
+            // 4. Create related tags
+            if (! empty($validated['tags'])) {
+                foreach ($validated['tags'] as $tagName) {
+                    $tag = new Tag;
+                    $tag->product_id = $product->id;
+                    $tag->tag_value = $tagName; // make sure Tag has name field
+                    $tag->save();
+                }
+            }
+            if (! empty($validated['collaborators'])) {
+                foreach ($validated['collaborators'] as $userId) {
+                    DB::table('product_collaborators')->insert([
+                        'product_id' => $product->id,
+                        'user_id' => $userId,
+                    ]);
+                }
+            }
+
+            DB::commit();
+
+            // 6. Return response
+            return response()->json([
+                'message' => 'Product created successfully!',
+                'product' => $product,
+            ], 201);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 
     // public function store(Request $request)
     // {
@@ -34,7 +126,7 @@ class ProductController extends Controller
     //         'upload_date' => 'nullable|date',
     //         'approval_date' => 'nullable|date',
     //         'visibility_setting' => 'required|string|max:50',
-    //         'file_url' => 'nullable|url',
+    //         'file_url' => 'required|url',
 
     //         // related data
     //         'images' => 'array',

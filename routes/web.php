@@ -3,10 +3,17 @@
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [ProductController::class, 'index'])->name('home');
+Route::get('/generate-csrf', function () {
+    return response()->json([
+        'csrf_token' => csrf_token(),
+    ]);
+});
 
-//
-//
+Route::get('/', [ProductController::class, 'index'])->name('home');
+Route::post('/products', [ProductController::class, 'store']);
+
+Route::get('/create', [ProductController::class, 'create'])->name('create');
+
 //
 //
 //
