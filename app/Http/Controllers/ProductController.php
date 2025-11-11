@@ -19,13 +19,6 @@ class ProductController extends Controller
         return response()->json($products, 200); // json for now
     }
 
-    // public function show($id)
-    // {
-    //     $game = Game::findOrFail($id);
-
-    //     return view('product', compact('game'));
-    // }
-
     public function create()
     {
         return view('create');
@@ -118,161 +111,109 @@ class ProductController extends Controller
         }
     }
 
-    // public function store(Request $request)
-    // {
-    //     $validated = $request->validate([
-    //         'title' => 'required|string|max:255',
-    //         'description' => 'nullable|string',
-    //         'upload_date' => 'nullable|date',
-    //         'approval_date' => 'nullable|date',
-    //         'visibility_setting' => 'required|string|max:50',
-    //         'file_url' => 'required|url',
+    public function edit($id)
+    {
+        $product = Product::with(['images', 'videos', 'tags', 'collaborators'])->findOrFail($id);
 
-    //         // related data
-    //         'images' => 'array',
-    //         'images.*.path' => 'required|string',
+        return view('edit', ['product' => $product]);
+    }
 
-    //         'videos' => 'array',
-    //         'videos.*.url' => 'required|url',
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:64',
+            'description' => 'nullable|string',
+            'upload_date' => 'nullable|date',
+            'approval_date' => 'nullable|date',
+            'visibility_setting' => 'required|in:Public,Unlisted,Private',
+            'file_url' => 'nullable|url',
 
-    //         'tags' => 'array',
-    //         'tags.*.name' => 'required|string|max:100',
+            'images' => 'nullable|array',
+            'images.*' => 'required|url',
+            'videos' => 'nullable|array',
+            'videos.*' => 'required|url',
+            'tags' => 'nullable|array',
+            'tags.*' => 'required|string|max:32',
+            'collaborators' => 'nullable|array',
+            'collaborators.*' => 'required|integer|exists:users,id',
+        ]);
 
-    //         'collaborators' => 'array',
-    //         'collaborators.*' => 'integer|exists:users,id',
-    //     ]);
+        DB::beginTransaction();
+        try {
+            // 1. Find product
+            $product = Product::findOrFail($id);
 
-    //     DB::transaction(function () use ($validated) {
-    //         // 1️⃣ Create product
-    //         $product = Product::create([
-    //             'title' => $validated['title'],
-    //             'description' => $validated['description'] ?? null,
-    //             'upload_date' => $validated['upload_date'] ?? now(),
-    //             'approval_date' => $validated['approval_date'] ?? null,
-    //             'visibility_setting' => $validated['visibility_setting'],
-    //             'file_url' => $validated['file_url'] ?? null,
-    //         ]);
+            // 2. Update base fields
+            $product->title = $validated['title'];
+            $product->description = $validated['description'] ?? null;
+            $product->upload_date = $validated['upload_date'] ?? null;
+            $product->approval_date = $validated['approval_date'] ?? null;
+            $product->visibility_setting = $validated['visibility_setting'];
+            $product->file_url = $validated['file_url'] ?? null;
+            $product->save();
 
-    //         // 2️⃣ Create images
-    //         if (! empty($validated['images'])) {
-    //             foreach ($validated['images'] as $imageData) {
-    //                 $product->images()->create([
-    //                     'path' => $imageData['path'],
-    //                 ]);
-    //             }
-    //         }
+            \Log::info('Product updated ID: '.$product->id);
 
-    //         // 3️⃣ Create videos
-    //         if (! empty($validated['videos'])) {
-    //             foreach ($validated['videos'] as $videoData) {
-    //                 $product->videos()->create([
-    //                     'url' => $videoData['url'],
-    //                 ]);
-    //             }
-    //         }
+            // 3. Sync images
+            if (isset($validated['images'])) {
+                Image::where('product_id', $product->id)->delete();
+                foreach ($validated['images'] as $url) {
+                    Image::create([
+                        'product_id' => $product->id,
+                        'image_url' => $url,
+                    ]);
+                }
+            }
 
-    //         // 4️⃣ Create tags
-    //         if (! empty($validated['tags'])) {
-    //             foreach ($validated['tags'] as $tagData) {
-    //                 $product->tags()->create([
-    //                     'name' => $tagData['name'],
-    //                 ]);
-    //             }
-    //         }
+            // 4. Sync videos
+            if (isset($validated['videos'])) {
+                Video::where('product_id', $product->id)->delete();
+                foreach ($validated['videos'] as $url) {
+                    Video::create([
+                        'product_id' => $product->id,
+                        'video_url' => $url,
+                    ]);
+                }
+            }
 
-    //         // 5️⃣ Attach collaborators
-    //         if (! empty($validated['collaborators'])) {
-    //             $product->collaborators()->attach($validated['collaborators']);
-    //         }
-    //     });
+            // 5. Sync tags
+            if (isset($validated['tags'])) {
+                Tag::where('product_id', $product->id)->delete();
+                foreach ($validated['tags'] as $tagName) {
+                    Tag::create([
+                        'product_id' => $product->id,
+                        'tag_value' => $tagName,
+                    ]);
+                }
+            }
 
-    //     return response()->json(['message' => 'Product and related data created successfully'], 201);
-    // }
+            // 6. Sync collaborators
+            if (isset($validated['collaborators'])) {
+                DB::table('product_collaborators')
+                    ->where('product_id', $product->id)
+                    ->delete();
 
-    // public function edit($id)
-    // {
-    //     $product = Product::with(['images', 'videos', 'tags', 'collaborators'])->findOrFail($id);
+                foreach ($validated['collaborators'] as $userId) {
+                    DB::table('product_collaborators')->insert([
+                        'product_id' => $product->id,
+                        'user_id' => $userId,
+                    ]);
+                }
+            }
 
-    //     return view('products.edit', compact('product'));
-    // }
+            DB::commit();
 
-    // public function update(Request $request, $id)
-    // {
-    //     $validated = $request->validate([
-    //         'title' => 'sometimes|required|string|max:255',
-    //         'description' => 'nullable|string',
-    //         'upload_date' => 'nullable|date',
-    //         'approval_date' => 'nullable|date',
-    //         'visibility_setting' => 'sometimes|required|string|max:50',
-    //         'file_url' => 'nullable|url',
+            return response()->json([
+                'message' => 'Product updated successfully!',
+                'product' => $product,
+            ], 200);
 
-    //         'images' => 'array',
-    //         'images.*.id' => 'nullable|integer|exists:images,id',
-    //         'images.*.path' => 'required|string',
+        } catch (\Exception $e) {
+            DB::rollBack();
 
-    //         'videos' => 'array',
-    //         'videos.*.id' => 'nullable|integer|exists:videos,id',
-    //         'videos.*.url' => 'required|url',
-
-    //         'tags' => 'array',
-    //         'tags.*.id' => 'nullable|integer|exists:tags,id',
-    //         'tags.*.name' => 'required|string|max:100',
-
-    //         'collaborators' => 'array',
-    //         'collaborators.*' => 'integer|exists:users,id',
-    //     ]);
-
-    //     DB::transaction(function () use ($validated, $id) {
-    //         $product = Product::findOrFail($id);
-
-    //         // 1️⃣ Update product
-    //         $product->update([
-    //             'title' => $validated['title'] ?? $product->title,
-    //             'description' => $validated['description'] ?? $product->description,
-    //             'upload_date' => $validated['upload_date'] ?? $product->upload_date,
-    //             'approval_date' => $validated['approval_date'] ?? $product->approval_date,
-    //             'visibility_setting' => $validated['visibility_setting'] ?? $product->visibility_setting,
-    //             'file_url' => $validated['file_url'] ?? $product->file_url,
-    //         ]);
-
-    //         // 2️⃣ Sync images
-    //         if (isset($validated['images'])) {
-    //             $product->images()->delete(); // remove old
-    //             foreach ($validated['images'] as $imageData) {
-    //                 $product->images()->create([
-    //                     'path' => $imageData['path'],
-    //                 ]);
-    //             }
-    //         }
-
-    //         // 3️⃣ Sync videos
-    //         if (isset($validated['videos'])) {
-    //             $product->videos()->delete();
-    //             foreach ($validated['videos'] as $videoData) {
-    //                 $product->videos()->create([
-    //                     'url' => $videoData['url'],
-    //                 ]);
-    //             }
-    //         }
-
-    //         // 4️⃣ Sync tags
-    //         if (isset($validated['tags'])) {
-    //             $product->tags()->delete();
-    //             foreach ($validated['tags'] as $tagData) {
-    //                 $product->tags()->create([
-    //                     'name' => $tagData['name'],
-    //                 ]);
-    //             }
-    //         }
-
-    //         // 5️⃣ Sync collaborators (many-to-many)
-    //         if (isset($validated['collaborators'])) {
-    //             $product->collaborators()->sync($validated['collaborators']);
-    //         }
-    //     });
-
-    //     return response()->json(['message' => 'Product and related data updated successfully'], 200);
-    // }
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 
     public function destroy($id)
     {
