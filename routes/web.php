@@ -25,6 +25,7 @@ Route::put('/products/{id}', [ProductController::class, 'update'])->name('update
 Route::delete('/products/{id}', [ProductController::class, 'destroy']);
 
 Route::get('/my-uploads/{id}', [ProductController::class, 'productsByCollaborator'])->name('my-uploads');
+Route::get('/favorites/{id}', [ProductController::class, 'productsByFavourites'])->name('favorites');
 //
 //
 //
@@ -34,9 +35,9 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-Route::get('/favorites', function () {
-    return view('favorites');
-})->name('favorites');
+#Route::get('/favorites', function () {
+#    return view('favorites');
+#})->name('favorites');
 
 #Route::get('/my-uploads', function () {
 #    return view('my-uploads');

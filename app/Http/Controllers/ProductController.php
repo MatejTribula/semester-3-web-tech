@@ -29,6 +29,16 @@ class ProductController extends Controller
         return view('my-uploads', compact('products'));
     }
 
+    public function productsByFavourites($id)
+    {
+       $products = Product::with(['images', 'videos', 'tags', 'collaborators', 'favorites'])
+            ->whereHas('favorites', function ($q) use ($id) {
+                $q->where('user_id', (int) $id);
+            })->get();
+
+        return view('favorites', compact('products'));
+    }
+
     public function show($id)
     {
         $product = Product::with([
