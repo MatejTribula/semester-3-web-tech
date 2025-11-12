@@ -25,7 +25,6 @@ Route::put('/products/{id}', [ProductController::class, 'update'])->name('update
 Route::delete('/products/{id}', [ProductController::class, 'destroy']);
 
 Route::get('/my-uploads/{id}', [ProductController::class, 'productsByCollaborator'])->name('my-uploads');
-
 //
 //
 //
