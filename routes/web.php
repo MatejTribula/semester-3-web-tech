@@ -22,7 +22,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login');
 });
 
-// Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/products', [ProductController::class, 'index'])->name('home');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('show');

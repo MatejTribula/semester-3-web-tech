@@ -64,12 +64,12 @@ class AuthController extends Controller
         return view('users.login');
     }
 
-    // public function logout(Request $request)
-    // {
-    //     auth()->logout();
+    public function logout(Request $request)
+    {
+        auth()->logout();
 
-    //     return response()->json([
-    //         'message' => 'Logged out successfully',
-    //     ]);
-    // }
+        return response()->json([
+            'message' => 'Logged out successfully',
+        ]);
+    }
 }

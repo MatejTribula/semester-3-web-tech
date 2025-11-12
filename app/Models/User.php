@@ -48,10 +48,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
         ];
 
-    public function getAuthPassword()
-    {
-        return $this->Password_Hash;
-    }
+    // public function getAuthPassword()
+    // {
+    //     return $this->Password_Hash;
+    // }
 
     public function favoriteProducts()
     {
