@@ -23,6 +23,9 @@ Route::get('products/{id}/edit', [ProductController::class, 'edit']);
 Route::put('/products/{id}', [ProductController::class, 'update'])->name('update');
 
 Route::delete('/products/{id}', [ProductController::class, 'destroy']);
+
+Route::get('/my-uploads/{id}', [ProductController::class, 'productsByCollaborator'])->name('my-uploads');
+
 //
 //
 //
@@ -36,9 +39,9 @@ Route::get('/favorites', function () {
     return view('favorites');
 })->name('favorites');
 
-Route::get('/my-uploads', function () {
-    return view('my-uploads');
-})->name('my-uploads');
+#Route::get('/my-uploads', function () {
+#    return view('my-uploads');
+#})->name('my-uploads');
 
 Route::get('/profile', function () {
     return view('profile');
