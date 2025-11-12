@@ -8,6 +8,9 @@
   <section class="card-section">
     <div class="section-header">
       <h2>{{ $product->title }}</h2>
+      <div style="margin-left: auto;">
+        <a href="https://google.com">Star</a>
+      </div>
     </div>
     
     <div class="container2">
@@ -24,7 +27,7 @@
 
       <!-- Right side - Product information -->
       <div style="flex: 1">
-        <h4>Example genre</h4>
+        <h4>Adventure</h4>
         <p>
           {{ $product->description }}
         </p>
