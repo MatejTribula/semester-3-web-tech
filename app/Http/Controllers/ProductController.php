@@ -58,6 +58,12 @@ class ProductController extends Controller
         return view('create');
     }
 
+    public function starProduct(Request $request, $id)
+    {
+        # Star this shiit
+        return redirect()->back()->with('success', 'Added to favorites');
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

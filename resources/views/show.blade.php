@@ -9,7 +9,10 @@
     <div class="section-header">
       <h2>{{ $product->title }}</h2>
       <div style="margin-left: auto;">
-        <a href="https://google.com">Star</a>
+        <form action="{{ route('starProduct', ['id' => $product->id]) }}" method="POST" style="display: inline;">
+          @csrf
+          <button type="submit" style = "padding:10px">Star</button>
+      </form>
       </div>
     </div>
     

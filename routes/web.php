@@ -26,6 +26,8 @@ Route::delete('/products/{id}', [ProductController::class, 'destroy']);
 
 Route::get('/my-uploads/{id}', [ProductController::class, 'productsByCollaborator'])->name('my-uploads');
 Route::get('/favorites/{id}', [ProductController::class, 'productsByFavourites'])->name('favorites');
+
+Route::post('/favorites/put/{id}', [ProductController::class, 'starProduct'])->name('starProduct');
 //
 //
 //
