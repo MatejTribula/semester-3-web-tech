@@ -58,6 +58,6 @@ Route::get('/library', function () {
     return view('library');
 })->name('library');
 
-// Route::get('/publish-new-game', function () {
-//     return view('publish-new-game');
-// })->name('publish-new-game');
+Route::get('/publish-new-game', function () {
+    return view('publish-new-game');
+})->name('publish-new-game');
