@@ -15,26 +15,26 @@ class ProductController extends Controller
     {
         $products = Product::with(['images', 'videos', 'tags', 'collaborators', 'favorites'])->get();
 
-        return view('index', compact('products'));
+        return view('products.index', compact('products'));
         // return response()->json($products, 200); // json for now
     }
 
-    public function productsByCollaborator($id = null)
-    {
-        $id = $id ?? auth()->id();
+    // this is userController related task
+    // public function productsByCollaborator($id = null)
+    // {
+    //     $id = $id ?? auth()->id();
 
-        if (! $id) 
-        {
-            abort(403, 'Not authenticated');
-        }
+    //     if (! $id) {
+    //         abort(403, 'Not authenticated');
+    //     }
 
-        $products = Product::with(['images', 'videos', 'tags', 'collaborators', 'favorites'])
-            ->whereHas('collaborators', function ($q) use ($id) {
-                $q->where('user_id', (int) $id);
-            })->get();
+    //     $products = Product::with(['images', 'videos', 'tags', 'collaborators', 'favorites'])
+    //         ->whereHas('collaborators', function ($q) use ($id) {
+    //             $q->where('user_id', (int) $id);
+    //         })->get();
 
-        return view('my-uploads', compact('products'));
-    }
+    //     return view('my-uploads', compact('products'));
+    // }
 
     public function show($id)
     {
@@ -47,12 +47,12 @@ class ProductController extends Controller
         ])->findOrFail($id); // automatically throws 404 if not found
 
         // Return a view called 'show' and pass the product data
-        return view('show', compact('product'));
+        return view('products.show', compact('product'));
     }
 
     public function create()
     {
-        return view('create');
+        return view('products.create');
     }
 
     public function store(Request $request)
@@ -146,7 +146,7 @@ class ProductController extends Controller
     {
         $product = Product::with(['images', 'videos', 'tags', 'collaborators'])->findOrFail($id);
 
-        return view('edit', ['product' => $product]);
+        return view('products.edit', ['product' => $product]);
     }
 
     public function update(Request $request, $id)

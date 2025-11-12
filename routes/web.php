@@ -23,7 +23,7 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/create', [ProductController::class, 'create'])->name('create');
+    Route::get('/products/create', [ProductController::class, 'create'])->name('create');
     Route::post('/products', [ProductController::class, 'store'])->name('store');
 
     Route::get('products/{id}/edit', [ProductController::class, 'edit']);
@@ -37,9 +37,7 @@ Route::middleware('auth')->group(function () {
         return view('favorites');
     })->name('favorites');
 
-   Route::get('/my-uploads', [ProductController::class, 'productsByCollaborator'])->name('my-uploads');
-
-    
+    Route::get('/my-uploads', [ProductController::class, 'productsByCollaborator'])->name('my-uploads');
 
 });
 
