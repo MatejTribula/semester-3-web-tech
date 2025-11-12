@@ -22,5 +22,10 @@
           </div>
           <p><a href = "{{ route('profile') }}" ><i class="fa fa-address-card"></i> Profile </a></p>
           <p><i class="fa-solid fa-right-from-bracket"></i> Logout</p>
+
+          <form method="POST" action="{{ route('logout') }}">
+      @csrf
+      <button type="submit" class="btn btn-link">Logout</button>
+      </form>
         </div>
       </header>

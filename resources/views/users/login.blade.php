@@ -27,8 +27,9 @@
 
             <h1>Login</h1>
 
-            <form id="login-form">
-                <div class ="field">
+           <form id="login-form" action="{{ route('login') }}" method="POST">
+            @csrf
+                 {{-- <div class ="field">
                 <label for="email"> <b>Email</b> </label>
                 <input id="email" name="email" type="email" placeholder="Enter E-mail" name="E-mail" required>
                 </div>
@@ -36,9 +37,12 @@
                 <div class ="field">
                 <label for="password"> <b>Password</b></label>
                 <input id="text" name="password" type="password" placeholder="Enter Password" name="Password" required>
-                </div>
+                </div> --}}
 
-                <button type="continue" class="continue-btn">Continue</button>
+                <input id="email" name="email" type="email" placeholder="Enter E-mail" required>
+                <input id="password" name="password" type="password" placeholder="Enter Password" required>
+
+                <button type="submit" class="continue-btn">Continue</button>
             </form>
 
             <!-- Navigation text to register-page -->

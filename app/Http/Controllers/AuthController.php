@@ -42,22 +42,27 @@ class AuthController extends Controller
     }
 
     // // Login user
-    // public function login(Request $request)
-    // {
-    //     $request->validate([
-    //         'email' => 'required|email',
-    //         'password' => 'required|string',
-    //     ]);
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
 
-    //     if (! auth()->attempt($request->only('email', 'password'))) {
-    //         return response()->json(['message' => 'Invalid credentials'], 401);
-    //     }
+        if (! auth()->attempt($request->only('email', 'password'))) {
+            return response()->json(['message' => 'Invalid credentials'], 401);
+        }
 
-    //     return response()->json([
-    //         'message' => 'Logged in successfully',
-    //         'user' => auth()->user(),
-    //     ]);
-    // }
+        return response()->json([
+            'message' => 'Logged in successfully',
+            'user' => auth()->user(),
+        ]);
+    }
+
+    public function showLogin()
+    {
+        return view('users.login');
+    }
 
     // public function logout(Request $request)
     // {
