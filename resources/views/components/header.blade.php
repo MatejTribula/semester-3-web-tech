@@ -1,5 +1,6 @@
  <header>
-        <img class="logo" src="{{ asset('images/logo.svg') }}" alt="logo" />
+  <a href="{{ url('/') }}">
+        <img class="logo" src="{{ asset('images/logo.svg') }}" alt="logo" onclick="window.location='{{ url('/') }}'"/>
 
         <nav>
           <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-active' : '' }}">Home</a>

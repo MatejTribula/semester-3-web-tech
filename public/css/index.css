@@ -33,6 +33,10 @@ body{
     /* overflow: hidden; */
 }
 
+img{
+    max-width: 100%;
+}
+
 .container{
     width: 100%;
     flex: 1;
@@ -191,7 +195,7 @@ header{
 
 header .logo{
     aspect-ratio: 409 / 323;
-    height: 140px;
+    height: 100px;
     object-fit: cover;
 }
 
@@ -283,7 +287,7 @@ header nav a:hover{
     flex-direction: column;
     gap: 1rem;
     flex: 1;
-    max-width: 500px;
+    /* max-width: 500px; */
 }
 
 .carousel-img{
@@ -389,6 +393,13 @@ header nav a:hover{
     border-radius: 3px;
     object-fit: cover;
     background-color: var(--clr-grey);
+}
+
+.card-img img{
+    width: 100%;       /* Make image fill the card width */
+    height: 100%;      /* Optional: make it fill height too if needed */
+    object-fit: cover; /* Keep aspect ratio and cover the space */
+    border-radius: 3px;
 }
 
 .add-game-card .card-img{
