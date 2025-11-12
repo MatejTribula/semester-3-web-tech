@@ -1,6 +1,6 @@
 <a href="{{ route('show', ['id' => $id]) }}" class="card">
     <div class="card-img">
-        <img src="{{ $image }}" alt="{{ $title }}">
+        <img width = "100%" src="{{ $image }}" alt="{{ $title }}">
     </div>
     <div class="card-info">
         <h3>{{ $title }}</h3>
