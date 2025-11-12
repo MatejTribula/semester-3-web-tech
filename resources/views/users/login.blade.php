@@ -25,10 +25,11 @@
      <main class="login-center">
         <section class="login-card">
 
-            <h1>Register</h1>
-            <!-- login and register form with fields -->
-            <form id="login-form">
-                <div class ="field">
+            <h1>Login</h1>
+
+           <form id="login-form" action="{{ route('login') }}" method="POST">
+            @csrf
+                 {{-- <div class ="field">
                 <label for="email"> <b>Email</b> </label>
                 <input id="email" name="email" type="email" placeholder="Enter E-mail" name="E-mail" required>
                 </div>
@@ -36,12 +37,16 @@
                 <div class ="field">
                 <label for="password"> <b>Password</b></label>
                 <input id="text" name="password" type="password" placeholder="Enter Password" name="Password" required>
-                </div>
+                </div> --}}
 
-                <button type="continue" class="continue-btn">Continue</button>
+                <input id="email" name="email" type="email" placeholder="Enter E-mail" required>
+                <input id="password" name="password" type="password" placeholder="Enter Password" required>
+
+                <button type="submit" class="continue-btn">Continue</button>
             </form>
-            <!-- Navigation text to login-page -->
-            <p class="register-text">Already have an account? <a href="{{ route('login') }}" class="small-register">Log in here</a></p>
+
+            <!-- Navigation text to register-page -->
+            <p class="register-text">Don't have an account yet? <a href="{{ route('register') }}" class="small-register">Register</a></p>
         </section>
     </main>
 
