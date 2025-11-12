@@ -33,6 +33,10 @@ body{
     /* overflow: hidden; */
 }
 
+img{
+    max-width: 100%;
+}
+
 .container{
     width: 100%;
     flex: 1;
@@ -155,6 +159,12 @@ button {
     width: 100%;
 }
 
+.btn-logout{
+    padding: 0 1rem;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
 button2{
     border: 0;
     line-height: 2.5;
@@ -185,7 +195,7 @@ header{
 
 header .logo{
     aspect-ratio: 409 / 323;
-    height: 140px;
+    height: 100px;
     object-fit: cover;
 }
 
@@ -194,7 +204,7 @@ header .pfp{
     height: 50px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid var(--clr-primary);
+    /* border: 2px solid var(--clr-primary); */
     cursor: pointer;
 
 }
@@ -215,18 +225,35 @@ header nav a:hover{
     color: var(--clr-primary);
 }
 
+.header-login-options{
+        display: flex;
+        gap: 1rem;
+    }
+
+    .header-login-options a{
+        padding: 1rem 0;
+        color: var(--clr-primary);
+        border: 1px solid var(--clr-primary);
+        border-radius: 3px;
+        font-weight: bold;
+        padding: 0.5rem;
+    }
+
+
 .account-popup{
     position:absolute;
-    top: 60px;
+    top: 100px;
     right: 0;
     background-color: var(--clr-light);
     padding: 1rem;
     border-radius: 3px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     display: none;
+    gap: 0.5rem;
+    flex-direction: column;
 }
 
-.account-popup p{
+.account-popup a{
     font-weight: bold;
 }
 
@@ -260,7 +287,7 @@ header nav a:hover{
     flex-direction: column;
     gap: 1rem;
     flex: 1;
-    max-width: 500px;
+    /* max-width: 500px; */
 }
 
 .carousel-img{
@@ -368,6 +395,13 @@ header nav a:hover{
     background-color: var(--clr-grey);
 }
 
+.card-img img{
+    width: 100%;       /* Make image fill the card width */
+    height: 100%;      /* Optional: make it fill height too if needed */
+    object-fit: cover; /* Keep aspect ratio and cover the space */
+    border-radius: 3px;
+}
+
 .add-game-card .card-img{
     background-color: transparent;
     display: grid;
@@ -443,6 +477,7 @@ header nav a:hover{
 .continue-btn {
     display: inline-block; border: 0; border-radius: 10px; padding: 12px 16px;
     width: 100%; background: var(--clr-primary); color: var(--clr-light); font-weight: 700;
+    cursor: pointer;
 }
 
 .small-register{
@@ -505,6 +540,7 @@ footer p{
 }
 
 
+
  @media (max-width: 768px) {
 
     /* TEXT */
@@ -534,6 +570,8 @@ footer p{
     .pfp{
         display: none;
     }
+
+    
 
     #mobileMenuBarTrigger{
         display: block;

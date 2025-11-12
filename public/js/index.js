@@ -2,7 +2,7 @@
 const pfp = document.querySelector(".pfp");
 
 pfp.addEventListener("click", () => {
-  accountPopup.style.display = accountPopup.style.display === "block" ? "none" : "block";
+  accountPopup.style.display = accountPopup.style.display === "flex" ? "none" : "flex";
 });
 
 

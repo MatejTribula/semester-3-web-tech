@@ -8,8 +8,8 @@
 
  <x-card-section 
  title="Explore"
- filter-name="homeFilter"
-:filter-options='["A -> Z", "Z -> A"]'>
+ filter-name="homeFilter">
+{{-- :filter-options='["A -> Z", "Z -> A"]'> --}}
 
     @foreach ($products as $product)
 

@@ -19,9 +19,16 @@ class ProductController extends Controller
         // return response()->json($products, 200); // json for now
     }
 
-    public function productsByCollaborator($id)
+    public function productsByCollaborator($id = null)
     {
-       $products = Product::with(['images', 'videos', 'tags', 'collaborators', 'favorites'])
+        $id = $id ?? auth()->id();
+
+        if (! $id) 
+        {
+            abort(403, 'Not authenticated');
+        }
+
+        $products = Product::with(['images', 'videos', 'tags', 'collaborators', 'favorites'])
             ->whereHas('collaborators', function ($q) use ($id) {
                 $q->where('user_id', (int) $id);
             })->get();
