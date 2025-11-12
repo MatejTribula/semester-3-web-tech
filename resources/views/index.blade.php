@@ -1,9 +1,20 @@
+@php
+$carouselImages = collect($products)
+    ->map(fn($p) => $p->images[0]->image_url ?? null) // take first image
+    ->filter() // remove nulls (products with no images)
+    ->values() // reindex
+    ->all();
+@endphp
+
+
+
 @extends('layouts.app')
 
 @section('title', 'Home')
 
 @section('content')
-      <x-carousel/>
+
+<x-carousel :imageSources="$carouselImages" />
 
 
  <x-card-section 
