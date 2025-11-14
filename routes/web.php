@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FavoriteController;
 
 Route::get('/generate-csrf', function () {
     return response()->json([
@@ -34,9 +35,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::get('/favorites', function () {
-        return view('favorites');
-    })->name('favorites');
+    Route::get('/favorites', [FavoriteController::class, 'getFavoriteProducts'])->name('favorites');
 
     Route::get('/my-uploads', [UserController::class, 'productsByCollaborator'])->name('my-uploads');
 
