@@ -1,68 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+@extends('layouts.auth')
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet"
-    />
+@section('title', 'Login')
 
-    <link rel="stylesheet" href="{{ asset('css/index.css') }}"/>
-  </head>
+@section('content')
 
-  <body class="page--login">
      <!-- login and register-page container -->
-     <main class="login-center">
-        <section class="login-card">
+      <main class="auth-container">
+        <div class="auth-card">
 
-            <h1>Register</h1>
-            <!-- login and register form with fields -->
-            <form action="{{ route('register') }}" method="POST" >
-              @csrf
-                {{-- <div class ="field">
-                <label for="Nickname"> <b>Nickname</b> </label>
-                <input id="nickname" name="nickname" type="text" placeholder="Enter Nick" required>
-                </div>
+            <h2>Register</h2>
 
-                <div class ="field">
-                <label for="email"> <b>Email</b> </label>
-                <input id="email" name="email" type="email" placeholder="Enter E-mail" required>
-                </div>
+           <form action="{{ route('register') }}" method="POST">
+            @csrf
+            <div class="label-input-container">
+            <div class="label-input">
             
-                <div class ="field">
-                <label for="password"> <b>Password</b></label>
-                <input id="text" name="password" type="password" placeholder="Enter Password" name="Password" required>
-                </div> --}}
+                <label for="nickname">Nickname</label>
+                 <input name="nickname" type="text" required>
 
-                <input id="nickname" name="nickname" type="text" placeholder="Enter Nick" required>
-<input id="email" name="email" type="email" placeholder="Enter E-mail" required>
-<input id="password" name="password" type="password" placeholder="Enter Password" required>
-<input id="password_confirmation" name="password_confirmation" type="password" placeholder="Confirm Password" required>
+            </div>
+            <div class="label-input">
+                <label for="email">Email</label>
+                <input name="email" type="email" required>
+            </div>
+             <div class="label-input">
+                <label for="password">Password</label>
+                <input name="password" type="password" required>
+                </div>
+             <div class="label-input">
+                <label for="password_confirmation">Password</label>
+                
+                <input name="password_confirmation" type="password" required>
+                </div>
+                </div>
 
-
-                <button type="submit" class="continue-btn">Continue</button>
+                <button type="submit" class="btn">Continue</button>
             </form>
-            <!-- Navigation text to login-page -->
-            <p class="register-text">Already have an account? <a href="{{ route('login') }}" class="small-register">Log in here</a></p>
-        </section>
-    </main>
 
-</div>
-<footer>
-<p>© SDU, Group 9</p>
-</footer>
-</body>
-
-
-</html>
+            <!-- Navigation text to register-page -->
+             <p class="auth-alternative">Already have an account? <a href="{{ route('login') }}" class="other-auth-option-a">Login</a></p>
+        </div>
+</main>
+@endsection
