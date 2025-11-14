@@ -1,31 +1,49 @@
+@php
+$carouselImages = $product->images
+    ->pluck('image_url')
+    ->filter()
+    ->values()
+    ->all();
+@endphp
+
+
 @extends('layouts.app')
 
 @section('title', 'Product')
 
 @section('content')
 
-<div class="">
-<x-carousel/>
-<div class="">
-  <div>
+<div class="product-info-image-container">
+
+<x-carousel :imageSources="$carouselImages" />
+
+<div class="product-info-container">
+<div class="product-info">
+  <div class="product-info-header">
   <h2>{{ $product->title }}</h2>
     <i class="fa-solid fa-star"></i>
   </div>
 
-  <div class="">
-    {{ $product->tags[0]->tag_value }}
+  <div class="product-tags">
+    <p>{{ $product->tags[0]->tag_value }}</p>
   </div>
 
   <p>{{$product->description}}</p>
+</div>
 
-  <button type="">Download</button>
+
+  <a class="download-btn" href="{{ $product->file_url }}" download>Download File</a>
+  </div>
 </div>
-</div>
+
 
 <section class="product-gallery">
+  <h2>Gallery</h2>
+  <div class="product-gallery-grid">
   @foreach ($product->images as $image)
     <img src="{{ $image->image_url }}" alt="">
   @endforeach
+  </div>
 </section>
 
 
