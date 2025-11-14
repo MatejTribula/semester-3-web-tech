@@ -17,6 +17,8 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
     <title>@yield('title', 'Default Title')</title>
 
     <link rel="stylesheet" href="{{ asset('css/index.css') }}"/>
@@ -36,6 +38,7 @@
   </body>
 
 <script src="{{ asset('js/index.js') }}"></script>
+<script src="{{ asset('js/favorites.js') }}"></script>
 <script src="{{ asset('js/carousel.js') }}"></script>
 
 </html>
