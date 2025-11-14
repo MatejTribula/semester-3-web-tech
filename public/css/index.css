@@ -35,7 +35,7 @@ body{
 
 img{
     max-width: 100%;
-    height: auto;
+    /* height: auto; */
   display: block;
 }
 
@@ -160,7 +160,7 @@ button {
 }
 
 .btn-logout{
-    padding: 0 1rem;
+    padding: 4px 1rem;
     border-radius: 3px;
     cursor: pointer;
 }
@@ -223,6 +223,13 @@ header nav a{
 
 header nav a:hover{
     color: var(--clr-primary);
+}
+
+.header-login, .header-login-mobile{
+    color: var(--clr-primary);
+    border: 1px solid var(--clr-primary);
+    padding: 6px 1rem ;
+    border-radius: 3px;
 }
 
 .header-login-options{
@@ -290,23 +297,23 @@ header nav a:hover{
     /* max-width: 500px; */
 }
 
-.carousel-img{
+.carousel-img {
     width: 100%;
-    aspect-ratio: 16/7;
-    /* height: 450px; */
+    aspect-ratio: 2/1;
     border-radius: 5px;
-    object-fit: cover;
-    object-position: center;
-    background-color: var(--clr-grey);
     overflow: hidden;
+    display: flex;          /* use flex to stretch children */
 }
 
-.carousel-img img{
+.carousel-img img {
+    flex: 1 1 100%;         /* fill the parent container */
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 5px;
+    object-position: center;
+    display: block;         /* remove inline spacing */
 }
+
 
 .carousel-progress{
     display: flex;
@@ -543,8 +550,10 @@ footer p{
 
 /* Product page */
 .product-info-image-container{
-    display: flex;
+    display: grid;
     gap: 32px;
+
+    grid-template-columns: 3fr 2fr;
 }
 
 .product-info-container{
@@ -650,6 +659,10 @@ footer p{
         display: none;
     }
 
+    header .header-login{
+        display: none;
+    }
+
     .pfp{
         display: none;
     }
@@ -696,6 +709,7 @@ footer p{
     }
 
     .product-info-image-container{
+        display: flex;
         flex-direction: column;
         gap: 24px;
     }
@@ -704,4 +718,14 @@ footer p{
         gap: 24px;
     }
 
+    .product-gallery-grid{
+    gap: 16px;
+    grid-template-columns: 1fr;
+    grid-auto-rows: 250px;
+}
+
+.carousel{
+    width: 100%;
+
+}
     }
