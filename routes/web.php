@@ -36,6 +36,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::get('/favorites', [FavoriteController::class, 'getFavoriteProducts'])->name('favorites');
+    Route::post('/products/{id}/favorite', [FavoriteController::class, 'addFavorite'])->name('star');
+    Route::post('/products/{id}/unfavorite', [FavoriteController::class, 'removeFavorite'])->name('unstar');
 
     Route::get('/my-uploads', [UserController::class, 'productsByCollaborator'])->name('my-uploads');
 
