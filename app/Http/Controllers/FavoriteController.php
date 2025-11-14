@@ -27,7 +27,7 @@ class FavoriteController extends Controller
     public function addFavorite(Request $request, $id)
     {
         $user = $request->user();
-
+        
         if (!$user) 
         {
             return response()->json(['error' => 'Not authenticated'], 401);
