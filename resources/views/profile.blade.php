@@ -6,38 +6,46 @@
 
 <div class="profile-header">
     <div class="profile-pfp-name">
-        <img class="profile-pfp" src="{{ $user->avatar_url ?? asset('images/grey.png') }}" alt="{{ $user->nickname }}">
-        <p class="profile-name">{{ $user->nickname }}</p>
+        <!-- Profile Picture (view mode) -->
+        <img class="profile-pfp" id="profilePfp" src="{{ $user->avatar_url ?? asset('images/grey.png') }}" alt="{{ $user->nickname }}">
+        
+        <!-- Profile Picture Upload (edit mode - hidden by default) -->
+        <div class="profile-pfp-upload" id="profilePfpUpload" style="display: none;">
+            <img class="profile-pfp" id="profilePfpPreview" src="{{ $user->avatar_url ?? asset('images/grey.png') }}" alt="{{ $user->nickname }}">
+            <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+            <div class="upload-overlay">
+                <i class="fa-solid fa-camera"></i>
+            </div>
+        </div>
+
+        <!-- Username (view mode) -->
+        <p class="profile-name" id="profileName">{{ $user->nickname }}</p>
+        
+        <!-- Username input (edit mode - hidden by default) -->
+        <input type="text" class="profile-name-input" id="profileNameInput" value="{{ $user->nickname }}" style="display: none;">
+        
+        <!-- Edit/Save button -->
+        @auth
+            @if(auth()->id() === $user->id)
+                <i class="fa-solid fa-pen" id="editToggle"></i>
+                <button class="btn-save" id="saveBtn" style="display: none;">Save</button>
+            @endif
+        @endauth
     </div>
 
     <div class="profile-info">
-        <p>Joined 2025</p>
+        <p>Joined {{ $user->created_at->format('Y') }}</p>
         <p>|</p>
-        <p>108 Games Created</p>
+        <p>{{ $user->collaborations->count() }} Games Created</p>
     </div>
 </div>
 
- <x-card-section 
+<x-card-section 
     title="Created Games"
-    :cards='[
-        ["title" => "Puppets Adventure 2", "image" => "#"],
-        ["title" => "Puppets Adventure 2", "image" => "#"],
-        ["title" => "Puppets Adventure 2", "image" => "#"],
-        ["title" => "Puppets Adventure 2", "image" => "#"],
-        ["title" => "Puppets Adventure 2", "image" => "#"],
-        ["title" => "Puppets Adventure 2", "image" => "#"],
-        ["title" => "Puppets Adventure 2", "image" => "#"],
-        ["title" => "Puppets Adventure 2", "image" => "#"],
-        ["title" => "Puppets Adventure 2", "image" => "#"],
-        ["title" => "Puppets Adventure 2", "image" => "#"],
-        ["title" => "Puppets Adventure 2", "image" => "#"],
-        ["title" => "Puppets Adventure 2", "image" => "#"],
-        ["title" => "Puppets Adventure 2", "image" => "#"],
-        ["title" => "Puppets Adventure 2", "image" => "#"],
-        ["title" => "Puppets Adventure 2", "image" => "#"]
-    ]'
+    :cards="$user->collaborations->map(fn($p) => ['title' => $p->title, 'image' => $p->images->first()?->image_url ?? asset('images/grey.png')])->toArray()"
 />
-
-
-        
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/profile-edit-button.js') }}"></script>
+@endpush
