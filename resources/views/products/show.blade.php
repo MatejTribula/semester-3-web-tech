@@ -26,14 +26,13 @@ $isFavorited = auth()->check()
 <div class="product-info">
   <div class="product-info-header">
   <h2>{{ $product->title }}</h2>
-
     @auth
         <button id="favorite-btn"
                 aria-pressed="{{ $isFavorited ? 'true' : 'false' }}"
                 data-favorited="{{ $isFavorited ? 1 : 0 }}"
                 data-star-url="{{ route('star', $product->id) }}"
                 data-unstar-url="{{ route('unstar', $product->id) }}"
-                style="background:none;border:0;cursor:pointer;font-size:1.5rem;color:var(--clr-primary);">
+                style="background:none;border:0;cursor:pointer;font-size:1.5rem;">
             <i class="{{ $isFavorited ? 'fa-solid' : 'fa-regular' }} fa-star"></i>
         </button>
       @else

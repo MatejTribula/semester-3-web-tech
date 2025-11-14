@@ -6,7 +6,6 @@
 }
 
 /* Reset CSS */
-
 *{
     margin: 0;
     padding: 0;
@@ -632,6 +631,21 @@ footer p{
     cursor: pointer;
 }
 
+/* Favorited / not-favorited colors for the star */
+.product-info-header button[data-favorited="1"] i,
+.product-info-header i.fa-solid {
+  color: var(--clr-primary); /* filled star color */
+}
+
+.product-info-header button[data-favorited="0"] i,
+.product-info-header i.fa-regular {
+  color: var(--clr-grey); /* outline star color */
+}
+
+/* Optional: hover/active tweak */
+.product-info-header button:hover i {
+  color: #ff9b4a; /* slightly brighter on hover */
+}
 
 
  @media (max-width: 768px) {
