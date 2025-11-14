@@ -6,8 +6,8 @@
 
 <div class="profile-header">
     <div class="profile-pfp-name">
-        <img class="profile-pfp" src="{{ asset('images/pfp.jpeg') }}" alt="pfp">
-       <p class="profile-name">Name</p>
+        <img class="profile-pfp" src="{{ $user->avatar_url ?? asset('images/grey.png') }}" alt="{{ $user->nickname }}">
+        <p class="profile-name">{{ $user->nickname }}</p>
     </div>
 
     <div class="profile-info">
@@ -20,6 +20,7 @@
  <x-card-section 
     title="Created Games"
     :cards='[
+        ["title" => "Puppets Adventure 2", "image" => "#"],
         ["title" => "Puppets Adventure 2", "image" => "#"],
         ["title" => "Puppets Adventure 2", "image" => "#"],
         ["title" => "Puppets Adventure 2", "image" => "#"],

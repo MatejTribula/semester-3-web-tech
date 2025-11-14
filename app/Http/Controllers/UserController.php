@@ -28,10 +28,17 @@ class UserController extends Controller
 
     //public user page
 
-    public function showUserPage($userId){
-        $user = User::->findOrFail($userId);
-
-        return view('user.profile', compact('user'));
+    public function showUserPage($userId = null){
+        // If no userId provided, show authenticated user's profile
+        $userId = $userId ?? auth()->id();
+        
+        if (!$userId) {
+            return redirect()->route('login');
+        }
+        
+        $user = User::with('collaborations')->findOrFail($userId);
+        
+        return view('profile', compact('user'));
     }
     //display their profile picture (alr in model)
     //display their name (alr in model)
@@ -40,6 +47,7 @@ class UserController extends Controller
 
 
     //edit your own profile
+    /*
     public function editProfile($userId = null){
         $userId = $userId ?? auth()->userId();
 
@@ -47,7 +55,7 @@ class UserController extends Controller
         {
             abort(403, 'Not authenticated');
         }
-    }
+    }*/
     //edit profile picture
 
     //edit bio
