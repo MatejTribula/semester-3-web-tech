@@ -347,12 +347,6 @@ header nav a:hover{
     gap: 1rem;
 }
 
-.section-header--space {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
 
 /* Filter-home */
 
