@@ -1,5 +1,4 @@
  <header>
-  <a href="{{ url('/') }}">
         <img class="logo" src="{{ asset('images/logo.svg') }}" alt="logo" onclick="window.location='{{ url('/') }}'"/>
 
         <nav>
@@ -14,14 +13,10 @@
 
         @auth
        <img src="{{ auth()->user()?->avatar_url ?? asset('images/grey.png') }}" alt="Avatar" class="pfp">
-
         @endauth
 
         @guest
-        <div class="header-login-options">
-          <a href="{{ route('login') }}">Login</a>
-          {{-- <a href="{{ route('register') }}">Register</a> --}}
-        </div>
+          <a class="header-login" href="{{ route('login') }}">Login</a>
         @endguest
 
         <i id="mobileMenuBarTrigger" class="fa-solid fa-bars"></i>
@@ -40,13 +35,21 @@
             @auth
               <a href="{{ route('favorites') }}" class="{{ request()->routeIs('favorites') ? 'text-active' : '' }}">Favorites</a>
               <a href="{{ route('my-uploads') }} " class="{{ request()->routeIs('my-uploads') ? 'text-active' : '' }}">My Uploads</a> 
+              <a href = "{{ route('profile') }}" >Profile</a>
+
             @endauth
           </div>
-          <p><a href = "{{ route('profile') }}" >Profile</a></p>
+
+          @guest
+          <a class="header-login-mobile" href="{{ route('login') }}">Login</a>
+          @endguest
+
+          @auth
           <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit" class="btn btn-logout">Logout</button>
           </form>
+          @endauth
 
           
         </div>
