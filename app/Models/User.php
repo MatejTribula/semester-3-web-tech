@@ -62,8 +62,13 @@ class User extends Authenticatable
             ->withPivot('starred_date');
     }
 
+    //solo games are also 'collaborations', just with only one user.
     public function collaborations()
     {
         return $this->belongsToMany(Product::class, 'product_collaborators', 'user_id', 'product_id');
+    }
+
+    public function profilePicture(){
+        return $this->belongsTo(Image::class, 'profile_picture_id');
     }
 }
