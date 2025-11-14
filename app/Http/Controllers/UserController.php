@@ -12,7 +12,7 @@ class UserController extends Controller
     {
         $id = $id ?? auth()->id();
 
-        if (! $id) 
+        if (!$id) 
         {
             abort(403, 'Not authenticated');
         }

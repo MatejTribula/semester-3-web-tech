@@ -50,10 +50,6 @@ Route::get('/profile', function () {
     return view('profile');
 })->name('profile');
 
-Route::get('/product', function () {
-    return view('product');
-})->name('product');
-
 Route::get('/library', function () {
     return view('library');
 })->name('library');
