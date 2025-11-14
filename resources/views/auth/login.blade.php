@@ -28,7 +28,7 @@
             </form>
 
             <!-- Navigation text to register-page -->
-            <p class="register-text">Don't have an account yet? <a href="{{ route('register') }}" class="other-auth-option">Register</a></p>
+            <p class="auth-alternative">Don't have an account yet? <a href="{{ route('register') }}" class="other-auth-option-a">Register</a></p>
         </div>
 </main>
 @endsection
