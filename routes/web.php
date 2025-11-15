@@ -50,6 +50,10 @@ Route::get('/profile', function () {
     return view('profile');
 })->name('profile');
 
+// Route::get('/profile/{id}', function () {
+//    return view('profile');
+// })->name('profile');
+
 Route::get('/library', function () {
     return view('library');
 })->name('library');

@@ -671,6 +671,11 @@ footer p{
 }
 
 
+.collaborator
+{
+    color: var(--clr-primary);
+}
+
  @media (max-width: 768px) {
 
     /* TEXT */
