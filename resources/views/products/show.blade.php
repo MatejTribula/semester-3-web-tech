@@ -44,7 +44,9 @@ $isFavorited = auth()->check()
   </div>
 
   <div class="product-tags">
-    <p>{{ $product->tags[0]->tag_value }}</p>
+    @foreach ($product->tags as $tag)
+      <p>{{ $tag->tag_value }}</p>
+    @endforeach
   </div>
 
   <p>{{$product->description}}</p>

@@ -608,6 +608,8 @@ footer p{
 .product-tags{
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    align-items: flex-start;
     gap: 8px;
 }
 
