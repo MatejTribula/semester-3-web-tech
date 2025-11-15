@@ -11,9 +11,59 @@ use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
+    private function isAuthorizedToSeeProduct($productOrId)
+    {
+        // accept either a Product instance or an id
+        $product = $productOrId instanceof Product
+            ? $productOrId
+            : Product::with(['images', 'videos', 'tags', 'collaborators', 'favorites'])->find($productOrId);
+
+        if (!$product) 
+        {
+            return false;
+        }
+
+        // public or unlisted are accessible to everyone
+        if (in_array($product->visibility_setting, ['Public', 'Unlisted'])) 
+        {
+            return true;
+        }
+
+        // otherwise require authenticated collaborator
+        $user = auth()->user();
+        if (!$user) 
+        {
+            return false;
+        }
+
+        return $product->collaborators->contains('id', $user->id);
+    }
+
+    private function isAuthorizedToEditProduct($productOrId)
+    {
+        // accept either a Product instance or an id
+        $product = $productOrId instanceof Product
+            ? $productOrId
+            : Product::with(['images', 'videos', 'tags', 'collaborators', 'favorites'])->find($productOrId);
+
+        if (!$product) 
+        {
+            return false;
+        }
+
+        // otherwise require authenticated collaborator
+        $user = auth()->user();
+        if (!$user) 
+        {
+            return false;
+        }
+
+        return $product->collaborators->contains('id', $user->id);
+    }
+
     public function index()
     {
-        $products = Product::with(['images', 'videos', 'tags', 'collaborators', 'favorites'])->get();
+        $products = Product::with(['images', 'videos', 'tags', 'collaborators', 'favorites'])->whereIn('visibility_setting', ['Public'])->get();
 
         return view('products.index', compact('products'));
         // return response()->json($products, 200); // json for now
@@ -28,6 +78,11 @@ class ProductController extends Controller
             'collaborators',
             'favorites',
         ])->findOrFail($id); // automatically throws 404 if not found
+
+        if (!$this->isAuthorizedToSeeProduct($product)) 
+        {
+            abort(403, 'Unauthorized access to this product');
+        }
 
         // Return a view called 'show' and pass the product data
         return view('products.show', compact('product'));
@@ -129,11 +184,21 @@ class ProductController extends Controller
     {
         $product = Product::with(['images', 'videos', 'tags', 'collaborators'])->findOrFail($id);
 
+        if(!$this->isAuthorizedToEditProduct($product)) 
+        {
+            abort(403, 'Unauthorized access to this product');
+        }
+
         return view('products.edit', ['product' => $product]);
     }
 
     public function update(Request $request, $id)
     {
+        if (! this->isAuthorizedToEditProduct($id)) 
+        {
+            return response()->json(['error' => 'Unauthorized access to this product'], 403);
+        }
+
         $validated = $request->validate([
             'title' => 'required|string|max:64',
             'description' => 'nullable|string',
@@ -232,6 +297,11 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
+
+        if (!$this->isAuthorizedToEditProduct($product)) 
+        {
+            return response()->json(['error' => 'Unauthorized access to this product'], 403);
+        }
 
         // Detach pivot table relations
         $product->favorites()->detach();
