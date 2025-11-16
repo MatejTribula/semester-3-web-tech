@@ -75,7 +75,7 @@ $isFavorited = auth()->check()
   <p>
     @for ($i = 0; $i < $count; $i++)
       @php $c = $product->collaborators[$i]; @endphp
-      <a class = "collaborator" href = "{{ route('profile', ['id' => $c->id]) }}"> {{ $c->nickname }} </a> @if($i < $count - 1), @endif
+      <a class = "collaborator" href = "{{ route('profile', ['userId' => $c->id]) }}"> {{ $c->nickname }} </a> @if($i < $count - 1), @endif
     @endfor
   </p>
 
