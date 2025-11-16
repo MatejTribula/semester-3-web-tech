@@ -97,6 +97,7 @@ class ProductController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:64',
+            'logo' => 'nullable|url',
             'description' => 'nullable|string',
             'upload_date' => 'nullable|date',
             'approval_date' => 'nullable|date',
@@ -126,8 +127,17 @@ class ProductController extends Controller
             $product->save();
 
             \Log::info('Product saved ID: '.$product->id);
+            
+            // 2. Validate the logo and add it as an first image for the product
+            if (isset($validated['logo'])) 
+            {
+                $image = new Image;
+                $image->product_id = $product->id;
+                $image->image_url = $validated['logo'];
+                $image->save();
+            }
 
-            // 2. Create related images (explicitly set product_id)
+            // 3. Create related images (explicitly set product_id)
             if (! empty($validated['images'])) {
                 foreach ($validated['images'] as $url) {
                     $image = new Image;
@@ -137,7 +147,7 @@ class ProductController extends Controller
                 }
             }
 
-            // 3. Create related videos
+            // 4. Create related videos
             if (! empty($validated['videos'])) {
                 foreach ($validated['videos'] as $url) {
                     $video = new Video;
@@ -147,7 +157,7 @@ class ProductController extends Controller
                 }
             }
 
-            // 4. Create related tags
+            // 5. Create related tags
             if (! empty($validated['tags'])) {
                 foreach ($validated['tags'] as $tagName) {
                     $tag = new Tag;
@@ -156,6 +166,8 @@ class ProductController extends Controller
                     $tag->save();
                 }
             }
+
+            // 6. Create related collaborators
             if (! empty($validated['collaborators'])) {
                 foreach ($validated['collaborators'] as $userId) {
                     DB::table('product_collaborators')->insert([
@@ -167,7 +179,7 @@ class ProductController extends Controller
 
             DB::commit();
 
-            // 6. Return response
+            // 7. Return response
             return response()->json([
                 'message' => 'Product created successfully!',
                 'product' => $product,

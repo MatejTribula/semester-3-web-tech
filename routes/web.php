@@ -56,7 +56,7 @@ Route::get('/library', function () {
 })->name('library');
 
 Route::get('/publish-new-game', function () {
-    return view('publish-new-game');
+    return view('products/create');
 })->name('publish-new-game');
 
 Route::get('/profile/{userId?}', [UserController::class, 'showUserPage'])->name('profile');
