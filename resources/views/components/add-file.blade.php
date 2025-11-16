@@ -47,6 +47,10 @@
         const url = window.prompt('Enter the file URL:');
         if (!url) return;
 
+        // Do not create a new add-card if this instance is a logo OR the game file slot (file_url)
+        const isLogo = card.getAttribute('data-logo') === '1';
+        const isGameFile = (card.getAttribute('data-name') === 'file_url') || (card.getAttribute('data-id') === 'file_url');
+
         card.innerHTML = '';
         card.style.position = card.style.position || 'relative';
 
@@ -58,6 +62,55 @@
         img.style.width = '100%';
         img.style.height = '175px';
         img.style.objectFit = 'cover';
+
+        if(!isLogo && !isGameFile)
+        {
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'remove-btn';
+            removeBtn.innerHTML = '&times;';
+            removeBtn.onclick = function (e) 
+            {
+                e.stopPropagation();
+                if (confirm('Are you sure you want to remove this file?')) 
+                {
+                    // Remove associated hidden input if exists
+                    const wrapperId = card.getAttribute('data-wrapper');
+                    const givenName = card.getAttribute('data-name');
+                    const givenId = card.getAttribute('data-id');
+
+                    if (wrapperId) 
+                    {
+                        const wrap = document.getElementById(wrapperId);
+                        if (wrap) 
+                        {
+                            const inputs = wrap.querySelectorAll('input');
+                            inputs.forEach(input => {
+                                if (input.value === img.src) {
+                                    wrap.removeChild(input);
+                                }
+                            });
+                        }
+                    } 
+                    else if (givenName) 
+                    {
+                        const nextInput = card.nextSibling;
+                        if (nextInput && nextInput.tagName === 'INPUT' && nextInput.name === givenName && nextInput.value === img.src) 
+                        {
+                            nextInput.remove();
+                        }
+                    }
+
+                    card.remove();
+                }
+            };
+            card.appendChild(removeBtn);
+        }
+        img.onclick = function (e) 
+        {
+            e.stopPropagation();
+            const newUrl = window.prompt('Enter the new file URL:', img.src);
+            if (newUrl) img.src = newUrl;
+        };
         imgWrap.appendChild(img);
         card.appendChild(imgWrap);
 
@@ -90,9 +143,7 @@
             card.parentNode.insertBefore(input, card.nextSibling);
         }
 
-        // Do not create a new add-card if this instance is a logo OR the game file slot (file_url)
-        const isLogo = card.getAttribute('data-logo') === '1';
-        const isGameFile = (card.getAttribute('data-name') === 'file_url') || (card.getAttribute('data-id') === 'file_url');
+
 
         if (!isLogo && !isGameFile) 
         {
