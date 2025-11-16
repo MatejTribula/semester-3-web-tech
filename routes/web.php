@@ -46,9 +46,6 @@ Route::middleware('auth')->group(function () {
 Route::get('/products', [ProductController::class, 'index'])->name('home');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('show');
 
-Route::get('/profile', function () {
-    return view('profile');
-})->name('profile');
 
 // Route::get('/profile/{id}', function () {
 //    return view('profile');
@@ -61,3 +58,5 @@ Route::get('/library', function () {
 Route::get('/publish-new-game', function () {
     return view('publish-new-game');
 })->name('publish-new-game');
+
+Route::get('/profile/{userId?}', [UserController::class, 'showUserPage'])->name('profile');
