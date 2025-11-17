@@ -57,16 +57,22 @@ class UserController extends Controller
         ]);
 
         $user = User::findOrFail($userId);
-        
         $user->nickname = $validated['nickname'];
 
-        // Handle avatar upload
+        // Handle avatar upload — store relative path on the "public" disk
         if ($request->hasFile('avatar')) {
+            // delete old file (raw DB value) if present
+            if ($user->getRawOriginal('avatar_url')) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($user->getRawOriginal('avatar_url'));
+            }
+
+            // store returns e.g. "avatars/abc123.jpg"
             $path = $request->file('avatar')->store('avatars', 'public');
-            $user->avatar_url = asset('storage/' . $path);
+            $user->avatar_url = $path; // save relative path only
         }
 
         $user->save();
+        $user->refresh(); // ensure accessors return fresh data
 
         return response()->json([
             'message' => 'Profile updated successfully',
