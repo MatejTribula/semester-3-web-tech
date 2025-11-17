@@ -1,5 +1,5 @@
-function toggleProfileEdit(){
-    const editToggle = document.getElementById('editToggle');
+(function () {
+const editToggle = document.getElementById('editToggle');
 const saveBtn = document.getElementById('saveBtn');
 const profileName = document.getElementById('profileName');
 const profileNameInput = document.getElementById('profileNameInput');
@@ -7,6 +7,10 @@ const profilePfp = document.getElementById('profilePfp');
 const profilePfpUpload = document.getElementById('profilePfpUpload');
 const profilePfpPreview = document.getElementById('profilePfpPreview');
 const avatarInput = document.getElementById('avatarInput');
+
+const header = document.querySelector('.profile-header');
+const userId = header?.dataset?.userId;
+const updateUrl = userId ? `/profile/${userId}` : window.location.pathname;
 
 let isEditMode = false;
 let selectedFile = null;
@@ -76,7 +80,7 @@ async function saveProfile() {
     }
 
     try {
-        const response = await fetch(window.location.pathname, {
+        const response = await fetch(updateUrl, {
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
@@ -95,14 +99,13 @@ async function saveProfile() {
             isEditMode = false;
             toggleEditMode();
             
-            alert('Profile updated successfully!');
+            // optional: show a toast instead of alert
         } else {
             const error = await response.json();
-            alert('Error: ' + (error.message || 'Failed to update profile'));
+            console.error('Update error', error);
         }
     } catch (err) {
         console.error(err);
-        alert('Network error');
     }
 }
-}
+})();

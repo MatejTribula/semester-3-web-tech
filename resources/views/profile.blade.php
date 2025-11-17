@@ -4,12 +4,12 @@
 
 @section('content')
 
-<div class="profile-header">
+<div class="profile-header" data-user-id="{{ $user->id }}">
     <div class="profile-pfp-name">
         <!-- Profile Picture (view mode) -->
         <img class="profile-pfp" id="profilePfp" src="{{ $user->avatar_url ?? asset('images/grey.png') }}" alt="{{ $user->nickname }}">
         
-        <!-- Profile Picture Upload (edit mode - hidden by default) -->
+        <!-- Profile Picture Upload (edit mode - hidden) -->
         <div class="profile-pfp-upload" id="profilePfpUpload" style="display: none;">
             <img class="profile-pfp" id="profilePfpPreview" src="{{ $user->avatar_url ?? asset('images/grey.png') }}" alt="{{ $user->nickname }}">
             <input type="file" id="avatarInput" accept="image/*" style="display: none;">
@@ -21,13 +21,13 @@
         <!-- Username (view mode) -->
         <p class="profile-name" id="profileName">{{ $user->nickname }}</p>
         
-        <!-- Username input (edit mode - hidden by default) -->
+        <!-- Username input (edit mode - hidden) -->
         <input type="text" class="profile-name-input" id="profileNameInput" value="{{ $user->nickname }}" style="display: none;">
         
-        <!-- Edit/Save button -->
+        <!-- Edit/Save buttons -->
         @auth
             @if(auth()->id() === $user->id)
-                <i class="fa-solid fa-pen" id="editToggle"></i>
+                <i class="fa-solid fa-pen" id="editToggle" style="cursor: pointer;"></i>
                 <button class="btn-save" id="saveBtn" style="display: none;">Save</button>
             @endif
         @endauth

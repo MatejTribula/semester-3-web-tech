@@ -40,7 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/products/{id}/unfavorite', [FavoriteController::class, 'removeFavorite'])->name('unstar');
 
     Route::get('/my-uploads', [UserController::class, 'productsByCollaborator'])->name('my-uploads');
-
+    Route::put('/profile/{userId}', [UserController::class, 'updateProfile'])->name('profile.update');
 });
 
 Route::get('/products', [ProductController::class, 'index'])->name('home');

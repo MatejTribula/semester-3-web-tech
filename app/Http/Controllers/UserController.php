@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 
 class UserController extends Controller 
@@ -41,6 +42,36 @@ class UserController extends Controller
         $user = User::with('collaborations')->findOrFail($userId);
         
         return view('profile', compact('user'));
+    }
+    
+    public function updateProfile(Request $request, $userId)
+    {
+        // Only allow users to edit their own profile
+        if ((int) $userId !== auth()->id()) {
+            abort(403, 'Unauthorized');
+        }
+
+        $validated = $request->validate([
+            'nickname' => 'required|string|max:100',
+            'avatar' => 'nullable|image|max:2048', // 2MB max
+        ]);
+
+        $user = User::findOrFail($userId);
+        
+        $user->nickname = $validated['nickname'];
+
+        // Handle avatar upload
+        if ($request->hasFile('avatar')) {
+            $path = $request->file('avatar')->store('avatars', 'public');
+            $user->avatar_url = asset('storage/' . $path);
+        }
+
+        $user->save();
+
+        return response()->json([
+            'message' => 'Profile updated successfully',
+            'user' => $user
+        ]);
     }
     //display their profile picture (alr in model)
     //display their name (alr in model)
