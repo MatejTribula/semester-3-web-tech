@@ -64,8 +64,14 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with(['images', 'videos', 'tags', 'collaborators', 'favorites'])->whereIn('visibility_setting', ['Public'])->get();
+        
+        // collects tags from the loaded products, and gives them a unique tag value. flatMap method maps all arrays and creates new flat array.
+        $tags = $products
+            ->flatMap(fn ($product) => $product->tags) 
+            ->unique('tag_value')
+            ->values();
 
-        return view('products.index', compact('products'));
+        return view('products.index', compact('products','tags'));
         // return response()->json($products, 200); // json for now
     }
 

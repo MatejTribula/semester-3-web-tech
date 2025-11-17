@@ -22,12 +22,25 @@ $carouselImages = collect($products)
  filter-name="homeFilter">
 {{-- :filter-options='["A -> Z", "Z -> A"]'> --}}
 
+<div class="tag-filter" id="tagFilter">
+        @foreach ($tags as $tag)
+            <button 
+                type="button" 
+                class="tag-button" 
+                data-tag="{{ strtolower($tag->tag_value) }}"
+            >
+                {{ $tag->tag_value }}
+            </button>
+        @endforeach
+    </div>
+
     @foreach ($products as $product)
 
         <x-product-card 
             :id="$product->id" 
             :title="$product->title" 
             :image="$product->images[0]->image_url" 
+            :tags="$product->tags->pluck('tag_value')->map(fn($t) => strtolower($t))->implode(',')"
         />
     @endforeach
 
