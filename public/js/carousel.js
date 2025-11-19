@@ -1,6 +1,6 @@
 // Use the variable defined in Blade
 const imageSources = window.imageSources || [];
-const changeInterval = 3000;
+const changeInterval = 6000;
 
 // === Core Elements ===
 const carousel = document.querySelector(".carousel");
