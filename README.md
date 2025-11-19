@@ -27,7 +27,10 @@ Needed by Laravel for session management and encryption
 ```php artisan key:generate```
 
 ### Run Database Migration
-```php artisan migrate``` 
+```php artisan migrate```
+
+### Link Storage
+```php artisan storage:link```
 
 ### Run The Application
 ```php artisan serve```
