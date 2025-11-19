@@ -662,6 +662,10 @@ footer p{
     color: var(--clr-primary);
 }
 
+#remove-field-icon:hover{
+    color: var(--clr-primary);
+}
+
 /* Product page */
 .product-info-image-container{
     display: grid;

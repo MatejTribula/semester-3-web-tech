@@ -12,7 +12,3 @@
         <i class="fa-solid fa-plus plus-icon"></i>
     </div>
 </div>
-
-<script>
-
-</script>

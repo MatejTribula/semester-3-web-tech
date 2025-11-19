@@ -16,6 +16,7 @@ function addField(wrapperId, name, type, placeholder)
     removeIcon.className = 'fa-solid fa-times remove-field';
     removeIcon.id = 'remove-field-icon';
     removeIcon.style.cursor = 'pointer';
+    removeIcon.style.height = "100%";
     removeIcon.title = 'Remove';
     removeIcon.addEventListener('click', function () {
         row.remove();
