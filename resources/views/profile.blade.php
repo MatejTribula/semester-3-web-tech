@@ -41,9 +41,20 @@
 </div>
 
 <x-card-section 
-    title="Created Games"
-    :cards="$user->collaborations->map(fn($p) => ['title' => $p->title, 'image' => $p->images->first()?->image_url ?? asset('images/grey.png')])->toArray()"
-/>
+ title="User's Uploads"
+ filter-name="homeFilter">
+{{-- :filter-options='["A -> Z", "Z -> A"]'> --}}
+
+    @foreach ($products as $product)
+        <x-product-card 
+            :id="$product->id" 
+            :title="$product->title" 
+            :image="$product->images[0]->image_url" 
+        />
+    @endforeach
+
+</x-card-section>
+
 @endsection
 
 @push('scripts')
