@@ -27,7 +27,8 @@ $carouselImages = collect($products)
         <x-product-card 
             :id="$product->id" 
             :title="$product->title" 
-            :image="$product->images[0]->image_url" 
+            :image="$product->images->first()?->image_url"
+
         />
     @endforeach
 
