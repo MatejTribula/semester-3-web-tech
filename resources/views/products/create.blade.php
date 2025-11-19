@@ -81,6 +81,20 @@
 @endsection 
 
 <script>
-
+document.addEventListener('DOMContentLoaded', function() 
+{
+    // ensure initial fields exist
+    if (document.getElementById('tags-wrapper') && !document.getElementById('tags-wrapper').querySelector('.field-row')) 
+    {
+        addField('tags-wrapper', 'tags[]', 'text', 'Tag');
+    }
+    if (document.getElementById('collaborators-wrapper') && !document.getElementById('collaborators-wrapper').querySelector('.field-row')) 
+    {
+        addField('collaborators-wrapper', 'collaborators[]', 'number', 'User ID');
+        const firstInput = document.querySelector('#collaborators-wrapper .field-row input');
+        if (firstInput) firstInput.value = "{{ auth()->id() }}";
+        if (firstInput) firstInput.readOnly = true;
+    }
+});
 </script>
 
