@@ -438,7 +438,7 @@ header nav a:hover{
 #tags-wrapper,
 #collaborators-wrapper {
   display: flex;
-  gap: 8px;
+  gap: 0.5rem;
   flex-wrap: wrap;
   align-items: center;
 }
@@ -446,7 +446,7 @@ header nav a:hover{
 /* each field row becomes an inline flex block (input + remove button) */
 .field-row {
   display: inline-flex;
-  gap: 6px;
+  gap: 0.5rem;
   align-items: center;
 }
 
