@@ -428,13 +428,13 @@ header nav a:hover{
     gap: 1rem;
 }
 
-#tags-wrapper,
+/* #tags-wrapper,
 #collaborators-wrapper {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
   align-items: center;
-}
+} */
 
 /* each field row becomes an inline flex block (input + remove button) */
 .field-row {
@@ -528,7 +528,7 @@ header nav a:hover{
     gap: 4px;
 }
 
-.label-input input{
+.label-input input, .label-input textarea, .label-input select{
     border-radius: 3px;
     border: 1px solid var(--clr-grey);
     background-color: transparent;
@@ -761,6 +761,44 @@ footer p{
 /* Optional: hover/active tweak */
 .product-info-header button:hover i {
   color: #ff9b4a; /* slightly brighter on hover */
+}
+
+.publish-product-form-container{
+    display: flex;
+    gap: 32px;
+}
+
+.product-form{
+    display: grid;
+    /* flex-direction: column; */
+    gap: 1rem;
+}
+
+.publish-product-form-container>*{
+     flex: 1;
+}
+
+.publish-product-form-container-item{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+#tags-wrapper,
+#collaborators-wrapper,
+#images-wrapper,
+#videos-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+form textarea{
+    background-color: transparent;
+}
+
+form select, form option{
+    background-color: transparent;
 }
 
 

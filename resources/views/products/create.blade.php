@@ -1,85 +1,103 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
+@extends('layouts.app')
 
-<form action="{{ route('store') }}" method="POST">
-    @csrf
-    <h2>Create New Item</h2>
+@section('title', 'Publish New Game')
 
-    <!-- Basic info -->
-    <label for="title">Title (required):</label><br>
-    <input type="text" name="title" id="title" maxlength="64" required><br><br>
+@section('content')
+    <h2>Publish New Game</h2>
 
-    <label for="description">Description:</label><br>
-    <textarea name="description" id="description"></textarea><br><br>
+    <form class="product-form" action="{{ route('store') }}" method="POST">
+        @csrf
 
-    <label for="upload_date">Upload Date:</label><br>
-    <input type="date" name="upload_date" id="upload_date"><br><br>
+        <div class="publish-product-form-container">
+            <div class="publish-product-form-container-item">
+                <div class="label-input horizontal">
+                    <label for="title">Title*</label>
+                    <input type="text" name="title" id="title" maxlength="64" required>
+                </div>
 
-    <label for="approval_date">Approval Date:</label><br>
-    <input type="date" name="approval_date" id="approval_date"><br><br>
+                <div class="label-input horizontal">
+                    <label for="description">Description</label>
+                    <textarea name="description" id="description" cols="30" rows="10"></textarea>
+                </div>
 
-    <label for="visibility_setting">Visibility Setting (required):</label><br>
-    <select name="visibility_setting" id="visibility_setting" required>
-        <option value="Public">Public</option>
-        <option value="Unlisted">Unlisted</option>
-        <option value="Private">Private</option>
-    </select><br><br>
+                <div class="label-input horizontal">
+                    <label for="visibility_setting">Visibility Setting*</label>
+                    <select name="visibility_setting" id="visibility_setting" required>
+                        <option value="Public">Public</option>
+                        <option value="Unlisted">Unlisted</option>
+                        <option value="Private">Private</option>
+                    </select>
+                </div>
 
-    <label for="file_url">File URL:</label><br>
-    <input type="url" name="file_url" id="file_url"><br><br>
+                <div class="label-input horizontal">
+                    <label for="tags-wrapper">Tags</label>
+                    <div id="tags-wrapper">
+                        <input type="text" name="tags[]" maxlength="32" placeholder="Tag">
+                    </div>
+                    <button type="button" onclick="addField('tags-wrapper', 'tags[]', 'text')">+ Add another tag</button>
+                </div>
 
-    <!-- Images -->
-    <label>Images (URLs):</label><br>
-    <div id="images-wrapper">
-        <input type="url" name="images[]" placeholder="Image URL">
-    </div>
-    <button type="button" onclick="addField('images-wrapper', 'images[]', 'url')">+ Add another image</button><br><br>
+                <div class="label-input horizontal">
+                    <label for="collaborators-wrapper">Contributors (User IDs)</label>
+                    <div id="collaborators-wrapper">
+                        <input type="number" value="{{ $user->id }}" readonly>
+                        <input type="number" name="collaborators[]" placeholder="Collaborator ID">
+                    </div>
+                    <button type="button" onclick="addField('collaborators-wrapper', 'collaborators[]', 'number')">+ Add another contributor</button>
+                </div>
 
-    <!-- Videos -->
-    <label>Videos (URLs):</label><br>
-    <div id="videos-wrapper">
-        <input type="url" name="videos[]" placeholder="Video URL">
-    </div>
-    <button type="button" onclick="addField('videos-wrapper', 'videos[]', 'url')">+ Add another video</button><br><br>
+                <div class="label-input horizontal">
+                    <label for="file_url">Game File URL *</label>
+                    <input type="url" name="file_url" id="file_url" required>
+                </div>
+            </div>
 
-    <!-- Tags -->
-    <label>Tags:</label><br>
-    <div id="tags-wrapper">
-        <input type="text" name="tags[]" maxlength="32" placeholder="Tag">
-    </div>
-    <button type="button" onclick="addField('tags-wrapper', 'tags[]', 'text')">+ Add another tag</button><br><br>
+            <div class="publish-product-form-container-item">
+                <div class="label-input horizontal">
+                    <label for="cover_url">Cover URL</label>
+                    <input type="url" name="cover_url" id="cover_url">
+                </div>
 
-    <!-- Collaborators -->
-    <label>Collaborators (User IDs):</label><br>
-    <div id="collaborators-wrapper">
-        <input type="number" name="collaborators[]" placeholder="User ID">
-    </div>
-    <button type="button" onclick="addField('collaborators-wrapper', 'collaborators[]', 'number')">+ Add another collaborator</button><br><br>
+                <div class="label-input horizontal">
+                    <label for="images-wrapper">Images (URLs)</label>
+                    <div id="images-wrapper">
+                        <input type="url" name="images[]" placeholder="Image URL">
+                    </div>
+                    <button type="button" onclick="addField('images-wrapper', 'images[]', 'url')">+ Add another image</button>
+                </div>
 
-    <button type="submit">Submit</button>
-</form>
-    
-</body>
-</html>
+                <div class="label-input horizontal">
+                    <label for="videos-wrapper">Videos (URLs)</label>
+                    <div id="videos-wrapper">
+                        <input type="url" name="videos[]" placeholder="Video URL">
+                    </div>
+                    <button type="button" onclick="addField('videos-wrapper', 'videos[]', 'url')">+ Add another video</button>
+                </div>
+            </div>
+        </div>
 
+        <button type="submit">Save</button>
+    </form>
 
+    <script>
+        function addField(wrapperId, name, type) {
+            const wrapper = document.getElementById(wrapperId);
+            const input = document.createElement('input');
+            input.type = type;
+            input.name = name;
+            let placeholder = name.replace('s[]', '')
 
-<script>
-function addField(wrapperId, name, type) {
-    const wrapper = document.getElementById(wrapperId);
-    const input = document.createElement('input');
-    input.type = type;
-    input.name = name;
-    input.placeholder = name.replace('[]', '');
-    if (name === 'tags[]') input.maxLength = 32;
-    wrapper.appendChild(document.createElement('br'));
-    wrapper.appendChild(input);
-}
-</script>
+            if(name === "collaborators[]"){
+                input.placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1)+ " ID";
+            }else if(name === "tags[]"){
+                input.placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1);
+            }
+            else{
+            input.placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1)+ " URL";
+
+            }
+            if (name === 'tags[]') input.maxLength = 32;
+            wrapper.appendChild(input);
+        }
+    </script>
+@endsection

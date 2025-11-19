@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Tag;
 use App\Models\Video;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
@@ -84,11 +85,15 @@ class ProductController extends Controller
 
     public function create()
     {
-        return view('products.create');
+        $user = Auth::user();
+
+        return view('products.create', ['user' => $user]);
     }
 
     public function store(Request $request)
     {
+
+        $user = Auth::user();
         $validated = $request->validate([
             'title' => 'required|string|max:64',
             'logo' => 'nullable|url',
@@ -96,7 +101,7 @@ class ProductController extends Controller
             'upload_date' => 'nullable|date',
             'approval_date' => 'nullable|date',
             'visibility_setting' => 'required|in:Public,Unlisted,Private',
-            'file_url' => 'nullable|url',
+            'file_url' => 'required|url',
 
             'images' => 'nullable|array',
             'images.*' => 'nullable|url',
@@ -160,6 +165,11 @@ class ProductController extends Controller
                     $tag->save();
                 }
             }
+
+            DB::table('product_collaborators')->insert([
+                'product_id' => $product->id,
+                'user_id' => $user->id,
+            ]);
 
             // 6. Create related collaborators
             if (! empty($validated['collaborators'])) {
