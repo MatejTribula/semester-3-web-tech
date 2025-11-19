@@ -15,15 +15,15 @@
                 <textarea style = "height: 10rem;" name="description" id="description"></textarea>
 
                 
-                    <label>Tags:</label>
-                    <div>
-                        <div id="tags-wrapper">
-                        </div>
-                        <button style = "width:100%;" type="button" onclick="addField('tags-wrapper', 'tags[]', 'text', 'Tag')">+ Add another tag</button>
+                <label>Tags:</label>
+                <div class = "item-handlers-create">
+                    <div id="tags-wrapper">
                     </div>
+                    <button style = "width:100%;" type="button" onclick="addField('tags-wrapper', 'tags[]', 'text', 'Tag')">+ Add another tag</button>
+                </div>
 
                 <label>Collaborators:</label>
-                <div>
+                <div class = "item-handlers-create">
                     <div id="collaborators-wrapper">
                     </div>
                     <button style = "width:100%;" type="button" onclick="addField('collaborators-wrapper', 'collaborators[]', 'number', 'User ID')">+ Add another collaborator</button>
