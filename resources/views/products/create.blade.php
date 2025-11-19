@@ -9,10 +9,10 @@
         <div class="container3">
             <div class="container4">
                 <label>Title</label>
-                <input type="text" name="title" id="title" maxlength="64" required>
+                <input style = "height: 2rem;" type="text" name="title" id="title" maxlength="64" required>
 
                 <label>Description</label>
-                <textarea name="description" id="description"></textarea>
+                <textarea style = "height: 10rem;" name="description" id="description"></textarea>
 
                 
                     <label>Tags:</label>
@@ -39,8 +39,8 @@
                     <option value="Private">Private</option>
                 </select>
 
-                <input value = "{{ date('Y-m-d') }}" type="date" name="upload_date" id="upload_date" hidden>
-                <input value = "" type="date" name="approval_date" id="approval_date" hidden>
+                <input value = "{{ date('Y-m-d') }}" type="hidden" name="upload_date" id="upload_date" hidden>
+                <input value = "" type="hidden" name="approval_date" id="approval_date" hidden>
             </div>
             <div class="container4">
                 <div class="right-column">
