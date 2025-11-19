@@ -1,4 +1,4 @@
-<a href = "{{ route('publish-new-game') }}">
+<a href = "{{ route('create') }}">
     <div class="card add-game-card">
         <div class="card-img">
             <i class="fa-solid fa-plus"></i>
