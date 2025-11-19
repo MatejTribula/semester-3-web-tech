@@ -11,17 +11,18 @@ function addField(wrapperId, name, type, placeholder)
     if (name === 'tags[]') input.maxLength = 32;
     row.appendChild(input);
 
-    const removeBtn = document.createElement('button');
-    removeBtn.type = 'button';
-    removeBtn.className = 'remove-field';
-    removeBtn.textContent = '−';
-    removeBtn.title = 'Remove';
-    removeBtn.addEventListener('click', function () {
+
+    const removeIcon = document.createElement('i');
+    removeIcon.className = 'fa-solid fa-times remove-field';
+    removeIcon.id = 'remove-field-icon';
+    removeIcon.style.cursor = 'pointer';
+    removeIcon.title = 'Remove';
+    removeIcon.addEventListener('click', function () {
         row.remove();
         updateRemoveButtons(wrapperId);
         ensureAtLeastOne(wrapperId, name, type, placeholder);
     });
-    row.appendChild(removeBtn);
+    row.appendChild(removeIcon);
 
     wrapper.appendChild(row);
     updateRemoveButtons(wrapperId);
