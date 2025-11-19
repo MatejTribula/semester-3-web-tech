@@ -1,86 +1,85 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
 
-@section('title', 'Publish New Game')
-
-@section('content')
-    <h2>{{ 'Publish New Game' }}</h2>
-    <form action="{{ route('store') }}" method="POST">
+<form action="{{ route('store') }}" method="POST">
     @csrf
-        <div class="container3">
-            <div class="container4">
-                <label>Title</label>
-                <input type="text" name="title" id="title" maxlength="64" required>
+    <h2>Create New Item</h2>
 
-                <label>Description</label>
-                <textarea name="description" id="description"></textarea>
+    <!-- Basic info -->
+    <label for="title">Title (required):</label><br>
+    <input type="text" name="title" id="title" maxlength="64" required><br><br>
 
-                
-                    <label>Tags:</label>
-                    <div>
-                        <div id="tags-wrapper">
-                        </div>
-                        <button style = "width:100%;" type="button" onclick="addField('tags-wrapper', 'tags[]', 'text', 'Tag')">+ Add another tag</button>
-                    </div>
+    <label for="description">Description:</label><br>
+    <textarea name="description" id="description"></textarea><br><br>
 
-                <label>Collaborators:</label>
-                <div>
-                    <div id="collaborators-wrapper">
-                    </div>
-                    <button style = "width:100%;" type="button" onclick="addField('collaborators-wrapper', 'collaborators[]', 'number', 'User ID')">+ Add another collaborator</button>
-                </div>
+    <label for="upload_date">Upload Date:</label><br>
+    <input type="date" name="upload_date" id="upload_date"><br><br>
 
-                <label>Game File</label>
-                <x-add-file type="url" name="file_url" id="file_url"/>
+    <label for="approval_date">Approval Date:</label><br>
+    <input type="date" name="approval_date" id="approval_date"><br><br>
 
-                <label for="visibility_setting">Visibility Setting:</label>
-                <select name="visibility_setting" id="visibility_setting" required>
-                    <option value="Public">Public</option>
-                    <option value="Unlisted">Unlisted</option>
-                    <option value="Private">Private</option>
-                </select>
+    <label for="visibility_setting">Visibility Setting (required):</label><br>
+    <select name="visibility_setting" id="visibility_setting" required>
+        <option value="Public">Public</option>
+        <option value="Unlisted">Unlisted</option>
+        <option value="Private">Private</option>
+    </select><br><br>
 
-                <input value = "{{ date('Y-m-d') }}" type="date" name="upload_date" id="upload_date" hidden>
-                <input value = "" type="date" name="approval_date" id="approval_date" hidden>
-            </div>
-            <div class="container4">
-                <div class="right-column">
-                    <div class="logo-section">
-                        <label>Logo</label>
-                        <x-add-file type="url" name="logo" id="logo" logo="true"/>
-                    </div>
-                    
-                    <div class="media-section">
-                        <label>Images</label>
-                        <div class="container5">
-                            <x-add-file wrapper="images-wrapper" type="url" name="images[]"/>
-                        </div>
-                    </div>
+    <label for="file_url">File URL:</label><br>
+    <input type="url" name="file_url" id="file_url"><br><br>
 
-                    <div class="media-section">
-                        <label>Videos</label>
-                        <div class="container5">
-                            <x-add-file wrapper="videos-wrapper" type="url" name="videos[]"/>
-                        </div>
-                    </div>
+    <!-- Images -->
+    <label>Images (URLs):</label><br>
+    <div id="images-wrapper">
+        <input type="url" name="images[]" placeholder="Image URL">
+    </div>
+    <button type="button" onclick="addField('images-wrapper', 'images[]', 'url')">+ Add another image</button><br><br>
 
-                    <div id="images-wrapper">
-                    </div>
+    <!-- Videos -->
+    <label>Videos (URLs):</label><br>
+    <div id="videos-wrapper">
+        <input type="url" name="videos[]" placeholder="Video URL">
+    </div>
+    <button type="button" onclick="addField('videos-wrapper', 'videos[]', 'url')">+ Add another video</button><br><br>
 
-                    <div id="videos-wrapper">
-                    </div>
+    <!-- Tags -->
+    <label>Tags:</label><br>
+    <div id="tags-wrapper">
+        <input type="text" name="tags[]" maxlength="32" placeholder="Tag">
+    </div>
+    <button type="button" onclick="addField('tags-wrapper', 'tags[]', 'text')">+ Add another tag</button><br><br>
 
-                    <div id="logo-wrapper">
-                    </div>
+    <!-- Collaborators -->
+    <label>Collaborators (User IDs):</label><br>
+    <div id="collaborators-wrapper">
+        <input type="number" name="collaborators[]" placeholder="User ID">
+    </div>
+    <button type="button" onclick="addField('collaborators-wrapper', 'collaborators[]', 'number')">+ Add another collaborator</button><br><br>
 
-                </div>
-            </div>
-        </div>
-        <button type="submit">Publish Game</button>
-     </form>
-        
-@endsection 
+    <button type="submit">Submit</button>
+</form>
+    
+</body>
+</html>
+
+
 
 <script>
-
+function addField(wrapperId, name, type) {
+    const wrapper = document.getElementById(wrapperId);
+    const input = document.createElement('input');
+    input.type = type;
+    input.name = name;
+    input.placeholder = name.replace('[]', '');
+    if (name === 'tags[]') input.maxLength = 32;
+    wrapper.appendChild(document.createElement('br'));
+    wrapper.appendChild(input);
+}
 </script>
-
