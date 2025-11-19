@@ -126,6 +126,13 @@
         <button type="submit">Save</button>
     </form>
 
+    <form action="{{ route('destroy', $product->id) }}" method="POST">
+    @csrf
+    @method('DELETE')
+    <button class="btn btn-delete" type="submit">Delete</button>
+</form>
+
+
     {{-- JS for dynamically adding inputs --}}
     <script>
         function addField(wrapperId, name, type) {

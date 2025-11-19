@@ -3,6 +3,8 @@
     --clr-dark: #262626;
     --clr-light: #F7FFF6;
     --clr-grey: #CCCCCC;
+
+    --clr-warning: #c63838;
 }
 
 /* Reset CSS */
@@ -651,6 +653,10 @@ footer p{
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
+}
+
+.btn-delete{
+    background-color: var(--clr-warning);
 }
 
 .profile-pfp-name i{

@@ -54,8 +54,8 @@
 
             <div class="publish-product-form-container-item">
                 <div class="label-input horizontal">
-                    <label for="cover_url">Cover URL</label>
-                    <input type="url" name="cover_url" id="cover_url">
+                    <label for="cover_url">Cover URL*</label>
+                    <input type="url" name="cover_url" id="cover_url" required>
                 </div>
 
                 <div class="label-input horizontal">

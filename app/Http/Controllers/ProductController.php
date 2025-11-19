@@ -103,6 +103,8 @@ class ProductController extends Controller
             'visibility_setting' => 'required|in:Public,Unlisted,Private',
             'file_url' => 'required|url',
 
+            'cover_url' => 'required|url',
+
             'images' => 'nullable|array',
             'images.*' => 'nullable|url',
             'videos' => 'nullable|array',
@@ -126,6 +128,11 @@ class ProductController extends Controller
             $product->save();
 
             \Log::info('Product saved ID: '.$product->id);
+
+            Image::create([
+                'product_id' => $product->id,
+                'image_url' => $validated['file_url'],
+            ]);
 
             // 3. Create related images (explicitly set product_id)
             if (! empty($validated['images'])) {
@@ -226,7 +233,7 @@ class ProductController extends Controller
             'upload_date' => 'nullable|date',
             'approval_date' => 'nullable|date',
             'visibility_setting' => 'required|in:Public,Unlisted,Private',
-            'file_url' => 'nullable|url',
+            'file_url' => 'required|url',
 
             'images' => 'nullable|array',
             'images.*' => 'nullable|url',
