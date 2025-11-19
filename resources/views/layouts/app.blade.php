@@ -41,6 +41,8 @@
     <script src="{{ asset('js/favorites.js') }}"></script>
     <script src="{{ asset('js/carousel.js') }}"></script>
     <script src="{{ asset('js/publish-game-interactions.js') }}"></script>
+    <script src="{{ asset('js/add-file.js') }}"></script>
+
     @stack('scripts')
   </body>
 </html>
