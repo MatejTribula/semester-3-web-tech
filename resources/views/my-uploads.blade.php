@@ -18,7 +18,6 @@ if (count($carouselImages) === 0)
 @section('content')
 {{-- <x-carousel :imageSources="$carouselImages" /> --}}
 
-
  <x-card-section 
  title="My Uploads"
  filter-name="homeFilter"
@@ -37,10 +36,5 @@ if (count($carouselImages) === 0)
             :image="$product->images[0]->image_url" 
         />
     @endforeach
-
  </x-card-section>
-
-
-
-        
 @endsection

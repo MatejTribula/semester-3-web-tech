@@ -23,7 +23,6 @@ $carouselImages = collect($products)
 {{-- :filter-options='["A -> Z", "Z -> A"]'> --}}
 
     @foreach ($products as $product)
-
         <x-product-card 
             :id="$product->id" 
             :title="$product->title" 
