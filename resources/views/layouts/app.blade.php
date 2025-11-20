@@ -41,5 +41,7 @@
     <script src="{{ asset('js/favorites.js') }}"></script>
     <script src="{{ asset('js/carousel.js') }}"></script>
     @stack('scripts')
+    
+    @yield('scripts')
   </body>
 </html>

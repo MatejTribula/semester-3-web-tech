@@ -398,6 +398,27 @@ header nav a:hover{
     justify-content: space-between;
     align-items: center;
 }
+.tag-button {
+    background: var(--clr-primary);
+    color: var(--clr-light);
+    padding: 8px 20px;
+    border: none;
+    border-radius: 3px;
+    font-weight: bold;
+    cursor: pointer;
+
+    margin: 6px; 
+}
+
+.tag-button:hover {
+    /* hovering the buttons brighten them slightly*/
+    background: #ff9b4a;
+}
+.tag-button.active {
+    /* darkens the styling of the active tag */
+    background-color: var(--clr-dark);
+    color: var(--clr-light);
+}
 
 .card-img{
     height: 175px;
