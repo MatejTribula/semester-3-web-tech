@@ -68,7 +68,6 @@ class ProductController extends Controller
             ->values();
 
         return view('products.index', compact('products','tags'));
-        // return response()->json($products, 200); // json for now
     }
 
     public function show($id)
@@ -200,10 +199,8 @@ class ProductController extends Controller
             DB::commit();
 
             // 7. Return response
-            return response()->json([
-                'message' => 'Product created successfully!',
-                'product' => $product,
-            ], 201);
+            return redirect()->route('show', ['id' => $product->id]);
+            
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -324,10 +321,7 @@ class ProductController extends Controller
 
             DB::commit();
 
-            return response()->json([
-                'message' => 'Product updated successfully!',
-                'product' => $product,
-            ], 200);
+            return redirect()->route('show', ['id' => $product->id]);
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -351,8 +345,7 @@ class ProductController extends Controller
         // Delete the product (tags, images, videos will cascade automatically)
         $product->delete();
 
-        return response()->json([
-            'message' => 'Product and all related data deleted successfully.',
-        ]);
+        return redirect()->route('my-uploads');
+
     }
 }

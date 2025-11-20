@@ -29,11 +29,8 @@ class AuthController extends Controller
         // Log in the user immediately
         Auth::login($user);
 
-        // Return success response
-        return response()->json([
-            'message' => 'User registered and logged in successfully',
-            'user' => $user,
-        ], 201);
+
+        return redirect('/products');
     }
 
     public function showRegister()
@@ -50,13 +47,11 @@ class AuthController extends Controller
         ]);
 
         if (! auth()->attempt($request->only('email', 'password'))) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
+            return response()->json(['message' => 'Invalid credentials'], 401); // TODO
         }
 
-        return response()->json([
-            'message' => 'Logged in successfully',
-            'user' => auth()->user(),
-        ]);
+         return redirect('/products');
+
     }
 
     public function showLogin()
@@ -68,8 +63,7 @@ class AuthController extends Controller
     {
         auth()->logout();
 
-        return response()->json([
-            'message' => 'Logged out successfully',
-        ]);
+         return redirect('/products');
+
     }
 }
