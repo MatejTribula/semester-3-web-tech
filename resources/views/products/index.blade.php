@@ -1,12 +1,13 @@
 @php
 $carouselImages = collect($products)
-    ->map(fn($p) => $p->images[0]->image_url ?? null) // take first image
-    ->filter() // remove nulls (products with no images)
-    ->values() // reindex
+    ->map(fn($p) => [
+        'src' => $p->images[0]->image_url ?? null,
+        'id' => $p->id
+    ])
+    ->filter(fn($item) => $item['src']) // remove nulls
+    ->values()
     ->all();
 @endphp
-
-
 
 @extends('layouts.app')
 
@@ -16,12 +17,9 @@ $carouselImages = collect($products)
 
 <x-carousel :imageSources="$carouselImages" />
 
-
- <x-card-section 
+<x-card-section 
  title="Explore"
  filter-name="homeFilter">
-{{-- :filter-options='["A -> Z", "Z -> A"]'> --}}
-
     @foreach ($products as $product)
         <x-product-card 
             :id="$product->id" 
@@ -30,10 +28,6 @@ $carouselImages = collect($products)
 
         />
     @endforeach
+</x-card-section>
 
- </x-card-section>
-
-
-
-        
 @endsection
