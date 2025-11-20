@@ -49,6 +49,18 @@ $isFavorited = auth()->check()
     @endforeach
   </div>
 
+  <section class="product-collaborators">
+  <h3>Made by:</h3>
+  @php $count = $product->collaborators->count(); @endphp
+  <p>
+    @for ($i = 0; $i < $count; $i++)
+      @php $c = $product->collaborators[$i]; @endphp
+      <a class = "collaborator" href = "{{ route('profile', ['userId' => $c->id]) }}"> {{ $c->nickname }} </a> @if($i < $count - 1), @endif
+    @endfor
+  </p>
+
+</section>
+
   <p>{{$product->description}}</p>
 </div>
 
@@ -65,20 +77,6 @@ $isFavorited = auth()->check()
     <img src="{{ $image->image_url }}" alt="">
   @endforeach
   </div>
-</section>
-
-<section class="product-collaborators">
-  <h3>Made by:</h3>
-
-  @php $count = $product->collaborators->count(); @endphp
-
-  <p>
-    @for ($i = 0; $i < $count; $i++)
-      @php $c = $product->collaborators[$i]; @endphp
-      <a class = "collaborator" href = "{{ route('profile', ['userId' => $c->id]) }}"> {{ $c->nickname }} </a> @if($i < $count - 1), @endif
-    @endfor
-  </p>
-
 </section>
 
   @endsection
