@@ -95,6 +95,7 @@ class ProductController extends Controller
         return view('products.create', ['user' => $user]);
     }
 
+    /// JSON response stayed because if we get an error here, something is very wrong.
     public function store(Request $request)
     {
 
@@ -224,10 +225,11 @@ class ProductController extends Controller
         ]);
     }
 
+    /// JSON response stayed because if we get an error here, something is very wrong.
     public function update(Request $request, $id)
     {
         if (! $this->isAuthorizedToEditProduct($id)) {
-            return response()->json(['error' => 'Unauthorized access to this product'], 403);
+            abort(403, 'Unauthorized access to this product');
         }
 
         $validated = $request->validate([
@@ -335,7 +337,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
 
         if (! $this->isAuthorizedToEditProduct($product)) {
-            return response()->json(['error' => 'Unauthorized access to this product'], 403);
+            abort(403, 'Unauthorized access to this product');
         }
 
         // Detach pivot table relations
