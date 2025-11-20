@@ -47,7 +47,7 @@ class AuthController extends Controller
         ]);
 
         if (! auth()->attempt($request->only('email', 'password'))) {
-            return response()->json(['message' => 'Invalid credentials'], 401); // TODO
+            return back()->withErrors(['error' => 'Invalid credentials'])->withInput();
         }
 
          return redirect('/products');

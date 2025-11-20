@@ -12,7 +12,17 @@
 
            <form action="{{ route('login') }}" method="POST">
             @csrf
+
+            
+
             <div class="label-input-container">
+                @if ($errors->any())
+                <div class="auth-error">
+                    @foreach ($errors->all() as $error)
+                        <p>{{ $error }}</p>
+                    @endforeach
+                </div>
+            @endif
             <div class="label-input">
                 <label for="email">Email</label>
                 <input name="email" type="email" required>

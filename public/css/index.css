@@ -513,6 +513,16 @@ header nav a:hover{
     text-align: center;
 }
 
+.auth-error{
+    background-color: #ffdddd;
+    border: 1px solid #ff5c5c;
+    color: #a70000;
+    padding: 10px;
+    border-radius: 3px;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
 .other-auth-option-a{
     color: var(--clr-primary);
     font-weight: bold;
