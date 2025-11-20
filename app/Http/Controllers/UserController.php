@@ -50,6 +50,7 @@ class UserController extends Controller
         return view('profile', compact('user'), compact('products'));
     }
     
+    /// Returns JSON because it is called only via Javascript
     public function updateProfile(Request $request, $userId)
     {
         // Only allow users to edit their own profile
@@ -85,26 +86,4 @@ class UserController extends Controller
             'user' => $user
         ]);
     }
-    //display their profile picture (alr in model)
-    //display their name (alr in model)
-    //display their bio
-    //display all their created and contributed games
-
-
-    //edit your own profile
-    /*
-    public function editProfile($userId = null){
-        $userId = $userId ?? auth()->userId();
-
-        if (! $id) 
-        {
-            abort(403, 'Not authenticated');
-        }
-    }*/
-    //edit profile picture
-
-    //edit bio
-
-    //click "done", update authenticated user profile at the end of editing
-
 }

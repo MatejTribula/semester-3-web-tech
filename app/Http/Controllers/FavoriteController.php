@@ -24,6 +24,7 @@ class FavoriteController extends Controller
         return view('favorites', compact('products'));
     }
 
+    /// Returns JSON because it is called only via Javascript
     public function addFavorite(Request $request, $id)
     {
         $user = $request->user();
@@ -46,6 +47,7 @@ class FavoriteController extends Controller
         return response()->json(['message' => 'Product added to favorites'], 200);
     }
 
+    /// Returns JSON because it is called only via Javascript
     public function removeFavorite(Request $request, $id)
     {
         $user = $request->user();
