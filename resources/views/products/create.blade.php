@@ -3,14 +3,13 @@
 @section('title', 'Publish New Game')
 
 @section('content')
-<div class="container2">
     <h2>Publish New Game</h2>
-    
-    <form class="publish-form" action="{{ route('store') }}" method="POST">
+
+    <form class="product-form" action="{{ route('store') }}" method="POST">
         @csrf
 
-        <div class="container3">
-            <div class="form-column">
+        <div class="publish-product-form-container">
+            <div class="publish-product-form-container-item">
                 <div class="label-input horizontal">
                     <label for="title">Title*</label>
                     <input type="text" name="title" id="title" maxlength="64" required>
@@ -18,7 +17,7 @@
 
                 <div class="label-input horizontal">
                     <label for="description">Description</label>
-                    <textarea name="description" id="description" rows="6"></textarea>
+                    <textarea name="description" id="description" cols="30" rows="10"></textarea>
                 </div>
 
                 <div class="label-input horizontal">
@@ -31,73 +30,74 @@
                 </div>
 
                 <div class="label-input horizontal">
-                    <label>Tags</label>
-                    <div id="tags-wrapper" class="input-group">
+                    <label for="tags-wrapper">Tags</label>
+                    <div id="tags-wrapper">
                         <input type="text" name="tags[]" maxlength="32" placeholder="Tag">
                     </div>
-                    <button type="button" class="add-btn" onclick="addField('tags-wrapper','tags[]','text')">+ Add another tag</button>
+                    <button type="button" onclick="addField('tags-wrapper', 'tags[]', 'text')">+ Add another tag</button>
                 </div>
 
                 <div class="label-input horizontal">
-                    <label>Contributors (User IDs)</label>
-                    <div id="collaborators-wrapper" class="input-group">
+                    <label for="collaborators-wrapper">Contributors (User IDs)</label>
+                    <div id="collaborators-wrapper">
                         <input type="number" value="{{ $user->id }}" readonly>
                         <input type="number" name="collaborators[]" placeholder="Collaborator ID">
                     </div>
-                    <button type="button" class="add-btn" onclick="addField('collaborators-wrapper','collaborators[]','number')">+ Add another contributor</button>
+                    <button type="button" onclick="addField('collaborators-wrapper', 'collaborators[]', 'number')">+ Add another contributor</button>
                 </div>
 
                 <div class="label-input horizontal">
-                    <label for="file_url">Game File URL*</label>
+                    <label for="file_url">Game File URL *</label>
                     <input type="url" name="file_url" id="file_url" required>
                 </div>
-
-                <button type="submit" class="save-btn">Save</button>
             </div>
 
-            <div class="right-column">
+            <div class="publish-product-form-container-item">
                 <div class="label-input horizontal">
                     <label for="cover_url">Cover URL*</label>
                     <input type="url" name="cover_url" id="cover_url" required>
                 </div>
 
                 <div class="label-input horizontal">
-                    <label>Images (URLs)</label>
-                    <div id="images-wrapper" class="input-group">
+                    <label for="images-wrapper">Images (URLs)</label>
+                    <div id="images-wrapper">
                         <input type="url" name="images[]" placeholder="Image URL">
                     </div>
-                    <button type="button" class="add-btn" onclick="addField('images-wrapper','images[]','url')">+ Add another image</button>
+                    <button type="button" onclick="addField('images-wrapper', 'images[]', 'url')">+ Add another image</button>
                 </div>
 
                 <div class="label-input horizontal">
-                    <label>Videos (URLs)</label>
-                    <div id="videos-wrapper" class="input-group">
+                    <label for="videos-wrapper">Videos (URLs)</label>
+                    <div id="videos-wrapper">
                         <input type="url" name="videos[]" placeholder="Video URL">
                     </div>
-                    <button type="button" class="add-btn" onclick="addField('videos-wrapper','videos[]','url')">+ Add another video</button>
+                    <button type="button" onclick="addField('videos-wrapper', 'videos[]', 'url')">+ Add another video</button>
                 </div>
             </div>
         </div>
-    </form>
-</div>
 
-<script>
-function addField(wrapperId, name, type) {
-    const wrapper = document.getElementById(wrapperId);
-    const input = document.createElement('input');
-    input.type = type;
-    input.name = name;
-    
-    if (name === 'collaborators[]') {
-        input.placeholder = 'Collaborator ID';
-    } else if (name === 'tags[]') {
-        input.placeholder = 'Tag';
-        input.maxLength = 32;
-    } else {
-        input.placeholder = name.replace('[]', '').replace(/s$/, '') + ' URL';
-    }
-    
-    wrapper.appendChild(input);
-}
-</script>
+        <button type="submit">Save</button>
+    </form>
+
+    <script>
+        function addField(wrapperId, name, type) {
+            const wrapper = document.getElementById(wrapperId);
+            const input = document.createElement('input');
+            input.type = type;
+            input.name = name;
+            let placeholder = name.replace('s[]', '')
+
+            if(name === "collaborators[]"){
+                input.placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1)+ " ID";
+            }else if(name === "tags[]"){
+                input.placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1);
+            }
+            else{
+            input.placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1)+ " URL";
+
+            }
+            if (name === 'tags[]') input.maxLength = 32;
+            wrapper.appendChild(input);
+        }
+    </script>
 @endsection
