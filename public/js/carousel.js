@@ -13,16 +13,25 @@ let currentIndex = 0;
 let interval;
 
 const imgElement = document.createElement("img");
-imgElement.src = imageSources[0];
+imgElement.src = imageSources[0]?.src || imageSources[0];
 imgElement.alt = "carousel image";
 imgElement.style.transition = "opacity 0.5s ease";
 imgElement.style.width = "100%";
 imgElement.style.height = "auto";
+imgElement.style.cursor = "pointer";  // show it's clickable
 imgContainer.appendChild(imgElement);
+
+// Make image clickable
+imgElement.addEventListener("click", () => {
+  const item = imageSources[currentIndex];
+  const productId = item?.id || item;
+  if (productId) {
+    window.location.href = `/products/${productId}`;
+  }
+});
 
 dotsContainer.innerHTML = "";
 imageSources.forEach((_, i) => {
-  console.log(imageSources[i])
   const dot = document.createElement("div");
   dot.classList.add("carousel-dot");
   if (i === 0) dot.classList.add("active");
@@ -35,7 +44,8 @@ const dots = dotsContainer.querySelectorAll(".carousel-dot");
 function updateCarousel() {
   imgElement.style.opacity = 0;
   setTimeout(() => {
-    imgElement.src = imageSources[currentIndex];
+    const item = imageSources[currentIndex];
+    imgElement.src = item?.src || item;
     imgElement.style.opacity = 1;
   }, 200);
   dots.forEach((dot, i) => dot.classList.toggle("active", i === currentIndex));
