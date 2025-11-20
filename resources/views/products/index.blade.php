@@ -1,7 +1,10 @@
 @php
 $carouselImages = collect($products)
-    ->map(fn($p) => $p->images[0]->image_url ?? null)
-    ->filter()
+    ->map(fn($p) => [
+        'src' => $p->images[0]->image_url ?? null,
+        'id' => $p->id
+    ])
+    ->filter(fn($item) => $item['src']) // remove nulls
     ->values()
     ->all();
 @endphp
@@ -12,7 +15,7 @@ $carouselImages = collect($products)
 
 @section('content')
 
-    <x-carousel :imageSources="$carouselImages" />
+<x-carousel :imageSources="$carouselImages" />
 
     <x-card-section 
         title="Explore"

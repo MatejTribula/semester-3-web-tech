@@ -3,150 +3,101 @@
 @section('title', 'Publish New Game')
 
 @section('content')
-    <h2>{{ 'Publish New Game' }}</h2>
-    <form action="{{ route('store') }}" method="POST">
-    @csrf
-        <div class="container3">
-            <div class="container4">
-                <label>Title</label>
-                <input type="text" name="title" id="title" maxlength="64" required>
+    <h2>Publish New Game</h2>
 
-                <label>Description</label>
-                <textarea name="description" id="description"></textarea>
+    <form class="product-form" action="{{ route('store') }}" method="POST">
+        @csrf
 
-                
-                    <label>Tags:</label>
-                    <div>
-                        <div id="tags-wrapper">
-                        </div>
-                        <button style = "width:100%;" type="button" onclick="addField('tags-wrapper', 'tags[]', 'text', 'Tag')">+ Add another tag</button>
-                    </div>
-
-                <label>Collaborators:</label>
-                <div>
-                    <div id="collaborators-wrapper">
-                    </div>
-                    <button style = "width:100%;" type="button" onclick="addField('collaborators-wrapper', 'collaborators[]', 'number', 'User ID')">+ Add another collaborator</button>
+        <div class="publish-product-form-container">
+            <div class="publish-product-form-container-item">
+                <div class="label-input horizontal">
+                    <label for="title">Title*</label>
+                    <input type="text" name="title" id="title" maxlength="64" required>
                 </div>
 
-                <label>Game File</label>
-                <x-add-file type="url" name="file_url" id="file_url"/>
+                <div class="label-input horizontal">
+                    <label for="description">Description</label>
+                    <textarea name="description" id="description" cols="30" rows="10"></textarea>
+                </div>
 
-                <label for="visibility_setting">Visibility Setting:</label>
-                <select name="visibility_setting" id="visibility_setting" required>
-                    <option value="Public">Public</option>
-                    <option value="Unlisted">Unlisted</option>
-                    <option value="Private">Private</option>
-                </select>
+                <div class="label-input horizontal">
+                    <label for="visibility_setting">Visibility Setting*</label>
+                    <select name="visibility_setting" id="visibility_setting" required>
+                        <option value="Public">Public</option>
+                        <option value="Unlisted">Unlisted</option>
+                        <option value="Private">Private</option>
+                    </select>
+                </div>
 
-                <input value = "{{ date('Y-m-d') }}" type="date" name="upload_date" id="upload_date" hidden>
-                <input value = "" type="date" name="approval_date" id="approval_date" hidden>
+                <div class="label-input horizontal">
+                    <label for="tags-wrapper">Tags</label>
+                    <div id="tags-wrapper">
+                        <input type="text" name="tags[]" maxlength="32" placeholder="Tag">
+                    </div>
+                    <button type="button" onclick="addField('tags-wrapper', 'tags[]', 'text')">+ Add another tag</button>
+                </div>
+
+                <div class="label-input horizontal">
+                    <label for="collaborators-wrapper">Contributors (User IDs)</label>
+                    <div id="collaborators-wrapper">
+                        <input type="number" value="{{ $user->id }}" readonly>
+                        <input type="number" name="collaborators[]" placeholder="Collaborator ID">
+                    </div>
+                    <button type="button" onclick="addField('collaborators-wrapper', 'collaborators[]', 'number')">+ Add another contributor</button>
+                </div>
+
+                <div class="label-input horizontal">
+                    <label for="file_url">Game File URL *</label>
+                    <input type="url" name="file_url" id="file_url" required>
+                </div>
             </div>
-            <div class="container4">
-                <div class="right-column">
-                    <div class="logo-section">
-                        <label>Logo</label>
-                        <x-add-file type="url" name="logo" id="logo" logo="true"/>
-                    </div>
-                    
-                    <div class="media-section">
-                        <label>Images</label>
-                        <div class="container5">
-                            <x-add-file wrapper="images-wrapper" type="url" name="images[]"/>
-                        </div>
-                    </div>
 
-                    <div class="media-section">
-                        <label>Videos</label>
-                        <div class="container5">
-                            <x-add-file wrapper="videos-wrapper" type="url" name="videos[]"/>
-                        </div>
-                    </div>
+            <div class="publish-product-form-container-item">
+                <div class="label-input horizontal">
+                    <label for="cover_url">Cover URL*</label>
+                    <input type="url" name="cover_url" id="cover_url" required>
+                </div>
 
+                <div class="label-input horizontal">
+                    <label for="images-wrapper">Images (URLs)</label>
                     <div id="images-wrapper">
+                        <input type="url" name="images[]" placeholder="Image URL">
                     </div>
+                    <button type="button" onclick="addField('images-wrapper', 'images[]', 'url')">+ Add another image</button>
+                </div>
 
+                <div class="label-input horizontal">
+                    <label for="videos-wrapper">Videos (URLs)</label>
                     <div id="videos-wrapper">
+                        <input type="url" name="videos[]" placeholder="Video URL">
                     </div>
-
-                    <div id="logo-wrapper">
-                    </div>
-
+                    <button type="button" onclick="addField('videos-wrapper', 'videos[]', 'url')">+ Add another video</button>
                 </div>
             </div>
         </div>
-        <button type="submit">Publish Game</button>
-     </form>
-        
-@endsection 
 
-<script>
-function addField(wrapperId, name, type, placeholder) 
-{
-    const wrapper = document.getElementById(wrapperId);
-    const row = document.createElement('div');
-    row.className = 'field-row';
+        <button type="submit">Save</button>
+    </form>
 
-    const input = document.createElement('input');
-    input.type = type;
-    input.name = name;
-    input.placeholder = placeholder;
-    if (name === 'tags[]') input.maxLength = 32;
-    row.appendChild(input);
+    <script>
+        function addField(wrapperId, name, type) {
+            const wrapper = document.getElementById(wrapperId);
+            const input = document.createElement('input');
+            input.type = type;
+            input.name = name;
+            let placeholder = name.replace('s[]', '')
 
-    const removeBtn = document.createElement('button');
-    removeBtn.type = 'button';
-    removeBtn.className = 'remove-field';
-    removeBtn.textContent = '−';
-    removeBtn.title = 'Remove';
-    removeBtn.addEventListener('click', function () {
-        row.remove();
-        updateRemoveButtons(wrapperId);
-        ensureAtLeastOne(wrapperId, name, type, placeholder);
-    });
-    row.appendChild(removeBtn);
+            if(name === "collaborators[]"){
+                input.placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1)+ " ID";
+            }else if(name === "tags[]"){
+                input.placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1);
+            }
+            else{
+            input.placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1)+ " URL";
 
-    wrapper.appendChild(row);
-    updateRemoveButtons(wrapperId);
-}
-
-function updateRemoveButtons(wrapperId) 
-{
-    const wrapper = document.getElementById(wrapperId);
-    if (!wrapper) return;
-    const rows = wrapper.querySelectorAll('.field-row');
-    rows.forEach((row, idx) => {
-        const btn = row.querySelector('.remove-field');
-        if (!btn) return;
-        // hide remove for the first row, show for others
-        btn.style.display = idx === 0 ? 'none' : '';
-    });
-}
-
-function ensureAtLeastOne(wrapperId, name, type, placeholder)
-{
-    const wrapper = document.getElementById(wrapperId);
-    if (!wrapper) return;
-    if (!wrapper.querySelector('.field-row')) 
-    {
-        addField(wrapperId, name, type, placeholder);
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    // ensure initial fields exist
-    if (document.getElementById('tags-wrapper') && !document.getElementById('tags-wrapper').querySelector('.field-row')) 
-    {
-        addField('tags-wrapper', 'tags[]', 'text', 'Tag');
-    }
-    if (document.getElementById('collaborators-wrapper') && !document.getElementById('collaborators-wrapper').querySelector('.field-row')) 
-        {
-        addField('collaborators-wrapper', 'collaborators[]', 'number', 'User ID');
-        // set first collaborator to current user (optional)
-        const firstInput = document.querySelector('#collaborators-wrapper .field-row input');
-        if (firstInput) firstInput.value = "{{ auth()->id() }}";
-        if (firstInput) firstInput.readOnly = true;
-    }
-});
-</script>
-
+            }
+            if (name === 'tags[]') input.maxLength = 32;
+            wrapper.appendChild(input);
+        }
+    </script>
+@endsection

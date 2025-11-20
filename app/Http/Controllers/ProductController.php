@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Tag;
 use App\Models\Video;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
@@ -18,21 +19,18 @@ class ProductController extends Controller
             ? $productOrId
             : Product::with(['images', 'videos', 'tags', 'collaborators', 'favorites'])->find($productOrId);
 
-        if (!$product) 
-        {
+        if (! $product) {
             return false;
         }
 
         // public or unlisted are accessible to everyone
-        if (in_array($product->visibility_setting, ['Public', 'Unlisted'])) 
-        {
+        if (in_array($product->visibility_setting, ['Public', 'Unlisted'])) {
             return true;
         }
 
         // otherwise require authenticated collaborator
         $user = auth()->user();
-        if (!$user) 
-        {
+        if (! $user) {
             return false;
         }
 
@@ -46,15 +44,13 @@ class ProductController extends Controller
             ? $productOrId
             : Product::with(['images', 'videos', 'tags', 'collaborators', 'favorites'])->find($productOrId);
 
-        if (!$product) 
-        {
+        if (! $product) {
             return false;
         }
 
         // otherwise require authenticated collaborator
         $user = auth()->user();
-        if (!$user) 
-        {
+        if (! $user) {
             return false;
         }
 
@@ -85,8 +81,7 @@ class ProductController extends Controller
             'favorites',
         ])->findOrFail($id); // automatically throws 404 if not found
 
-        if (!$this->isAuthorizedToSeeProduct($product)) 
-        {
+        if (! $this->isAuthorizedToSeeProduct($product)) {
             abort(403, 'Unauthorized access to this product');
         }
 
@@ -96,11 +91,15 @@ class ProductController extends Controller
 
     public function create()
     {
-        return view('products.create');
+        $user = Auth::user();
+
+        return view('products.create', ['user' => $user]);
     }
 
     public function store(Request $request)
     {
+
+        $user = Auth::user();
         $validated = $request->validate([
             'title' => 'required|string|max:64',
             'logo' => 'nullable|url',
@@ -108,16 +107,18 @@ class ProductController extends Controller
             'upload_date' => 'nullable|date',
             'approval_date' => 'nullable|date',
             'visibility_setting' => 'required|in:Public,Unlisted,Private',
-            'file_url' => 'nullable|url',
+            'file_url' => 'required|url',
+
+            'cover_url' => 'required|url',
 
             'images' => 'nullable|array',
-            'images.*' => 'required|url',
+            'images.*' => 'nullable|url',
             'videos' => 'nullable|array',
-            'videos.*' => 'required|url',
+            'videos.*' => 'nullable|url',
             'tags' => 'nullable|array',
-            'tags.*' => 'required|string|max:32',
+            'tags.*' => 'nullable|string|max:32',
             'collaborators' => 'nullable|array',
-            'collaborators.*' => 'required|integer|exists:users,id',
+            'collaborators.*' => 'nullable|integer|exists:users,id',
         ]);
 
         DB::beginTransaction();
@@ -133,19 +134,18 @@ class ProductController extends Controller
             $product->save();
 
             \Log::info('Product saved ID: '.$product->id);
-            
-            // 2. Validate the logo and add it as an first image for the product
-            if (isset($validated['logo'])) 
-            {
-                $image = new Image;
-                $image->product_id = $product->id;
-                $image->image_url = $validated['logo'];
-                $image->save();
-            }
+
+            Image::create([
+                'product_id' => $product->id,
+                'image_url' => $validated['file_url'],
+            ]);
 
             // 3. Create related images (explicitly set product_id)
             if (! empty($validated['images'])) {
                 foreach ($validated['images'] as $url) {
+                    if (! $url) {
+                        continue;
+                    }
                     $image = new Image;
                     $image->product_id = $product->id;
                     $image->image_url = $url;
@@ -156,6 +156,9 @@ class ProductController extends Controller
             // 4. Create related videos
             if (! empty($validated['videos'])) {
                 foreach ($validated['videos'] as $url) {
+                    if (! $url) {
+                        continue;
+                    }
                     $video = new Video;
                     $video->product_id = $product->id;
                     $video->video_url = $url; // make sure Video has video_url field
@@ -166,6 +169,9 @@ class ProductController extends Controller
             // 5. Create related tags
             if (! empty($validated['tags'])) {
                 foreach ($validated['tags'] as $tagName) {
+                    if (! $tagName) {
+                        continue;
+                    }
                     $tag = new Tag;
                     $tag->product_id = $product->id;
                     $tag->tag_value = $tagName; // make sure Tag has name field
@@ -173,9 +179,17 @@ class ProductController extends Controller
                 }
             }
 
+            DB::table('product_collaborators')->insert([
+                'product_id' => $product->id,
+                'user_id' => $user->id,
+            ]);
+
             // 6. Create related collaborators
             if (! empty($validated['collaborators'])) {
                 foreach ($validated['collaborators'] as $userId) {
+                    if (! $userId) {
+                        continue;
+                    }
                     DB::table('product_collaborators')->insert([
                         'product_id' => $product->id,
                         'user_id' => $userId,
@@ -200,20 +214,22 @@ class ProductController extends Controller
 
     public function edit($id)
     {
+        $user = auth()->user();
         $product = Product::with(['images', 'videos', 'tags', 'collaborators'])->findOrFail($id);
 
-        if(!$this->isAuthorizedToEditProduct($product)) 
-        {
+        if (! $this->isAuthorizedToEditProduct($product)) {
             abort(403, 'Unauthorized access to this product');
         }
 
-        return view('products.edit', ['product' => $product]);
+        return view('products.edit', [
+            'product' => $product,
+            'user' => $user,
+        ]);
     }
 
     public function update(Request $request, $id)
     {
-        if (! this->isAuthorizedToEditProduct($id)) 
-        {
+        if (! $this->isAuthorizedToEditProduct($id)) {
             return response()->json(['error' => 'Unauthorized access to this product'], 403);
         }
 
@@ -223,16 +239,16 @@ class ProductController extends Controller
             'upload_date' => 'nullable|date',
             'approval_date' => 'nullable|date',
             'visibility_setting' => 'required|in:Public,Unlisted,Private',
-            'file_url' => 'nullable|url',
+            'file_url' => 'required|url',
 
             'images' => 'nullable|array',
-            'images.*' => 'required|url',
+            'images.*' => 'nullable|url',
             'videos' => 'nullable|array',
-            'videos.*' => 'required|url',
+            'videos.*' => 'nullable|url',
             'tags' => 'nullable|array',
-            'tags.*' => 'required|string|max:32',
+            'tags.*' => 'nullable|string|max:32',
             'collaborators' => 'nullable|array',
-            'collaborators.*' => 'required|integer|exists:users,id',
+            'collaborators.*' => 'nullable|integer|exists:users,id',
         ]);
 
         DB::beginTransaction();
@@ -255,10 +271,12 @@ class ProductController extends Controller
             if (isset($validated['images'])) {
                 Image::where('product_id', $product->id)->delete();
                 foreach ($validated['images'] as $url) {
-                    Image::create([
-                        'product_id' => $product->id,
-                        'image_url' => $url,
-                    ]);
+                    if ($url) {
+                        Image::create([
+                            'product_id' => $product->id,
+                            'image_url' => $url,
+                        ]);
+                    }
                 }
             }
 
@@ -266,10 +284,12 @@ class ProductController extends Controller
             if (isset($validated['videos'])) {
                 Video::where('product_id', $product->id)->delete();
                 foreach ($validated['videos'] as $url) {
-                    Video::create([
-                        'product_id' => $product->id,
-                        'video_url' => $url,
-                    ]);
+                    if ($url) {
+                        Video::create([
+                            'product_id' => $product->id,
+                            'video_url' => $url,
+                        ]);
+                    }
                 }
             }
 
@@ -277,10 +297,12 @@ class ProductController extends Controller
             if (isset($validated['tags'])) {
                 Tag::where('product_id', $product->id)->delete();
                 foreach ($validated['tags'] as $tagName) {
-                    Tag::create([
-                        'product_id' => $product->id,
-                        'tag_value' => $tagName,
-                    ]);
+                    if ($tagName) {
+                        Tag::create([
+                            'product_id' => $product->id,
+                            'tag_value' => $tagName,
+                        ]);
+                    }
                 }
             }
 
@@ -291,10 +313,12 @@ class ProductController extends Controller
                     ->delete();
 
                 foreach ($validated['collaborators'] as $userId) {
-                    DB::table('product_collaborators')->insert([
-                        'product_id' => $product->id,
-                        'user_id' => $userId,
-                    ]);
+                    if ($userId) {
+                        DB::table('product_collaborators')->insert([
+                            'product_id' => $product->id,
+                            'user_id' => $userId,
+                        ]);
+                    }
                 }
             }
 
@@ -316,8 +340,7 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
 
-        if (!$this->isAuthorizedToEditProduct($product)) 
-        {
+        if (! $this->isAuthorizedToEditProduct($product)) {
             return response()->json(['error' => 'Unauthorized access to this product'], 403);
         }
 

@@ -687,7 +687,7 @@ footer p{
 .product-info-image-container{
     display: grid;
     gap: 32px;
-
+    align-items: start;
     grid-template-columns: 3fr 2fr;
 }
 
@@ -695,18 +695,26 @@ footer p{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: 100%;
 }
 
 .product-info{
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 16px;
+    flex: 1;
+}
+
+.product-collaborators{
+    margin-top: auto;
+    margin-bottom: 16px;
 }
 
 .product-info-header{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 8px;
 }
 
 .product-info-header i{
@@ -725,6 +733,7 @@ footer p{
     flex-wrap: wrap;
     align-items: flex-start;
     gap: 8px;
+    margin-top: 0;
 }
 
 .product-tags p{

@@ -1,4 +1,4 @@
-@php
+{{-- @php
 $carouselImages = collect($products)
     ->map(fn($p) => $p->images[0]->image_url ?? null) // take first image
     ->filter() // remove nulls (products with no images)
@@ -9,15 +9,14 @@ if (count($carouselImages) === 0)
 {
     $carouselImages = [ asset('images/orange.png') ];
 }
-@endphp
+@endphp --}}
 
 @extends('layouts.app')
 
 @section('title', 'Home')
 
 @section('content')
-<x-carousel :imageSources="$carouselImages" />
-
+{{-- <x-carousel :imageSources="$carouselImages" /> --}}
 
  <x-card-section 
  title="My Uploads"
@@ -26,16 +25,16 @@ if (count($carouselImages) === 0)
     <x-add-game-card/>
     @foreach ($products as $product)
 
-        <x-product-card 
+        {{-- <x-product-card 
+            :id="$product->id" 
+            :title="$product->title" 
+            :image="$product->images[0]->image_url" 
+        /> --}}
+        <x-edit-product-card 
             :id="$product->id" 
             :title="$product->title" 
             :image="$product->images[0]->image_url" 
         />
     @endforeach
-
  </x-card-section>
-
-
-
-        
 @endsection

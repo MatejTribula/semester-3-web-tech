@@ -40,8 +40,14 @@ class UserController extends Controller
         }
         
         $user = User::with('collaborations')->findOrFail($userId);
+
+        $products = Product::with(['images', 'videos', 'tags', 'collaborators', 'favorites'])
+            ->whereHas('collaborators', function ($q) use ($userId) 
+            {
+                $q->where('users.id', $userId);
+            })->get();
         
-        return view('profile', compact('user'));
+        return view('profile', compact('user'), compact('products'));
     }
     
     public function updateProfile(Request $request, $userId)

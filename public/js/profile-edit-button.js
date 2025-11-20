@@ -98,8 +98,6 @@ async function saveProfile() {
             // Exit edit mode
             isEditMode = false;
             toggleEditMode();
-            
-            // optional: show a toast instead of alert
         } else {
             const error = await response.json();
             console.error('Update error', error);
