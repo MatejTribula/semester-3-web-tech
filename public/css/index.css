@@ -55,14 +55,10 @@ img{
 }
 
 .container3{
-    width: 100%;
-    max-width: 1280px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    padding: 0 1rem;
-    
-    
+    gap: 2rem;
+    margin-top: 2rem;
 }
 
 .container4{
@@ -763,7 +759,7 @@ footer p{
 }
 
 .product-info-header button[data-favorited="0"] i,
-.product-info-header i.fa-regular {
+.product.info-header i.fa-regular {
   color: var(--clr-grey); /* outline star color */
 }
 
