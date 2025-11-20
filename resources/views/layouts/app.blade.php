@@ -44,5 +44,7 @@
     <script src="{{ asset('js/add-file.js') }}"></script>
 
     @stack('scripts')
+    
+    @yield('scripts')
   </body>
 </html>

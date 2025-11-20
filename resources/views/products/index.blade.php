@@ -17,17 +17,34 @@ $carouselImages = collect($products)
 
 <x-carousel :imageSources="$carouselImages" />
 
-<x-card-section 
- title="Explore"
- filter-name="homeFilter">
-    @foreach ($products as $product)
-        <x-product-card 
-            :id="$product->id" 
-            :title="$product->title" 
-            :image="$product->images->first()?->image_url"
+    <x-card-section 
+        title="Explore"
+        filter-name="homeFilter">
 
-        />
-    @endforeach
-</x-card-section>
+        <div class="tag-filter" id="tagFilter">
+            @foreach ($tags as $tag)
+                <button 
+                    type="button" 
+                    class="tag-button" 
+                    data-tag="{{ strtolower($tag->tag_value) }}"
+                >
+                    {{ $tag->tag_value }}
+                </button>
+            @endforeach
+        </div>
 
-@endsection
+        @foreach ($products as $product)
+            <x-product-card 
+                :id="$product->id" 
+                :title="$product->title" 
+                :image="$product->images[0]->image_url" 
+                :tags="$product->tags->pluck('tag_value')->map(fn($t) => strtolower($t))->implode(',')"
+            />
+        @endforeach
+
+    </x-card-section>
+@endsection 
+
+@push('scripts')
+    <script src="{{ asset('js/tag-filter.js') }}"></script>
+@endpush
