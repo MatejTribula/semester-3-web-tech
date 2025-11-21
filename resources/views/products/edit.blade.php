@@ -38,7 +38,7 @@
                     <label for="tags-wrapper">Tags</label>
                     <div id="tags-wrapper">
                         @php
-                            $tags = old('tags', $product->tags->pluck('name')->toArray() ?? []);
+                            $tags = old('tags', $product->tags->pluck('tag_value')->toArray() ?? []);
                             $isFirstTag = true;
                         @endphp
                         @foreach($tags as $tag)
