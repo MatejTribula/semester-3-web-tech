@@ -15,23 +15,27 @@ $carouselImages = collect($products)
 
 @section('content')
 
-<x-carousel :imageSources="$carouselImages" />
+
+
+    <x-carousel :imageSources="$carouselImages" />
+
+    <div class="tag-filter" id="tagFilter">
+        @foreach ($tags as $tag)
+            <button 
+                type="button" 
+                class="tag-button" 
+                data-tag="{{ strtolower($tag->tag_value) }}"
+            >
+                {{ $tag->tag_value }}
+            </button>
+        @endforeach
+    </div>
+
 
     <x-card-section 
         title="Explore"
         filter-name="homeFilter">
 
-        <div class="tag-filter" id="tagFilter">
-            @foreach ($tags as $tag)
-                <button 
-                    type="button" 
-                    class="tag-button" 
-                    data-tag="{{ strtolower($tag->tag_value) }}"
-                >
-                    {{ $tag->tag_value }}
-                </button>
-            @endforeach
-        </div>
 
         @foreach ($products as $product)
             <x-product-card 

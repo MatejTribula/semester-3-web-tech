@@ -714,11 +714,17 @@ footer p{
     color: var(--clr-primary);
 }
 
+.tag-filter {
+    display: flex;
+    flex-wrap: wrap;    
+    gap: 0.25rem;           
+    align-items: center;
+}
+
 .product-tags{
     display: flex;
-    align-items: center;
     flex-wrap: wrap;
-    align-items: flex-start;
+    align-items: flex-center;
     gap: 8px;
 }
 
