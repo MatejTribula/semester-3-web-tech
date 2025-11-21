@@ -7,8 +7,8 @@
 
  <x-card-section 
  title="Favorites"
- filter-name="homeFilter"
-:filter-options='["A -> Z", "Z -> A"]'>
+ filter-name="homeFilter">
+ 
     @foreach ($products as $product)
 
         <x-product-card 

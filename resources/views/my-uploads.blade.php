@@ -20,8 +20,7 @@ if (count($carouselImages) === 0)
 
  <x-card-section 
  title="My Uploads"
- filter-name="homeFilter"
-:filter-options='["A -> Z", "Z -> A"]'>
+ filter-name="homeFilter">
     <x-add-game-card/>
     @foreach ($products as $product)
 
