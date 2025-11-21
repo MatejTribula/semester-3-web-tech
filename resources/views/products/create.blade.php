@@ -41,7 +41,6 @@
                     <label for="collaborators-wrapper">Contributors (User IDs)</label>
                     <div id="collaborators-wrapper">
                         <input type="number" value="{{ $user->id }}" readonly>
-                        <input type="number" name="collaborators[]" placeholder="Collaborator ID">
                     </div>
                     <button type="button" onclick="addField('collaborators-wrapper', 'collaborators[]', 'number')">+ Add another contributor</button>
                 </div>
@@ -80,24 +79,45 @@
     </form>
 
     <script>
-        function addField(wrapperId, name, type) {
+        function addField(wrapperId, name, type) 
+        {
             const wrapper = document.getElementById(wrapperId);
             const input = document.createElement('input');
             input.type = type;
             input.name = name;
-            let placeholder = name.replace('s[]', '')
 
-            if(name === "collaborators[]"){
+            const fieldRow = document.createElement('div');
+            fieldRow.className = 'deletable-field-row ';
+
+            
+            let placeholder = name.replace('s[]', '')
+            if(name === "collaborators[]")
+            {
                 input.placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1)+ " ID";
-            }else if(name === "tags[]"){
+            }else if(name === "tags[]")
+            {
                 input.placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1);
             }
-            else{
-            input.placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1)+ " URL";
-
+            else
+            {
+                input.placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1)+ " URL";
             }
+
             if (name === 'tags[]') input.maxLength = 32;
-            wrapper.appendChild(input);
+            fieldRow.appendChild(input);
+
+            const icon = document.createElement('i');
+            icon.className = 'fa-solid fa-times remove-icon';
+            fieldRow.appendChild(icon);
+
+            wrapper.appendChild(fieldRow);
+            
+
         }
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.classList.contains('remove-icon')) {
+                e.target.parentElement.remove();
+            }
+        });
     </script>
 @endsection

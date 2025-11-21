@@ -39,9 +39,19 @@
                     <div id="tags-wrapper">
                         @php
                             $tags = old('tags', $product->tags->pluck('name')->toArray() ?? []);
+                            $isFirstTag = true;
                         @endphp
                         @foreach($tags as $tag)
-                            <input type="text" name="tags[]" maxlength="32" value="{{ $tag }}" placeholder="Tag">
+                            @if($isFirstTag)
+                                @php $isFirstTag = false; @endphp
+                                <input type="text" name="tags[]" maxlength="32" value="{{ $tag }}" placeholder="Tag">
+                            @else
+                                <div class="deletable-field-row ">
+                                    <input type="text" name="tags[]" maxlength="32" value="{{ $tag }}" placeholder="Tag">
+                                    <i class="fa-solid fa-times remove-icon"></i>
+                                </div>
+                            @endif
+
                         @endforeach
                         @if(empty($tags))
                             <input type="text" name="tags[]" maxlength="32" placeholder="Tag">
@@ -51,27 +61,36 @@
                 </div>
 
                 {{-- Collaborators --}}
-  <div class="label-input horizontal">
-    <label for="collaborators-wrapper">Contributors (User IDs)</label>
-    <div id="collaborators-wrapper">
-        {{-- Logged-in user (readonly) --}}
-        <input type="number" value="{{ $user->id }}" readonly>
+                <div class="label-input horizontal">
+                    <label for="collaborators-wrapper">Contributors (User IDs)</label>
+                    <div id="collaborators-wrapper">
+                        {{-- Logged-in user (readonly) --}}
+                        <input type="number" value="{{ $user->id }}" readonly>
 
-        @php
-            // Get all collaborator IDs except the first one (usually the logged-in user)
-            $collabs = old('collaborators', $product->collaborators->pluck('id')->slice(1)->toArray() ?? []);
-        @endphp
+                        @php
+                            // Get all collaborator IDs except the first one (usually the logged-in user)
+                            $collabs = old('collaborators', $product->collaborators->pluck('id')->slice(1)->toArray() ?? []);
+                            $isFirstCollaborator = true;
+                            @endphp
 
-        @foreach($collabs as $collab)
-            <input type="number" name="collaborators[]" value="{{ $collab }}" placeholder="Collaborator ID">
-        @endforeach
+                        @foreach($collabs as $collab)
+                            @if($isFirstCollaborator)
+                                @php $isFirstCollaborator = false; @endphp
+                                <input type="number" name="collaborators[]" value="{{ $collab }}" placeholder="Collaborator ID">
+                            @else
+                                <div class="deletable-field-row ">
+                                    <input type="number" name="collaborators[]" value="{{ $collab }}" placeholder="Collaborator ID">
+                                    <i class="fa-solid fa-times remove-icon"></i>
+                                </div>
+                            @endif
+                        @endforeach
 
-        @if(empty($collabs))
-            <input type="number" name="collaborators[]" placeholder="Collaborator ID">
-        @endif
-    </div>
-    <button type="button" onclick="addField('collaborators-wrapper', 'collaborators[]', 'number')">+ Add another contributor</button>
-</div>
+                        @if(empty($collabs))
+                            <input type="number" name="collaborators[]" placeholder="Collaborator ID">
+                        @endif
+                    </div>
+                    <button type="button" onclick="addField('collaborators-wrapper', 'collaborators[]', 'number')">+ Add another contributor</button>
+                </div>
 
                 {{-- Game File --}}
                 <div class="label-input horizontal">
@@ -93,9 +112,18 @@
                     <div id="images-wrapper">
                         @php
                             $images = old('images', $product->images->pluck('image_url')->toArray() ?? []);
+                            $isFirstImage = true;
                         @endphp
                         @foreach($images as $img)
-                            <input type="url" name="images[]" value="{{ $img }}" placeholder="Image URL">
+                            @if($isFirstImage)
+                                @php $isFirstImage = false; @endphp
+                                <input type="url" name="images[]" value="{{ $img }}" placeholder="Image URL">
+                            @else
+                                <div class="deletable-field-row ">
+                                    <input type="url" name="images[]" value="{{ $img }}" placeholder="Image URL">
+                                    <i class="fa-solid fa-times remove-icon"></i>
+                                </div>
+                            @endif
                         @endforeach
                         @if(empty($images))
                             <input type="url" name="images[]" placeholder="Image URL">
@@ -110,9 +138,18 @@
                     <div id="videos-wrapper">
                         @php
                             $videos = old('videos', $product->videos->pluck('video_url')->toArray() ?? []);
+                            $isFirstVideo = true;
                         @endphp
                         @foreach($videos as $video)
-                            <input type="url" name="videos[]" value="{{ $video }}" placeholder="Video URL">
+                            @if($isFirstVideo)
+                                @php $isFirstVideo = false; @endphp
+                                <input type="url" name="videos[]" value="{{ $video }}" placeholder="Video URL">
+                            @else
+                                <div class="deletable-field-row ">
+                                    <input type="url" name="videos[]" value="{{ $video }}" placeholder="Video URL">
+                                    <i class="fa-solid fa-times remove-icon"></i>
+                                </div>
+                            @endif
                         @endforeach
                         @if(empty($videos))
                             <input type="url" name="videos[]" placeholder="Video URL">
@@ -135,23 +172,45 @@
 
     {{-- JS for dynamically adding inputs --}}
     <script>
-        function addField(wrapperId, name, type) {
+         function addField(wrapperId, name, type) 
+        {
             const wrapper = document.getElementById(wrapperId);
             const input = document.createElement('input');
             input.type = type;
             input.name = name;
 
-            let placeholder = name.replace('s[]', '');
-            if(name === "collaborators[]"){
-                input.placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1) + " ID";
-            } else if(name === "tags[]"){
+            const fieldRow = document.createElement('div');
+            fieldRow.className = 'deletable-field-row ';
+
+            
+            let placeholder = name.replace('s[]', '')
+            if(name === "collaborators[]")
+            {
+                input.placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1)+ " ID";
+            }else if(name === "tags[]")
+            {
                 input.placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1);
-            } else {
-                input.placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1) + " URL";
+            }
+            else
+            {
+                input.placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1)+ " URL";
             }
 
-            if(name === 'tags[]') input.maxLength = 32;
-            wrapper.appendChild(input);
+            if (name === 'tags[]') input.maxLength = 32;
+            fieldRow.appendChild(input);
+
+            const icon = document.createElement('i');
+            icon.className = 'fa-solid fa-times remove-icon';
+            fieldRow.appendChild(icon);
+
+            wrapper.appendChild(fieldRow);
+            
+
         }
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.classList.contains('remove-icon')) {
+                e.target.parentElement.remove();
+            }
+        });
     </script>
 @endsection
