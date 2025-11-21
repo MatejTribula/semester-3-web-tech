@@ -70,24 +70,15 @@
                         @php
                             // Get all collaborator IDs except the first one (usually the logged-in user)
                             $collabs = old('collaborators', $product->collaborators->pluck('id')->slice(1)->toArray() ?? []);
-                            $isFirstCollaborator = true;
-                            @endphp
+                        @endphp
 
                         @foreach($collabs as $collab)
-                            @if($isFirstCollaborator)
-                                @php $isFirstCollaborator = false; @endphp
-                                <input type="number" name="collaborators[]" value="{{ $collab }}" placeholder="Collaborator ID">
-                            @else
                                 <div class="deletable-field-row ">
                                     <input type="number" name="collaborators[]" value="{{ $collab }}" placeholder="Collaborator ID">
                                     <i class="fa-solid fa-times remove-icon"></i>
                                 </div>
-                            @endif
+                            
                         @endforeach
-
-                        @if(empty($collabs))
-                            <input type="number" name="collaborators[]" placeholder="Collaborator ID">
-                        @endif
                     </div>
                     <button type="button" onclick="addField('collaborators-wrapper', 'collaborators[]', 'number')">+ Add another contributor</button>
                 </div>
