@@ -7,10 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\Request;
-
-
 
 class User extends Authenticatable
 {
@@ -64,7 +60,7 @@ class User extends Authenticatable
             ->withPivot('starred_date');
     }
 
-    //solo games are also 'collaborations', just with only one user.
+    // solo games are also 'collaborations', just with only one user.
     public function collaborations()
     {
         return $this->belongsToMany(Product::class, 'product_collaborators', 'user_id', 'product_id');
@@ -82,6 +78,6 @@ class User extends Authenticatable
             return $value;
         }
 
-        return asset('storage/' . ltrim($value, '/'));
+        return asset('storage/'.ltrim($value, '/'));
     }
 }

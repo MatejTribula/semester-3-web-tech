@@ -50,9 +50,9 @@ Route::get('/products/{id}', [ProductController::class, 'show'])->name('show');
 //    return view('profile');
 // })->name('profile');
 
-//Route::get('/library', function () {
+// Route::get('/library', function () {
 //    return view('library');
-//})->name('library');
+// })->name('library');
 
 // Route::get('/publish-new-game', function () {
 //     return view('products/create');
