@@ -13,7 +13,7 @@ class UserTest extends TestCase
     /**
      * A basic feature test example.
      */
-    public function test_user_avatar_url_is_set_to_default(): void
+    public function test_user_avatar_url_is_set_to_default()
     {
         // Arrange
 
@@ -29,7 +29,7 @@ class UserTest extends TestCase
 
     }
 
-    public function test_user_avatar_url_null(): void
+    public function test_user_avatar_url_null()
     {
         // Arrange
 
@@ -45,7 +45,7 @@ class UserTest extends TestCase
 
     }
 
-    public function test_user_avatar_url_is_url(): void
+    public function test_user_avatar_url_is_url()
     {
         // Arrange
 
@@ -59,5 +59,38 @@ class UserTest extends TestCase
         // Assert
         $this->assertStringContainsString('https://example.com/api/images/1', $avatarUrl);
 
+    }
+
+    // edge case
+    public function test_user_avatar_url_empty_string_defaults()
+    {
+        // Arrange
+        $user = User::factory()->create([
+            'avatar_url' => '',
+        ]);
+
+        // Act
+        $avatarUrl = $user->avatar_url;
+
+        // Assert
+        $this->assertStringContainsString('images/grey.png', $avatarUrl);
+    }
+
+    // fail case
+    public function test_user_avatar_url_fails_with_array(): void
+    {
+
+        // Arrange
+
+        // expect the exception
+        $this->expectException(\Illuminate\Database\QueryException::class);
+
+        // Act
+        User::factory()->create([
+            'avatar_url' => ['invalid', 'array'],
+        ]);
+
+        // Assert
+        // if there was an exception related to query it passed
     }
 }
