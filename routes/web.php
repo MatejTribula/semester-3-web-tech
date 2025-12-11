@@ -13,19 +13,19 @@ Route::get('/generate-csrf', function () {
 });
 
 Route::get('/', function () {
-    return redirect('/products');
+    return redirect('/products'); // done
 });
 
 // Auth
 Route::middleware('guest')->group(function () {
-    Route::get('/register', [AuthController::class, 'showRegister']);
-    Route::post('/register', [AuthController::class, 'register'])->name('register');
-    Route::get('/login', [AuthController::class, 'showLogin']);
-    Route::post('/login', [AuthController::class, 'login'])->name('login');
+    Route::get('/register', [AuthController::class, 'showRegister']); // done
+    Route::post('/register', [AuthController::class, 'register'])->name('register'); // done
+    Route::get('/login', [AuthController::class, 'showLogin']); // done
+    Route::post('/login', [AuthController::class, 'login'])->name('login'); // done
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/products/create', [ProductController::class, 'create'])->name('create');
+    Route::get('/products/create', [ProductController::class, 'create'])->name('create'); // done
     Route::post('/products', [ProductController::class, 'store'])->name('store');
 
     Route::get('products/{id}/edit', [ProductController::class, 'edit'])->name('edit');
@@ -43,8 +43,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile/{userId}', [UserController::class, 'updateProfile'])->name('profile.update');
 });
 
-Route::get('/products', [ProductController::class, 'index'])->name('home');
-Route::get('/products/{id}', [ProductController::class, 'show'])->name('show');
+Route::get('/products', [ProductController::class, 'index'])->name('home'); // done
+Route::get('/products/{id}', [ProductController::class, 'show'])->name('show'); // done
 
 // Route::get('/profile/{id}', function () {
 //    return view('profile');
