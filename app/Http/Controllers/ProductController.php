@@ -60,14 +60,14 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with(['images', 'videos', 'tags', 'collaborators', 'favorites'])->whereIn('visibility_setting', ['Public'])->get();
-        
+
         // collects tags from the loaded products, and gives them a unique tag value. flatMap method maps all arrays and creates new flat array.
         $tags = $products
-            ->flatMap(fn ($product) => $product->tags) 
+            ->flatMap(fn ($product) => $product->tags)
             ->unique('tag_value')
             ->values();
 
-        return view('products.index', compact('products','tags'));
+        return view('products.index', compact('products', 'tags'));
     }
 
     public function show($id)
@@ -95,7 +95,7 @@ class ProductController extends Controller
         return view('products.create', ['user' => $user]);
     }
 
-    /// JSON response stayed because if we get an error here, something is very wrong.
+    // / JSON response stayed because if we get an error here, something is very wrong.
     public function store(Request $request)
     {
 
@@ -201,7 +201,6 @@ class ProductController extends Controller
 
             // 7. Return response
             return redirect()->route('show', ['id' => $product->id]);
-            
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -225,7 +224,7 @@ class ProductController extends Controller
         ]);
     }
 
-    /// JSON response stayed because if we get an error here, something is very wrong.
+    // / JSON response stayed because if we get an error here, something is very wrong.
     public function update(Request $request, $id)
     {
         if (! $this->isAuthorizedToEditProduct($id)) {
