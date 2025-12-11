@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Video;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,7 +15,7 @@ class VideoFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_id' => Product::factory(),
+            'product_id' => null,
             'video_url' => $this->faker->url(),
         ];
     }

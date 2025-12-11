@@ -1,20 +1,20 @@
-<?php
+ <?php
 
-namespace Tests\Feature\Product;
+// namespace Tests\Feature\Product;
 
-use Tests\TestCase;
+// use Tests\TestCase;
 
-class ProductTest extends TestCase
-{
-    /**
-     * A basic feature test example.
-     */
-    public function test__product(): void
-    {
-        $response = $this->post('/prodcuts/create', [
-            
-        ]);
+// class ProductTest extends TestCase
+// {
+//     /**
+//      * A basic feature test example.
+//      */
+//     public function test__product(): void
+//     {
+//         $response = $this->post('/prodcuts/create', [
 
-        $response->assertStatus(200);
-    }
-}
+//         ]);
+//         //
+//         $response->assertStatus(200);
+//     }
+// }

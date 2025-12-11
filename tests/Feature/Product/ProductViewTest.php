@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Product;
 
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -10,15 +11,9 @@ class ProductViewTest extends TestCase
 {
     use RefreshDatabase;
 
-    // private $user;
-
-    // protected function setUp(): void
-    // {
-    //     $this->user = User::factory()->create();
-    // }
-
     public function test_access_index_view()
     {
+
         $response = $this->get('/');
 
         $response->assertStatus(302); // redirect status
@@ -26,12 +21,21 @@ class ProductViewTest extends TestCase
 
     }
 
-    public function test_access_prodcuts_view()
+    public function test_access_prodcuts_view_and_see_prodcuts()
     {
+        $product = Product::factory()
+            ->public()
+            ->withImages(2)
+            ->withVideos()
+            ->withTags(5)
+            ->withCollaborators(3)
+            ->create();
+
         $response = $this->get('/products');
 
         $response->assertStatus(200); // redirect status
         $response->assertViewIs('products.index');
+        $response->assertViewHas('products');
 
     }
 

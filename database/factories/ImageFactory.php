@@ -2,11 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Image;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Image>
- */
 class ImageFactory extends Factory
 {
     protected $model = Image::class;
@@ -14,7 +12,7 @@ class ImageFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_id' => Product::factory(),
+            'product_id' => null, // will be set by ProductFactory
             'image_url' => $this->faker->imageUrl(),
         ];
     }
