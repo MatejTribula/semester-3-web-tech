@@ -102,13 +102,69 @@ class ProductViewTest extends TestCase
 
     public function test_user_accesses_edit_page_of_owned_game()
     {
+        // Arrange
         $user = User::factory()->create();
 
-        // need to have all other stuff working to make sure rest works
+        $product = Product::factory()
+            ->public()
+            ->withImages(3)
+            ->withVideos(2)
+            ->create();
+
+        $product->collaborators()->attach($user->id);
+
+        // Act
+        $response = $this->actingAs($user)->get("products/{$product->id}/edit");
+
+        // Assert
+        $response->assertStatus(200);
+
+        $this->assertCount(1, $product->collaborators);
 
     }
 
-    public function test_user_has_access_my_uploads_view_and_see_their_products() {}
+    public function test_user_has_access_my_uploads_view_and_see_their_products()
+    {
+        $user = User::factory()->create();
+        // $user2 = User::factory()->create();
 
-    public function test_guest_does_not_have_access_my_uploads_view() {}
+        $products = Product::factory()
+            ->count(5)
+            ->public()
+            ->withImages(2)
+            ->withVideos()
+            ->withTags(5)
+            ->create();
+
+        foreach ($products as $product) {
+            $product->collaborators()->attach($user->id);
+        }
+
+        // for ($x = 0; $x <= 3; $x++) {
+        //     $products[$x]->collaborators()->attach($user->id);
+        // }
+
+        // $products[4]->collaborators()->attach($user2->id);
+
+        $response = $this->actingAs($user)->get('/my-uploads');
+        // }
+
+        $response->assertStatus(200);
+        $response->assertViewIs('my-uploads');
+        $response->assertViewHas('products');
+
+        $products = $response->viewData('products');
+
+        $this->assertCount(5, $products);
+
+        // Loop through the products passed to the view to check values
+        foreach ($products as $product) {
+            $this->assertNotEmpty($product->title);
+            $this->assertGreaterThan(0, $product->images->count());
+            $this->assertGreaterThan(0, $product->videos->count());
+            $this->assertGreaterThan(0, $product->tags->count());
+            $this->assertGreaterThan(0, $product->collaborators->count());
+        }
+
+    }
 }

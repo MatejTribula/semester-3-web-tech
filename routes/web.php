@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/products/create', [ProductController::class, 'create'])->name('create'); // done
     Route::post('/products', [ProductController::class, 'store'])->name('store');
 
-    Route::get('products/{id}/edit', [ProductController::class, 'edit'])->name('edit');
+    Route::get('products/{id}/edit', [ProductController::class, 'edit'])->name('edit'); // done
     Route::put('/products/{id}', [ProductController::class, 'update'])->name('update');
 
     Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('destroy');
@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/products/{id}/favorite', [FavoriteController::class, 'addFavorite'])->name('star');
     Route::post('/products/{id}/unfavorite', [FavoriteController::class, 'removeFavorite'])->name('unstar');
 
-    Route::get('/my-uploads', [UserController::class, 'productsByCollaborator'])->name('my-uploads');
+    Route::get('/my-uploads', [UserController::class, 'productsByCollaborator'])->name('my-uploads'); // done
     Route::put('/profile/{userId}', [UserController::class, 'updateProfile'])->name('profile.update');
 });
 
