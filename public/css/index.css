@@ -3,8 +3,6 @@
     --clr-dark: #262626;
     --clr-light: #F7FFF6;
     --clr-grey: #CCCCCC;
-
-    --clr-warning: #c63838;
 }
 
 /* Reset CSS */
@@ -57,14 +55,10 @@ img{
 }
 
 .container3{
-    width: 100%;
-    max-width: 1280px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    padding: 0 1rem;
-    
-    
+    gap: 2rem;
+    margin-top: 2rem;
 }
 
 .container4{
@@ -430,13 +424,13 @@ header nav a:hover{
     gap: 1rem;
 }
 
-/* #tags-wrapper,
+#tags-wrapper,
 #collaborators-wrapper {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
   align-items: center;
-} */
+}
 
 /* each field row becomes an inline flex block (input + remove button) */
 .field-row {
@@ -513,16 +507,6 @@ header nav a:hover{
     text-align: center;
 }
 
-.auth-error{
-    background-color: #ffdddd;
-    border: 1px solid #ff5c5c;
-    color: #a70000;
-    padding: 10px;
-    border-radius: 3px;
-    margin-bottom: 16px;
-    text-align: center;
-}
-
 .other-auth-option-a{
     color: var(--clr-primary);
     font-weight: bold;
@@ -540,7 +524,7 @@ header nav a:hover{
     gap: 4px;
 }
 
-.label-input input, .label-input textarea, .label-input select{
+.label-input input{
     border-radius: 3px;
     border: 1px solid var(--clr-grey);
     background-color: transparent;
@@ -665,10 +649,6 @@ footer p{
     font-weight: bold;
 }
 
-.btn-delete{
-    background-color: var(--clr-warning);
-}
-
 .profile-pfp-name i{
     cursor: pointer;
     transition: color 0.2s;
@@ -682,7 +662,7 @@ footer p{
 .product-info-image-container{
     display: grid;
     gap: 32px;
-
+    align-items: start;
     grid-template-columns: 3fr 2fr;
 }
 
@@ -690,18 +670,26 @@ footer p{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: 100%;
 }
 
 .product-info{
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 16px;
+    flex: 1;
+}
+
+.product-collaborators{
+    margin-top: auto;
+    margin-bottom: 16px;
 }
 
 .product-info-header{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 8px;
 }
 
 .product-info-header i{
@@ -714,18 +702,13 @@ footer p{
     color: var(--clr-primary);
 }
 
-.tag-filter {
-    display: flex;
-    flex-wrap: wrap;    
-    gap: 0.25rem;           
-    align-items: center;
-}
-
 .product-tags{
     display: flex;
+    align-items: center;
     flex-wrap: wrap;
-    align-items: flex-center;
+    align-items: flex-start;
     gap: 8px;
+    margin-top: 0;
 }
 
 .product-tags p{
@@ -776,7 +759,7 @@ footer p{
 }
 
 .product-info-header button[data-favorited="0"] i,
-.product-info-header i.fa-regular {
+.product.info-header i.fa-regular {
   color: var(--clr-grey); /* outline star color */
 }
 
@@ -785,98 +768,45 @@ footer p{
   color: #ff9b4a; /* slightly brighter on hover */
 }
 
-.publish-product-form-container{
-    display: flex;
-    gap: 32px;
-}
-
-.product-form{
-    display: grid;
-    /* flex-direction: column; */
-    gap: 1rem;
-}
-
-.publish-product-form-container>*{
-     flex: 1;
-}
-
-.publish-product-form-container-item{
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-
-#tags-wrapper,
-#collaborators-wrapper,
-#images-wrapper,
-#videos-wrapper{
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    width: 100%;
-}
-
-form textarea{
-    background-color: transparent;
-}
-
-form select, form option{
-    background-color: transparent;
-}
-
-.tag-button {
-    background: var(--clr-primary);
-    color: var(--clr-light);
-    padding: 8px 20px;
-    border: none;
-    border-radius: 3px;
-    font-weight: bold;
-    cursor: pointer;
-
-    margin: 6px; 
-}
-
-.tag-button:hover {
-    /* hovering the buttons brighten them slightly*/
-    background: #ff9b4a;
-}
-.tag-button.active {
-    /* darkens the styling of the active tag */
-    background-color: var(--clr-dark);
-    color: var(--clr-light);
-}
-
-.deletable-field-row 
-{
-  display: flex;
-  align-items: stretch;
-  justify-content: space-between;
-  width: 100%;
-  gap: 8px;
-}
-
-.deletable-field-row input{
-    flex: 1;
-}
-
-.remove-icon{
-    cursor: pointer;
-    color: var(--clr-dark);
-    padding: 6px;
-    font-size: 16px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.remove-icon:hover{
-    color: var(--clr-primary);
-}
-
 
 .collaborator
 {
     color: var(--clr-primary);
+}
+
+/*2fa styles*/
+.qr-code-section {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+}
+
+.qr-code-section svg {
+    max-width: 200px;
+    margin: 1rem auto;
+    display: block;
+}
+
+.recovery-codes-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    list-style: none;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+.recovery-codes-list li {
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    padding: 0.5rem;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    text-align: center;
 }
 
  @media (max-width: 768px) {

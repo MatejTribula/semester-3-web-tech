@@ -9,12 +9,13 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 
 
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, TwoFactorAuthenticatable;
 
     protected $table = 'users';
 

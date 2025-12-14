@@ -25,6 +25,10 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('/2fa/setup', [AuthController::class, 'show2FASetup'])->name('2fa.setup');
+    Route::post('/2fa/confirm', [AuthController::class, 'confirm2FA'])->name('2fa.confirm');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
     Route::get('/products/create', [ProductController::class, 'create'])->name('create');
     Route::post('/products', [ProductController::class, 'store'])->name('store');
 

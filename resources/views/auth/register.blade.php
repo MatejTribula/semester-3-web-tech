@@ -34,6 +34,11 @@
                 </div>
                 </div>
 
+                <label style="display: flex; align-items: center; gap: 0.5rem; margin-top: 1rem;">
+                    <input type="checkbox" name="enable_2fa" value="1">
+                    Enable Two-Factor Authentication (2FA)?
+                </label>
+
                 <button type="submit" class="btn">Continue</button>
             </form>
 
