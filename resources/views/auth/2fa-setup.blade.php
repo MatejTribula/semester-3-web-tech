@@ -20,7 +20,13 @@
             Save these recovery codes in a safe place! You'll need them if you lose access to your authenticator app.
         </p>
         <ul class="recovery-codes-list">
-            @foreach (json_decode(decrypt(auth()->user()->two_factor_recovery_codes)) as $code)
+            @php
+                $recoveryCodes = json_decode(decrypt(auth()->user()->two_factor_recovery_codes), true);
+                if (!is_array($recoveryCodes)) {
+                    $recoveryCodes = [];
+                }
+            @endphp
+            @foreach ($recoveryCodes as $code)
                 <li>{{ $code }}</li>
             @endforeach
         </ul>
@@ -50,9 +56,5 @@
         
         <button type="submit" style="width: 100%; margin-top: 1.5rem;">Confirm & Complete Setup</button>
     </form>
-
-    <p style="margin-top: 2rem; text-align: center; color: #666;">
-        <a href="/products">Skip for now (not recommended)</a>
-    </p>
 </div>
 @endsection

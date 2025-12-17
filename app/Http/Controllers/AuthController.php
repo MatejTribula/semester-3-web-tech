@@ -92,7 +92,7 @@ class AuthController extends Controller
             return redirect('/products');
         }
 
-        return view('auth.2-fa-setup');
+        return view('auth.2fa-setup');
     }
 
     public function confirm2FA(Request $request){
@@ -103,7 +103,7 @@ class AuthController extends Controller
         $user = auth() -> user();
 
         $verified = app(\Laravel\Fortify\TwoFactorAuthenticationProvider::class)
-            ->verify(decrypt($user->two_factor_reset), $request->code);
+            ->verify(decrypt($user->two_factor_secret), $request->code);
 
         if($verified){
             $user->forceFill([
