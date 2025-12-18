@@ -238,7 +238,7 @@ class ProductController extends Controller
             'approval_date' => 'nullable|date',
             'visibility_setting' => 'required|in:Public,Unlisted,Private',
             'file_url' => 'required|url',
-
+            'cover_url' => 'required|url',
             'images' => 'nullable|array',
             'images.*' => 'nullable|url',
             'videos' => 'nullable|array',
@@ -265,9 +265,16 @@ class ProductController extends Controller
 
             \Log::info('Product updated ID: '.$product->id);
 
-            // 3. Sync images
-            if (isset($validated['images'])) {
-                Image::where('product_id', $product->id)->delete();
+            Image::where('product_id', $product->id)->delete();
+
+            // Cover image
+            Image::create([
+                'product_id' => $product->id,
+                'image_url' => $validated['cover_url'],
+            ]);
+
+            // Gallery images
+            if (! empty($validated['images'])) {
                 foreach ($validated['images'] as $url) {
                     if ($url) {
                         Image::create([

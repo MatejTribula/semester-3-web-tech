@@ -26,14 +26,14 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/products/create', [ProductController::class, 'create'])->name('create'); // done
-    Route::post('/products', [ProductController::class, 'store'])->name('store');
+    Route::post('/products', [ProductController::class, 'store'])->name('store'); // done
 
     Route::get('products/{id}/edit', [ProductController::class, 'edit'])->name('edit'); // done
-    Route::put('/products/{id}', [ProductController::class, 'update'])->name('update');
+    Route::put('/products/{id}', [ProductController::class, 'update'])->name('update'); // done
 
     Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('destroy');
 
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout'); // done
 
     Route::get('/favorites', [FavoriteController::class, 'getFavoriteProducts'])->name('favorites');
     Route::post('/products/{id}/favorite', [FavoriteController::class, 'addFavorite'])->name('star');
