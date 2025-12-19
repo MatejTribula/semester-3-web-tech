@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+// only for making requests through postman
 Route::get('/generate-csrf', function () {
     return response()->json([
         'csrf_token' => csrf_token(),
@@ -31,13 +32,13 @@ Route::middleware('auth')->group(function () {
     Route::get('products/{id}/edit', [ProductController::class, 'edit'])->name('edit'); // done
     Route::put('/products/{id}', [ProductController::class, 'update'])->name('update'); // done
 
-    Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('destroy');
+    Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('destroy'); // done
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout'); // done
 
-    Route::get('/favorites', [FavoriteController::class, 'getFavoriteProducts'])->name('favorites');
+    Route::get('/favorites', [FavoriteController::class, 'getFavoriteProducts'])->name('favorites'); // done
     Route::post('/products/{id}/favorite', [FavoriteController::class, 'addFavorite'])->name('star');
-    Route::post('/products/{id}/unfavorite', [FavoriteController::class, 'removeFavorite'])->name('unstar');
+    Route::delete('/products/{id}/favorite', [FavoriteController::class, 'removeFavorite'])->name('unstar');
 
     Route::get('/my-uploads', [UserController::class, 'productsByCollaborator'])->name('my-uploads'); // done
     Route::put('/profile/{userId}', [UserController::class, 'updateProfile'])->name('profile.update');
