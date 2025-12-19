@@ -46,13 +46,15 @@ Needed by Laravel for session management and encryption
 The application will be available at `http://localhost:8000`
 
 ## Tests
+To run all the tests parse these commands into root folder of the project
+```
+git fetch
+git checkout remotes/origin/testing
+php artisan test
+```
 
-### Run The Unit and Feature tests
 
-`php artisan test`
-All Unit and Feature tests will be executed
-`php artisan test`
-All Unit and Feature tests will be executed
+
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
