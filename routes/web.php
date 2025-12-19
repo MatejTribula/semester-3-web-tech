@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/products/{id}/favorite', [FavoriteController::class, 'removeFavorite'])->name('unstar');
 
     Route::get('/my-uploads', [UserController::class, 'productsByCollaborator'])->name('my-uploads'); // done
-    Route::put('/profile/{userId}', [UserController::class, 'updateProfile'])->name('profile.update');
+    Route::put('/profile/{userId}', [UserController::class, 'updateProfile'])->name('profile.update'); // done
 });
 
 Route::get('/products', [ProductController::class, 'index'])->name('home'); // done
