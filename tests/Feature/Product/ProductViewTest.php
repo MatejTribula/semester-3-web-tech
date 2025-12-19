@@ -23,7 +23,7 @@ class ProductViewTest extends TestCase
 
     public function test_access_products_view_and_see_products()
     {
-        $product = Product::factory()
+        $products = Product::factory()
             ->count(5)
             ->public()
             ->withImages(2)
