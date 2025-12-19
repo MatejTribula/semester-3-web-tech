@@ -80,6 +80,83 @@ class ProductViewTest extends TestCase
 
     }
 
+    public function test_guest_accesses_unlisted_product()
+    {
+        $product = Product::factory()
+            ->public()
+            ->withImages(2)
+            ->withVideos()
+            ->withTags(5)
+            ->withCollaborators(5)
+            ->create([
+                'visibility_setting' => 'Unlisted',
+            ]);
+
+        $response = $this->get("/products/{$product->id}");
+
+        $response->assertStatus(200);
+        $response->assertViewIs('products.show');
+        $response->assertViewHas('product');
+
+        $product = $response->viewData('product');
+
+        $this->assertNotEmpty($product);
+        $this->assertNotEmpty($product->title);
+        $this->assertGreaterThan(0, $product->images->count());
+        $this->assertGreaterThan(0, $product->videos->count());
+        $this->assertGreaterThan(0, $product->tags->count());
+        $this->assertGreaterThan(0, $product->collaborators->count());
+    }
+
+    public function test_user_accesses_their_private_product()
+    {
+        $user = User::factory()->create();
+
+        $product = Product::factory()
+            ->public()
+            ->withImages(2)
+            ->withVideos()
+            ->withTags(5)
+            ->create([
+                'visibility_setting' => 'Private',
+            ]);
+
+        $product->collaborators()->attach($user->id);
+
+        $response = $this->actingAs($user)->get("/products/{$product->id}");
+
+        $response->assertStatus(200);
+        $response->assertViewIs('products.show');
+        $response->assertViewHas('product');
+
+        $product = $response->viewData('product');
+
+        $this->assertNotEmpty($product);
+        $this->assertNotEmpty($product->title);
+        $this->assertGreaterThan(0, $product->images->count());
+        $this->assertGreaterThan(0, $product->videos->count());
+        $this->assertGreaterThan(0, $product->tags->count());
+        $this->assertGreaterThan(0, $product->collaborators->count());
+    }
+
+    public function test_guest_fails_to_access_private_product()
+    {
+
+        $product = Product::factory()
+            ->public()
+            ->withImages(2)
+            ->withVideos()
+            ->withTags(5)
+            ->withCollaborators(5)
+            ->create([
+                'visibility_setting' => 'Private',
+            ]);
+
+        $response = $this->get("/products/{$product->id}");
+
+        $response->assertForbidden();
+    }
+
     public function test_user_can_access_create_product_view()
     {
         $user = User::factory()->create();
@@ -100,7 +177,7 @@ class ProductViewTest extends TestCase
 
     }
 
-    public function test_user_accesses_edit_page_of_owned_game()
+    public function test_user_accesses_edit_page_of_owned_product()
     {
         // Arrange
         $user = User::factory()->create();
