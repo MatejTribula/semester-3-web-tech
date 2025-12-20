@@ -70,7 +70,7 @@ $isFavorited = auth()->check()
   <div class="wasm-container">
     <iframe
       id="wasmFrame"
-      src="{{ asset('storage/wasm/'.$product->wasm_file_name.'.html') }}"
+      src="{{ asset('storage/wasm/'.$product->title.'/'.$product->wasm_file_name.'.html') }}"
       allow="fullscreen"
       allowfullscreen
       title="{{ $product->title }} (WebAssembly)"
