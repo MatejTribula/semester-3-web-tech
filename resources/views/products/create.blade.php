@@ -58,6 +58,21 @@
                 </div>
 
                 <div class="label-input horizontal">
+                    <label for="wasm_file_name">WASM File name</label>
+                    <input type="text" name="wasm_file_name" id="wasm_file_name">
+                </div>
+
+                <div class="label-input horizontal">
+                    <label for="wasm_width">Game Width</label>
+                    <input type="number" name="wasm_width" id="wasm_width">
+                </div>
+
+                <div class="label-input horizontal">
+                    <label for="wasm_height">Game Height</label>
+                    <input type="number" name="wasm_height" id="wasm_height">
+                </div>
+
+                <div class="label-input horizontal">
                     <label for="images-wrapper">Images (URLs)</label>
                     <div id="images-wrapper">
                         <input type="url" name="images[]" placeholder="Image URL">

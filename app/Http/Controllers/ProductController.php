@@ -108,6 +108,9 @@ class ProductController extends Controller
             'approval_date' => 'nullable|date',
             'visibility_setting' => 'required|in:Public,Unlisted,Private',
             'file_url' => 'required|url',
+            'wasm_file_name' => 'nullable|string|max:64',
+            'wasm_width' => 'nullable|integer',
+            'wasm_height' => 'nullable|integer',
 
             'cover_url' => 'required|url',
 
@@ -131,6 +134,9 @@ class ProductController extends Controller
             $product->approval_date = $validated['approval_date'] ?? null;
             $product->visibility_setting = $validated['visibility_setting'];
             $product->file_url = $validated['file_url'] ?? null;
+            $product->wasm_file_name = $validated['wasm_file_name'] ?? null;
+            $product->wasm_width = $validated['wasm_width'] ?? null;
+            $product->wasm_height = $validated['wasm_height'] ?? null;
             $product->save();
 
             \Log::info('Product saved ID: '.$product->id);
