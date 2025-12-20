@@ -887,13 +887,13 @@ form select, form option{
 
 .wasm-container {
   position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9; /* adjust as needed */
+  width: min(100%, var(--wasm-width, 1280px)); /* don’t exceed native width */
+  aspect-ratio: var(--wasm-aspect, 16 / 9);    /* preserve game ratio */
   background: var(--clr-grey);
   border-radius: 5px;
   overflow: hidden;
+  margin: 0 auto;
 }
-
 .wasm-container iframe {
   position: absolute;
   inset: 0;

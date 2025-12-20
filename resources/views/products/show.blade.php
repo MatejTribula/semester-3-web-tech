@@ -64,10 +64,20 @@ $isFavorited = auth()->check()
   </p>
 </section>
 
-{{-- In-browser WebAssembly embed (Emscripten HTML) --}}
+  <a class="download-btn" href="{{ $product->file_url }}" download>Download File</a>
+  </div>
+</div>
+
+
 @if ($product->wasm_file_name)
 <section class="product-wasm">
-  <div class="wasm-container">
+  <div
+    class="wasm-container"
+    style="
+      --wasm-width: {{ $product->wasm_width ? $product->wasm_width.'px' : '1280px' }};
+      --wasm-aspect: {{ ($product->wasm_width && $product->wasm_height) ? $product->wasm_width.' / '.$product->wasm_height : '16 / 9' }};
+    "
+  >
     <iframe
       id="wasmFrame"
       src="{{ asset('storage/wasm/'.$product->title.'/'.$product->wasm_file_name.'.html') }}"
@@ -78,10 +88,6 @@ $isFavorited = auth()->check()
   </div>
 </section>
 @endif
-
-  <a class="download-btn" href="{{ $product->file_url }}" download>Download File</a>
-  </div>
-</div>
 
 
 <section class="product-gallery">
