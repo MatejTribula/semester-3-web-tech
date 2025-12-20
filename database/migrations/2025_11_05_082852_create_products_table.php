@@ -19,6 +19,9 @@ return new class extends Migration
             $table->timestamp('approval_date')->nullable();
             $table->enum('visibility_setting', ['Public', 'Unlisted', 'Private'])->default('Private');
             $table->text('file_url')->nullable();
+            $table->string('wasm_file_name')->nullable();
+            $table->integer('wasm_width')->nullable();
+            $table->integer('wasm_height')->nullable();
             $table->timestamps();
         });
     }

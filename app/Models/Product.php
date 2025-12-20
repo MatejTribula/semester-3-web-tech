@@ -15,6 +15,9 @@ class Product extends Model
         'approval_date',
         'visibility_setting',
         'file_url',
+        'wasm_file_name',
+        'wasm_width',
+        'wasm_height'
     ];
 
     public function images()
