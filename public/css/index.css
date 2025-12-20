@@ -879,6 +879,29 @@ form select, form option{
     color: var(--clr-primary);
 }
 
+.product-wasm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.wasm-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9; /* adjust as needed */
+  background: var(--clr-grey);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.wasm-container iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
  @media (max-width: 768px) {
 
     /* TEXT */

@@ -64,6 +64,19 @@ $isFavorited = auth()->check()
   </p>
 </section>
 
+{{-- In-browser WebAssembly embed (Emscripten HTML) --}}
+<section class="product-wasm">
+  <h3>Play in Browser</h3>
+  <div class="wasm-container">
+    <iframe
+      id="wasmFrame"
+      src="{{ asset('storage/wasm/flow.html') }}"
+      allow="fullscreen"
+      allowfullscreen
+      title="{{ $product->title }} (WebAssembly)"
+    ></iframe>
+  </div>
+</section>
 
   <a class="download-btn" href="{{ $product->file_url }}" download>Download File</a>
   </div>
