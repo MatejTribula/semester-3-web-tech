@@ -9,6 +9,8 @@ use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use ZipArchive;
 
 class ProductController extends Controller
 {
@@ -122,6 +124,8 @@ class ProductController extends Controller
             'tags.*' => 'nullable|string|max:32',
             'collaborators' => 'nullable|array',
             'collaborators.*' => 'nullable|integer|exists:users,id',
+            'wasm_zip' => 'nullable|file|mimes:zip|max:51200', // 50MB
+
         ]);
 
         DB::beginTransaction();
@@ -138,6 +142,12 @@ class ProductController extends Controller
             $product->wasm_width = $validated['wasm_width'] ?? null;
             $product->wasm_height = $validated['wasm_height'] ?? null;
             $product->save();
+
+            // Unpack WASM ZIP (if provided) and set wasm_file_name
+            if ($request->hasFile('wasm_zip')) 
+            {
+                $this->unpackWasmZip($product, $request->file('wasm_zip'));
+            }
 
             \Log::info('Product saved ID: '.$product->id);
 
@@ -256,7 +266,7 @@ class ProductController extends Controller
             'tags' => 'nullable|array',
             'tags.*' => 'nullable|string|max:32',
             'collaborators' => 'nullable|array',
-            'collaborators.*' => 'nullable|integer|exists:users,id',
+            'collaborators.*' => 'nullable|integer|exists:users,id',zz
         ]);
 
         DB::beginTransaction();
@@ -362,4 +372,66 @@ class ProductController extends Controller
         return redirect()->route('my-uploads');
 
     }
+
+    /**
+     * Unpack the uploaded ZIP into public/storage/wasm/{title}/
+     * and set $product->wasm_file_name to the detected HTML entry (basename).
+     */
+    private function unpackWasmZip(Product $product, \Illuminate\Http\UploadedFile $zip): void
+    {
+        // store ZIP temporarily on local (private) disk
+        $tmp = Storage::disk('local')->putFile('tmp', $zip); // storage/app/private/tmp/xxx.zip
+        $zipPath = Storage::disk('local')->path($tmp);
+
+        // destination under public disk
+        $destRel = 'wasm/'.$product->title;
+        $destPath = Storage::disk('public')->path($destRel);
+
+        // clean and recreate destination
+        Storage::disk('public')->deleteDirectory($destRel);
+        Storage::disk('public')->makeDirectory($destRel);
+
+        // extract
+        $za = new ZipArchive();
+        if ($za->open($zipPath) !== true) 
+        {
+            throw new \RuntimeException('Failed to open WASM ZIP');
+        }
+        $za->extractTo($destPath);
+        $za->close();
+
+        // find HTML entry (prefer index.html)
+        $entry = $this->findHtmlEntry($destPath);
+        if ($entry) 
+        {
+            $product->wasm_file_name = pathinfo($entry, PATHINFO_FILENAME); // basename without .html
+            $product->save();
+        }
+
+        // cleanup temp
+        @unlink($zipPath);
+    }
+
+    /**
+     * Find an HTML file in extracted bundle; prefer index.html.
+     */
+    private function findHtmlEntry(string $root): ?string
+    {
+        $rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($root, \FilesystemIterator::SKIP_DOTS));
+        $first = null;
+        foreach ($rii as $file) 
+        {
+            if ($file->isFile() && strtolower($file->getExtension()) === 'html') 
+            {
+                $path = $file->getPathname();
+                if (!$first) $first = $path;
+                if (strtolower($file->getFilename()) === 'index.html') 
+                {
+                    return $path;
+                }
+            }
+        }
+        return $first;
+    }
+
 }
