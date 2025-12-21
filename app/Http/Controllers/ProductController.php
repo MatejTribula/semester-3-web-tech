@@ -266,7 +266,9 @@ class ProductController extends Controller
             'tags' => 'nullable|array',
             'tags.*' => 'nullable|string|max:32',
             'collaborators' => 'nullable|array',
-            'collaborators.*' => 'nullable|integer|exists:users,id',zz
+            'collaborators.*' => 'nullable|integer|exists:users,id',
+            'wasm_zip' => 'nullable|file|mimes:zip|max:51200', // 50MB
+
         ]);
 
         DB::beginTransaction();
@@ -285,6 +287,13 @@ class ProductController extends Controller
             $product->wasm_width = $validated['wasm_width'] ?? null;
             $product->wasm_height = $validated['wasm_height'] ?? null;
             $product->save();
+
+
+            // Unpack WASM ZIP (if provided) and set wasm_file_name
+            if ($request->hasFile('wasm_zip')) 
+            {
+                $this->unpackWasmZip($product, $request->file('wasm_zip'));
+            }
 
             \Log::info('Product updated ID: '.$product->id);
 

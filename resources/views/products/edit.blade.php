@@ -5,7 +5,7 @@
 @section('content')
     <h2>Edit Game</h2>
 
-    <form class="product-form" action="{{ route('update', $product->id) }}" method="POST">
+    <form class="product-form" action="{{ route('update', $product->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -97,10 +97,17 @@
                     <input type="url" name="cover_url" id="cover_url" value="{{ old('cover_url', $product->cover_url) }}">
                 </div>
 
-                {{-- WASM File Name --}}
                 <div class="label-input horizontal">
-                    <label for="wasm_file_name">WASM File name</label>
-                    <input type="text" name="wasm_file_name" id="wasm_file_name" value="{{ old('wasm_file_name', $product->wasm_file_name) }}">
+                    <label for="wasm_zip">WASM Bundle (ZIP)</label>
+                    <input type="file" name="wasm_zip" id="wasm_zip" accept=".zip" style="display:none">
+                    <div id="wasmDrop" class="download-btn" style="justify-content:center">
+                        Drop ZIP here or click to select
+                    </div>
+                    <p id="wasmName" style="opacity:0.6">
+                        @if($product->wasm_file_name)
+                            Current: {{ $product->wasm_file_name }}.html
+                        @endif
+                    </p>
                 </div>
 
 
@@ -180,7 +187,21 @@
 
     {{-- JS for dynamically adding inputs --}}
     <script>
-         function addField(wrapperId, name, type) 
+
+        (function(){
+            const input = document.getElementById('wasm_zip');
+            const drop = document.getElementById('wasmDrop');
+            const name = document.getElementById('wasmName');
+            if (!input || !drop) return;
+            function setName(f){ name.textContent = f?.name || ''; }
+            drop.addEventListener('click', ()=> input.click());
+            drop.addEventListener('dragover', e => { e.preventDefault(); drop.style.filter='brightness(1.1)'; });
+            drop.addEventListener('dragleave', () => { drop.style.filter='none'; });
+            drop.addEventListener('drop', e => { e.preventDefault(); drop.style.filter='none'; if (e.dataTransfer.files?.length) { input.files = e.dataTransfer.files; setName(input.files[0]); }});
+            input.addEventListener('change', () => setName(input.files[0]));
+            })();
+
+        function addField(wrapperId, name, type) 
         {
             const wrapper = document.getElementById(wrapperId);
             const input = document.createElement('input');
