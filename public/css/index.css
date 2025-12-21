@@ -889,8 +889,7 @@ form select, form option{
   position: relative;
   width: min(100%, var(--wasm-width, 1280px)); /* don’t exceed native width */
   aspect-ratio: var(--wasm-aspect, 16 / 9);    /* preserve game ratio */
-  background: var(--clr-grey);
-  border-radius: 5px;
+  background: transparent;
   overflow: hidden;
   margin: 0 auto;
 }
@@ -899,6 +898,8 @@ form select, form option{
   inset: 0;
   width: 100%;
   height: 100%;
+  background: transparent;
+  overflow: hidden;
   border: 0;
 }
 

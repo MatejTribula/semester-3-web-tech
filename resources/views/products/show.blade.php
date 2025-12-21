@@ -74,8 +74,8 @@ $isFavorited = auth()->check()
   <div
     class="wasm-container"
     style="
-      --wasm-width: {{ $product->wasm_width ? $product->wasm_width.'px' : '1280px' }};
-      --wasm-aspect: {{ ($product->wasm_width && $product->wasm_height) ? $product->wasm_width.' / '.$product->wasm_height : '16 / 9' }};
+      --wasm-width: {{ $product->wasm_width ? ($product->wasm_width+20).'px' : '1280px' }};
+      --wasm-aspect: {{ ($product->wasm_width && $product->wasm_height) ? ($product->wasm_width+20).' / '.($product->wasm_height+20) : '16 / 9' }};
     "
   >
     <iframe

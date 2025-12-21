@@ -97,6 +97,23 @@
                     <input type="url" name="cover_url" id="cover_url" value="{{ old('cover_url', $product->cover_url) }}">
                 </div>
 
+                {{-- WASM File Name --}}
+                <div class="label-input horizontal">
+                    <label for="wasm_file_name">WASM File name</label>
+                    <input type="text" name="wasm_file_name" id="wasm_file_name" value="{{ old('wasm_file_name', $product->wasm_file_name) }}">
+                </div>
+
+
+                <div class="label-input horizontal">
+                    <label for="wasm_width">Game Width</label>
+                    <input type="number" name="wasm_width" id="wasm_width" value="{{ old('wasm_width', $product->wasm_width) }}">
+                </div>
+
+                <div class="label-input horizontal">
+                    <label for="wasm_height">Game Height</label>
+                    <input type="number" name="wasm_height" id="wasm_height" value="{{ old('wasm_height', $product->wasm_height) }}">
+                </div>
+
                 {{-- Images --}}
                 <div class="label-input horizontal">
                     <label for="images-wrapper">Images (URLs)</label>
