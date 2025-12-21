@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="label-input horizontal">
-                    <label for="file_url">Game File URL *</label>
+                    <label for="file_url">Game File URL</label>
                     <input type="url" name="file_url" id="file_url" required>
                 </div>
             </div>
