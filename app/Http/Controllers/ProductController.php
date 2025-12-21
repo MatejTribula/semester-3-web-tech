@@ -107,7 +107,6 @@ class ProductController extends Controller
             $wasmSrc = asset('storage/'.$idRel.'/'.$product->wasm_file_name.'.html');
         }
 
-        // Return a view called 'show' and pass the product data
         return view('products.show', compact('product', 'wasmSrc'));
     }
 
