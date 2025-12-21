@@ -244,7 +244,8 @@ class ProductController extends Controller
     /// JSON response stayed because if we get an error here, something is very wrong.
     public function update(Request $request, $id)
     {
-        if (! $this->isAuthorizedToEditProduct($id)) {
+        if (! $this->isAuthorizedToEditProduct($id)) 
+        {
             abort(403, 'Unauthorized access to this product');
         }
 
@@ -258,6 +259,8 @@ class ProductController extends Controller
             'wasm_file_name' => 'nullable|string|max:64',
             'wasm_width' => 'nullable|integer',
             'wasm_height' => 'nullable|integer',
+            'remove_wasm' => 'nullable|boolean',
+
 
             'images' => 'nullable|array',
             'images.*' => 'nullable|url',
@@ -279,6 +282,8 @@ class ProductController extends Controller
 
             // tracking for the old title, for the folder names
             $oldTitle = $product->getOriginal('title');
+            $removeWasm = (bool) $request->boolean('remove_wasm');
+
 
 
             // 2. Update base fields
@@ -288,33 +293,57 @@ class ProductController extends Controller
             $product->approval_date = $validated['approval_date'] ?? null;
             $product->visibility_setting = $validated['visibility_setting'];
             $product->file_url = $validated['file_url'] ?? null;
-            $product->wasm_file_name = $validated['wasm_file_name'] ?? null;
-            $product->wasm_width = $validated['wasm_width'] ?? null;
-            $product->wasm_height = $validated['wasm_height'] ?? null;
-            $product->save();
-
-            if ($oldTitle && $oldTitle !== $product->title) 
+            
+            // Preserve existing wasm_file_name unless explicitly provided
+            if ($request->has('wasm_file_name')) 
             {
-                $disk = Storage::disk('public');
-                $oldRel = 'wasm/'.$oldTitle;
-                $newRel = 'wasm/'.$product->title;
-                $oldPath = $disk->path($oldRel);
-                $newPath = $disk->path($newRel);
-
-                if (is_dir($oldPath)) 
-                {
-                    // ensure parent exists; don’t pre-create destination dir
-                    $disk->makeDirectory('wasm');
-                    @rename($oldPath, $newPath);
-                    // clean any empty old dir
-                    $disk->deleteDirectory($oldRel);
-                }
+                $product->wasm_file_name = $validated['wasm_file_name'];
+            }
+            // width/height update if present; otherwise keep
+            if ($request->has('wasm_width')) 
+            {
+                $product->wasm_width = $validated['wasm_width'];
+            }
+            if ($request->has('wasm_height')) 
+            {
+                $product->wasm_height = $validated['wasm_height'];
             }
 
-            // Unpack WASM ZIP (if provided) and set wasm_file_name
-            if ($request->hasFile('wasm_zip')) 
+            $product->save();
+
+            $disk = \Illuminate\Support\Facades\Storage::disk('public');
+            $oldRel = 'wasm/'.$oldTitle;
+            $newRel = 'wasm/'.$product->title;
+
+            if ($removeWasm) 
             {
-                $this->unpackWasmZip($product, $request->file('wasm_zip'));
+                // Delete extracted bundle and clear fields
+                $disk->deleteDirectory($oldRel);
+                $disk->deleteDirectory($newRel);
+                $product->wasm_file_name = null;
+                $product->wasm_width = null;
+                $product->wasm_height = null;
+                $product->save();
+            } else 
+            {
+                // Keep existing bundle; move folder if title changed
+                if ($oldTitle && $oldTitle !== $product->title) 
+                {
+                    $oldPath = $disk->path($oldRel);
+                    $newPath = $disk->path($newRel);
+                    if (is_dir($oldPath) && !is_dir($newPath)) 
+                    {
+                        $disk->makeDirectory('wasm');
+                        @rename($oldPath, $newPath);
+                        $disk->deleteDirectory($oldRel);
+                    }
+                }
+
+                // Unpack new zip if provided (overwrites newRel)
+                if ($request->hasFile('wasm_zip')) 
+                {
+                    $this->unpackWasmZip($product, $request->file('wasm_zip'));
+                }
             }
 
             \Log::info('Product updated ID: '.$product->id);

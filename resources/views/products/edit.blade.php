@@ -110,6 +110,14 @@
                     </p>
                 </div>
 
+                {{-- Remove existing WASM bundle --}}
+                <div class="label-input horizontal">
+                    <label>
+                        <input type="checkbox" name="remove_wasm" id="remove_wasm" value="1">
+                        Remove existing WASM bundle
+                    </label>
+                </div>
+
 
                 <div class="label-input horizontal">
                     <label for="wasm_width">Game Width</label>
