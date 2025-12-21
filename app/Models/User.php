@@ -10,8 +10,6 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
-
-
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;

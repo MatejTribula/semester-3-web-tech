@@ -15,8 +15,6 @@ $carouselImages = collect($products)
 
 @section('content')
 
-
-
     <x-carousel :imageSources="$carouselImages" />
 
     <div class="tag-filter" id="tagFilter">

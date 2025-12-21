@@ -34,7 +34,7 @@
 
     </div>
     <footer>
-      <p>© SDU, Group 9</p>
+      <p>© SDU, Group 9, Rafal Kamil Fuchs Personal Extension</p>
     </footer>
     
     <script src="{{ asset('js/index.js') }}"></script>
