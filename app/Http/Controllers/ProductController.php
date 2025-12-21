@@ -276,6 +276,11 @@ class ProductController extends Controller
             // 1. Find product
             $product = Product::findOrFail($id);
 
+
+            // tracking for the old title, for the folder names
+            $oldTitle = $product->getOriginal('title');
+
+
             // 2. Update base fields
             $product->title = $validated['title'];
             $product->description = $validated['description'] ?? null;
@@ -288,6 +293,23 @@ class ProductController extends Controller
             $product->wasm_height = $validated['wasm_height'] ?? null;
             $product->save();
 
+            if ($oldTitle && $oldTitle !== $product->title) 
+            {
+                $disk = Storage::disk('public');
+                $oldRel = 'wasm/'.$oldTitle;
+                $newRel = 'wasm/'.$product->title;
+                $oldPath = $disk->path($oldRel);
+                $newPath = $disk->path($newRel);
+
+                if (is_dir($oldPath)) 
+                {
+                    // ensure parent exists; don’t pre-create destination dir
+                    $disk->makeDirectory('wasm');
+                    @rename($oldPath, $newPath);
+                    // clean any empty old dir
+                    $disk->deleteDirectory($oldRel);
+                }
+            }
 
             // Unpack WASM ZIP (if provided) and set wasm_file_name
             if ($request->hasFile('wasm_zip')) 
@@ -363,13 +385,21 @@ class ProductController extends Controller
         }
     }
 
+
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
 
-        if (! $this->isAuthorizedToEditProduct($product)) {
+        if (! $this->isAuthorizedToEditProduct($product)) 
+        {
             abort(403, 'Unauthorized access to this product');
         }
+
+        // remove extracted WASM bundle
+        $disk = Storage::disk('public');
+        $rel = 'wasm/'.$product->title;
+        // delete directory unconditionally
+        $disk->deleteDirectory($rel);
 
         // Detach pivot table relations
         $product->favorites()->detach();
@@ -379,14 +409,13 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->route('my-uploads');
-
     }
 
     /**
      * Unpack the uploaded ZIP into public/storage/wasm/{title}/
      * and set $product->wasm_file_name to the detected HTML entry (basename).
      */
-    private function unpackWasmZip(Product $product, \Illuminate\Http\UploadedFile $zip): void
+    private function unpackWasmZip(Product $product, \Illuminate\Http\UploadedFile $zip)
     {
         // store ZIP temporarily on local (private) disk
         $tmp = Storage::disk('local')->putFile('tmp', $zip); // storage/app/private/tmp/xxx.zip
@@ -424,7 +453,7 @@ class ProductController extends Controller
     /**
      * Find an HTML file in extracted bundle; prefer index.html.
      */
-    private function findHtmlEntry(string $root): ?string
+    private function findHtmlEntry(string $root)
     {
         $rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($root, \FilesystemIterator::SKIP_DOTS));
         $first = null;
