@@ -22,7 +22,8 @@ class Product extends Model
 
     public function images()
     {
-        return $this->hasMany(Image::class, 'product_id');
+        // Ensure deterministic ordering: first created image appears at index [0]
+        return $this->hasMany(Image::class, 'product_id')->orderBy('created_at', 'asc');
     }
 
     public function videos()

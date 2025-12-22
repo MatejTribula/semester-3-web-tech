@@ -107,7 +107,9 @@ class ProductController extends Controller
             $wasmSrc = asset('storage/'.$idRel.'/'.$product->wasm_file_name.'.html');
         }
 
-        return view('products.show', compact('product', 'wasmSrc'));
+        $hasDownload = !empty($product->file_url);
+
+        return view('products.show', compact('product', 'wasmSrc', 'hasDownload'));
     }
 
     public function create()
@@ -171,22 +173,29 @@ class ProductController extends Controller
 
             \Log::info('Product saved ID: '.$product->id);
 
-            Image::create([
-                'product_id' => $product->id,
-                'image_url' => $validated['file_url'],
-            ]);
-
-            // 3. Create related images (explicitly set product_id)
-            if (! empty($validated['images'])) {
+            // 3. Create related images (cover first, then extras; dedupe)
+            $imageUrls = [];
+            $seen = [];
+            if (!empty($validated['cover_url'])) {
+                $imageUrls[] = $validated['cover_url'];
+                $seen[$validated['cover_url']] = true;
+            }
+            if (!empty($validated['images'])) {
                 foreach ($validated['images'] as $url) {
-                    if (! $url) {
+                    if (!$url) {
                         continue;
                     }
-                    $image = new Image;
-                    $image->product_id = $product->id;
-                    $image->image_url = $url;
-                    $image->save();
+                    if (empty($seen[$url])) {
+                        $imageUrls[] = $url;
+                        $seen[$url] = true;
+                    }
                 }
+            }
+            foreach ($imageUrls as $url) {
+                Image::create([
+                    'product_id' => $product->id,
+                    'image_url' => $url,
+                ]);
             }
 
             // 4. Create related videos
@@ -280,7 +289,8 @@ class ProductController extends Controller
             'wasm_width' => 'nullable|integer',
             'wasm_height' => 'nullable|integer',
             'remove_wasm' => 'nullable|boolean',
-
+            
+            'cover_url' => 'nullable|url',
 
             'images' => 'nullable|array',
             'images.*' => 'nullable|url',
@@ -349,16 +359,32 @@ class ProductController extends Controller
 
             \Log::info('Product updated ID: '.$product->id);
 
-            // 3. Sync images
+            // 3. Sync images (cover first, then extras; dedupe)
+            $imageUrls = [];
+            $seen = [];
+            if ($request->filled('cover_url')) {
+                $imageUrls[] = $validated['cover_url'];
+                $seen[$validated['cover_url']] = true;
+            }
             if (isset($validated['images'])) {
-                Image::where('product_id', $product->id)->delete();
                 foreach ($validated['images'] as $url) {
-                    if ($url) {
-                        Image::create([
-                            'product_id' => $product->id,
-                            'image_url' => $url,
-                        ]);
+                    if (!$url) {
+                        continue;
                     }
+                    if (empty($seen[$url])) {
+                        $imageUrls[] = $url;
+                        $seen[$url] = true;
+                    }
+                }
+            }
+            // Only rebuild if new images provided; otherwise keep existing
+            if (!empty($imageUrls)) {
+                Image::where('product_id', $product->id)->delete();
+                foreach ($imageUrls as $url) {
+                    Image::create([
+                        'product_id' => $product->id,
+                        'image_url' => $url,
+                    ]);
                 }
             }
 
@@ -469,9 +495,6 @@ class ProductController extends Controller
         @unlink($zipPath);
     }
 
-    /**
-     * Find an HTML file in extracted bundle; prefer index.html.
-     */
     private function findHtmlEntry(string $root)
     {
         $rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($root, \FilesystemIterator::SKIP_DOTS));

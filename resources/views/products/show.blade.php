@@ -5,6 +5,10 @@ $carouselImages = $product->images
     ->values()
     ->all();
 
+if(empty($carouselImages))
+{
+  $carouselImages = [asset('images/grey.png')];
+}
 
 $isFavorited = auth()->check()
         ? $product->favorites->contains('id', auth()->id())
@@ -19,6 +23,7 @@ $isFavorited = auth()->check()
 @section('content')
 
 <div class="product-info-image-container">
+
 
 <x-carousel :imageSources="$carouselImages" />
 
@@ -64,8 +69,9 @@ $isFavorited = auth()->check()
   </p>
 </section>
 
-  <a class="download-btn" href="{{ $product->file_url }}" download>Download File</a>
-  </div>
+  @if(!empty($hasDownload) && $hasDownload)
+      <a class="download-btn" href="{{ $product->file_url }}" download>Download File</a>
+  @endif  </div>
 </div>
 
 

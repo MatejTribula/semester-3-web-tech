@@ -7,6 +7,14 @@ $carouselImages = collect($products)
     ->filter(fn($item) => $item['src']) // remove nulls
     ->values()
     ->all();
+
+if(empty($carouselImages))
+{
+    $carouselImages = [[
+            'src' => asset('images/grey.png'),
+            'id' => 0,
+    ]];
+}
 @endphp
 
 @extends('layouts.app')
@@ -39,7 +47,7 @@ $carouselImages = collect($products)
             <x-product-card 
                 :id="$product->id" 
                 :title="$product->title" 
-                :image="$product->images[0]->image_url" 
+                :image="$product->images[0]->image_url ?? asset('images/grey.png')" 
                 :tags="$product->tags->pluck('tag_value')->map(fn($t) => strtolower($t))->implode(',')"
             />
         @endforeach

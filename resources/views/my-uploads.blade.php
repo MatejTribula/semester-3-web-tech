@@ -27,12 +27,12 @@ if (count($carouselImages) === 0)
         {{-- <x-product-card 
             :id="$product->id" 
             :title="$product->title" 
-            :image="$product->images[0]->image_url" 
+            :image="$product->images[0]->image_url ?? asset('images/grey.png')" 
         /> --}}
         <x-edit-product-card 
             :id="$product->id" 
             :title="$product->title" 
-            :image="$product->images[0]->image_url" 
+            :image="$product->images[0]->image_url ?? asset('images/grey.png')" 
         />
     @endforeach
  </x-card-section>

@@ -86,7 +86,7 @@
                 {{-- Game File --}}
                 <div class="label-input horizontal">
                     <label for="file_url">Game File URL</label>
-                    <input type="url" name="file_url" id="file_url" value="{{ old('file_url', $product->file_url) }}" required>
+                    <input type="url" name="file_url" id="file_url" value="{{ old('file_url', $product->file_url) }}">
                 </div>
             </div>
 
@@ -94,7 +94,7 @@
                 {{-- Cover URL --}}
                 <div class="label-input horizontal">
                     <label for="cover_url">Cover URL</label>
-                    <input type="url" name="cover_url" id="cover_url" value="{{ old('cover_url', $product->cover_url) }}">
+                    <input type="url" name="cover_url" id="cover_url" value="{{ old('cover_url', $product->images[0]->image_url ?? '') }}">
                 </div>
 
                 <div class="label-input horizontal">
