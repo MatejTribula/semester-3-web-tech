@@ -9,10 +9,9 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    // Register a new user
+    //register
     public function register(Request $request)
     {
-        // Validate form inputs
         $request->validate([
             'nickname' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
@@ -20,7 +19,7 @@ class AuthController extends Controller
             'enable_2fa' => 'nullable|boolean',
         ]);
 
-        // Create user with hashed password
+        //create user
         $user = User::create([
             'nickname' => $request->nickname,
             'email' => $request->email,
@@ -32,7 +31,9 @@ class AuthController extends Controller
         if ($request->boolean('enable_2fa')){
             $user->forceFill([
                 'two_factor_secret' => encrypt(app(\Laravel\Fortify\TwoFactorAuthenticationProvider::class)->generateSecretKey()),
-                'two_factor_recovery_codes' => encrypt(json_encode(app(\Laravel\Fortify\RecoveryCode::class)->generate())),
+                'two_factor_recovery_codes' => encrypt(json_encode(
+                    collect(range(1, 8))->map(fn() => \Laravel\Fortify\RecoveryCode::generate())->all()
+                )),
             ])->save();
 
             return redirect()->route('2fa.setup')->with('status', '2fa enabled');
@@ -46,7 +47,7 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
-    // // Login user
+    //login
     public function login(Request $request)
     {
         $request->validate([
