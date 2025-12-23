@@ -26,6 +26,12 @@ $isFavorited = auth()->check()
 <div class="product-info">
   <div class="product-info-header">
   <h2>{{ $product->title }}</h2>
+  
+  <div style="display:flex;align-items:center;gap:12px;">
+    <span>
+      <i class="fa-solid fa-star"></i> {{ $product->favorites_count }}
+    </span>
+
     @auth
         <button id="favorite-btn"
                 aria-pressed="{{ $isFavorited ? 'true' : 'false' }}"

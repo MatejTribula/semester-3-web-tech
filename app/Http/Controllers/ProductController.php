@@ -59,7 +59,11 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::with(['images', 'videos', 'tags', 'collaborators', 'favorites'])->whereIn('visibility_setting', ['Public'])->get();
+        // Retrieve all products with related data where visibility is Public, expanded with "wtihCount" for favorites.
+        $products = Product::with(['images', 'videos', 'tags', 'collaborators', 'favorites'])
+            ->withCount('favorites')
+            ->whereIn('visibility_setting', ['Public'])
+            ->get();
         
         // collects tags from the loaded products, and gives them a unique tag value. flatMap method maps all arrays and creates new flat array.
         $tags = $products
@@ -77,8 +81,9 @@ class ProductController extends Controller
             'videos',
             'tags',
             'collaborators',
-            'favorites',
-        ])->findOrFail($id); // automatically throws 404 if not found
+        ])
+        ->withCount('favorites')
+        ->findOrFail($id); // automatically throws 404 if not found
 
         if (! $this->isAuthorizedToSeeProduct($product)) {
             abort(403, 'Unauthorized access to this product');
