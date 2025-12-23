@@ -86,23 +86,13 @@ class ProductController extends Controller
             abort(403, 'Unauthorized access to this product');
         }
 
-        // Compute WASM src and migrate old title-based folder to id-based once
         $wasmSrc = null;
         if ($product->wasm_file_name)
         {
             $disk = \Illuminate\Support\Facades\Storage::disk('public');
             $idRel = 'wasm/'.$product->id;
-            $titleRel = 'wasm/'.$product->title;
 
             $idPath = $disk->path($idRel);
-            $titlePath = $disk->path($titleRel);
-
-            if (!is_dir($idPath) && is_dir($titlePath)) 
-            {
-                $disk->makeDirectory('wasm'); // ensure parent
-                @rename($titlePath, $idPath);
-                $disk->deleteDirectory($titleRel);
-            }
 
             $wasmSrc = asset('storage/'.$idRel.'/'.$product->wasm_file_name.'.html');
         }
